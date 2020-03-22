@@ -1,0 +1,53 @@
+server:
+  servlet:
+    context-path: /shopping
+  port: 8080
+
+spring:
+  #  前端
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    suffix: .html
+
+  #    mysql
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/travel?serverTimezone=UTC&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+  #    AOP
+  aop:
+    auto: true
+
+  #      Redis
+  redis:
+    host: 49.232.175.201
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: -1
+        max-idle: 10
+        min-idle: 0
+    timeout: 60000
+    database: 0
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  type-aliases-package: com.analysishtml.demo11.model
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper: debug

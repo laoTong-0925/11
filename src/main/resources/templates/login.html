@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>login</title></head>
+<body>
+<form action="imgvrifyControllerDefaultKaptcha">
+    <input type="text" name="vrifyCode"/>
+
+    <img alt="验证码" onclick="this.src='defaultKaptcha?d='+new Date()*1"
+         src="defaultKaptcha">
+    </br>
+    <input type="submit" value="提交"/></form>
+</body>
+</html>
