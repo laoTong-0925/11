@@ -2,17 +2,17 @@ package com.app.shopping;
 
 import com.app.shopping.cache.JedisUtil;
 import com.app.shopping.mapper.TestMapper;
+import com.app.shopping.service.message.MailService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-@RestController
+@Controller
+@Log4j2
 public class TestController {
 
     @Autowired
@@ -24,6 +24,9 @@ public class TestController {
     @Autowired
     JedisPool jedisPool;
 
+    @Autowired
+    MailService mailService;
+
     @RequestMapping("/test")
     public ModelAndView test(Integer in) {
         ModelAndView mv = new ModelAndView();
@@ -31,18 +34,17 @@ public class TestController {
         return mv;
     }
 
-    @RequestMapping("/verify")
-    public ModelAndView verify(Integer in) {
-        ModelAndView mv = new ModelAndView();
-        TestCode tc = new TestCode();
-        try {
-            tc.drawImage(new FileOutputStream("d:/图片验证码.jpg"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        mv.addObject("tc", tc);
-        mv.setViewName("verify.html");
-        return mv;
+    @RequestMapping("/register")
+    public String verify() {
+//        ModelAndView mv = new ModelAndView();
+//        mv.setViewName("register.html");
+        return "register";
+    }
+    @RequestMapping("/index")
+    public String index() {
+//        ModelAndView mv = new ModelAndView();
+//        mv.setViewName("register.html");
+        return "index";
     }
 
     @RequestMapping("/redis-test")
@@ -58,6 +60,10 @@ public class TestController {
     public void mysqlTest() {
         int i = testMapper.selectCount();
         System.out.println(i);
+    }
+    @RequestMapping("/mail")
+    public void mail(){
+        mailService.send("826389503@qq.com","hello","?");
     }
 
 }

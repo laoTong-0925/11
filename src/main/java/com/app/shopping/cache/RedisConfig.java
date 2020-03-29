@@ -42,8 +42,12 @@ public class RedisConfig {
 //        // 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
 //        jedisPoolConfig.setBlockWhenExhausted(blockWhenExhausted);
         // 是否启用pool的jmx管理功能, 默认true
-        jedisPoolConfig.setJmxEnabled(true);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+//        jedisPoolConfig.setJmxEnabled(true);
+        JedisPool jedisPool = null;
+        if (password.equals(""))
+            jedisPool= new JedisPool(jedisPoolConfig, host, port, timeout);
+        else
+            jedisPool= new JedisPool(jedisPoolConfig, host, port, timeout, password);
         return jedisPool;
     }
  

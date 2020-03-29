@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(value = "com.app.shopping")
+@MapperScan(value = "com.app.shopping.mapper")
 public class ShoppingApiApplication {
 
     public static void main(String[] args) {
