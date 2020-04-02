@@ -1,4 +1,4 @@
-package com.app.shopping;
+package com.app.shopping.cotroller;
 
 import com.app.shopping.cache.JedisUtil;
 import com.app.shopping.mapper.TestMapper;

@@ -1,6 +1,9 @@
-package com.app.shopping;
+package com.app.shopping.cotroller;
 
 import com.app.shopping.cache.JedisUtil;
+import com.app.shopping.mapper.UserMapper;
+import com.app.shopping.model.User;
+import com.app.shopping.service.UserService;
 import com.app.shopping.util.Result;
 import com.app.shopping.util.ResultCode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -8,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +34,9 @@ public class LoginAndRegisterController {
     @Autowired
     private JedisUtil jedisUtil;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 获取图片验证码 的 请求路径
      *
@@ -45,9 +52,9 @@ public class LoginAndRegisterController {
             //生产验证码字符串并保存到session中
             String createText = captchaProducer.createText();
             log.info("产生图片验证码:{}", createText);
-            HttpSession session = httpServletRequest.getSession();
             Cookie cookie = new Cookie("bs-verifyCode", createText);
             cookie.setMaxAge(60);
+            cookie.setPath("/");
             httpServletResponse.addCookie(cookie);
 //            session.setAttribute("verifyCode", createText);
 //            String setex = jedisUtil.setex(session.toString(), createText, 120);
@@ -73,30 +80,6 @@ public class LoginAndRegisterController {
     }
 
 
-//    /**
-//     * 验证图片验证码的方法
-//     *
-//     * @param httpServletRequest
-//     * @param httpServletResponse
-//     * @return
-//     */
-//    @RequestMapping("/imgvrifyControllerDefaultKaptcha")
-//    public ModelAndView imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-//        ModelAndView andView = new ModelAndView();
-//        String captchaId = (String) httpServletRequest.getSession().getAttribute("vrifyCode");
-//        String parameter = httpServletRequest.getParameter("vrifyCode");
-//        System.out.println("Session  vrifyCode " + captchaId + " form vrifyCode " + parameter);
-//
-//        if (!captchaId.equals(parameter)) {
-//            andView.addObject("info", "错误的验证码");
-//            andView.setViewName("loginResult.html");
-//        } else {
-//            andView.addObject("info", "登录成功");
-//            andView.setViewName("hello.html");
-//        }
-//        return andView;
-//    }
-
     /**
      * 验证图片验证码
      *
@@ -105,7 +88,7 @@ public class LoginAndRegisterController {
      * @return
      */
     @RequestMapping("/verify-code-img")
-    public Result imgVerifyController(String code, String sessionCode) {
+    public Result<Object> imgVerifyController(String code, String sessionCode) {
         log.info("输入的code：{} 对应的的图片验证码：{}", code, sessionCode);
         if (Strings.isNotBlank(sessionCode) && Strings.isNotBlank(code) && code.equals(sessionCode)) {
             return Result.success(ResultCode.IMG_VERIFY_SUCCESS.getMessage());
@@ -119,5 +102,39 @@ public class LoginAndRegisterController {
         mv.setViewName("login.html");
         return mv;
     }
+
+    /**
+     * 查询 用户名是否可用
+     *
+     * @param nkName 用户名
+     * @return Result
+     */
+    @RequestMapping("/verify-user-isExist")
+    public Result<Object> verifyUserIsExist(@RequestParam("nkName") String nkName) {
+        log.info("verifyUserIsExist() 参数userName: {}", nkName);
+        boolean b = userService.userIsExistByNkName(nkName);
+        if (b) {
+            return Result.response(null, ResultCode.USER_IS_EXIST.getMessage(), ResultCode.USER_IS_EXIST.getCode());
+        }
+        return Result.response(null, ResultCode.USER_AVAILABLE.getMessage(), ResultCode.USER_AVAILABLE.getCode());
+    }
+
+    /**
+     * 查询 手机号码是否可用
+     *
+     * @param phone 手机号
+     * @return Result
+     */
+    @RequestMapping("/verify-phone-isExist")
+    public Result<Object> verifyPhoneIsExist(@RequestParam("phone") String phone) {
+        log.info("verifyPhoneIsExist() 参数userName: {}", phone);
+        boolean b = userService.userIsExistByPhone(phone);
+        if (b) {
+            return Result.response(null, ResultCode.PHONE_IS_EXIST.getMessage(), ResultCode.PHONE_IS_EXIST.getCode());
+        }
+        return Result.response(null, ResultCode.PHONE_AVAILABLE.getMessage(), ResultCode.PHONE_AVAILABLE.getCode());
+    }
+
+
 
 }

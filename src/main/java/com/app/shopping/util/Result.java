@@ -36,6 +36,18 @@ public class Result<T> implements Serializable {
     }
 
     /**
+     *
+     * @param data 数据
+     * @param message 信息
+     * @param code 提示码
+     * @param <T> 返回的类型
+     * @return <T>
+     */
+    public static <T> Result<T> response(T data, String message, long code) {
+        return new Result<T>(code, message, data);
+    }
+
+    /**
      * 失败返回结果
      *
      * @param errorCode 错误码

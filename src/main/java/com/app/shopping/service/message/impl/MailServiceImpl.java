@@ -1,6 +1,7 @@
 package com.app.shopping.service.message.impl;
 
 import com.app.shopping.service.message.MailService;
+import com.app.shopping.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,7 +23,7 @@ public class MailServiceImpl implements MailService {
 //    TemplateEngine templateEngine;
 
     @Override
-    public void send(String to, String subject, String text) {
+    public Result send(String to, String subject, String text) {
         //创建邮件正文
         Context context = new Context();
         context.setVariable("verifyCode", text);
@@ -40,6 +41,14 @@ public class MailServiceImpl implements MailService {
         } catch (Exception e) {
 //            return CommonResult.failed("发送失败");
 //            logger.error("发送简单邮件时发生异常！", e);
-        } }
+        }
+        return null;
+    }
+
+    @Override
+    public Result send(String to, String text, long date) {
+        return null;
+    }
+
 
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.shopping.mapper.SMSRecordLogMapper">
+
+    <!--    <update id="updateById" parameterType="int">-->
+    <!--    -->
+    <!--    </update>-->
+
+    <sql id="TABLE">
+        shopping_t.sms_record_log
+    </sql>
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="smsRecordId!=null and smsRecordId!=''">
+                sms_record_id,
+            </if>
+            <if test="message!=null and message!=''">
+                message,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="smsRecordId!=null and smsRecordId!=''">
+                #{smsRecordId},
+            </if>
+            <if test="message!=null and message!=''">
+                #{message},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert" parameterType="com.app.shopping.model.msg.SmsRecordLog" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into
+        <include refid="TABLE"/>
+        (<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <select id="selectCount" resultType="int">
+        select count(id) from
+        <include refid="TABLE"/>
+    </select>
+
+    <update id="setMessageById">
+        update <include refid="TABLE"/>
+        set message = #{message}
+        where id = #{id}
+    </update>
+    <update id="setRecordIdById">
+        update <include refid="TABLE"/>
+        set sms_record_id = #{recordId}
+        where id = #{id}
+    </update>
+
+</mapper>

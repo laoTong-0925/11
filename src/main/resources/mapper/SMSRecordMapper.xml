@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.shopping.mapper.SMSRecordMapper">
+
+    <!--    <update id="updateById" parameterType="int">-->
+    <!--    -->
+    <!--    </update>-->
+
+    <sql id="TABLE">
+        shopping_t.sms_record
+    </sql>
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="toNumber!=null and toNumber!=''">
+                to_number,
+            </if>
+            <if test="logRecordId!=null and logRecordId!=''">
+                log_record_id,
+            </if>
+            <if test="smsvRecordId!=null and smsvRecordId!=''">
+                smsv_code_id,
+            </if>
+            <if test="type!=null and type!=''">
+                `type`,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="toNumber!=null and toNumber!=''">
+                #{toNumber},
+            </if>
+            <if test="logRecordId!=null and logRecordId!=''">
+                #{logRecordId},
+            </if>
+            <if test="smsvRecordId!=null and smsvRecordId!=''">
+                #{smsvRecordId},
+            </if>
+            <if test="type!=null and type!=''">
+                #{type},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insertSMS" parameterType="com.app.shopping.model.msg.SmsRecord" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into
+        <include refid="TABLE"/>
+        (<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <select id="selectCount" resultType="int">
+        select count(id) from
+        <include refid="TABLE"/>
+    </select>
+
+    <update id="updateStateById">
+        update
+        <include refid="TABLE"/>
+        set state = #{state} where id = #{id};
+    </update>
+
+    <update id="setLogIdAndSmsVIdById">
+        update
+        <include refid="TABLE"/>
+        set log_record_id = #{logId} , smsv_code_id = #{vId}
+        where id = #{id};
+    </update>
+
+</mapper>

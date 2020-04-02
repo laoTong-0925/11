@@ -56,10 +56,10 @@ spring:
       mail.smtp.socketFactory.fallback: false
 
 mybatis:
-  mapper-locations: classpath:mapping/*Mapper.xml
+  mapper-locations: classpath:mapper/*Mapper.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#  type-aliases-package: com.analysishtml.demo11.model
+  type-aliases-package: com.app.shopping.model
 
 #showSql
 logging:
