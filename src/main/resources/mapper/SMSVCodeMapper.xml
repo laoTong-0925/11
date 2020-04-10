@@ -57,10 +57,6 @@
         values(<include refid="values"/>)
     </insert>
 
-    <select id="selectCount" resultType="int">
-        select count(id) from
-        <include refid="TABLE"/>
-    </select>
     <update id="setRecordIdById">
         update
         <include refid="TABLE"/>

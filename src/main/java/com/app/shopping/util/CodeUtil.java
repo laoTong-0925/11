@@ -1,7 +1,9 @@
 package com.app.shopping.util;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,6 +26,13 @@ public class CodeUtil {
         }
         log.info("产生5位数随机数 code:{}", code.toString());
         return code.toString();
+    }
+
+    public static String MD5toDo(String s){
+        if (Strings.isBlank(s)) {
+            return "";
+        }
+       return DigestUtils.md5DigestAsHex(s.getBytes());
     }
 
 }

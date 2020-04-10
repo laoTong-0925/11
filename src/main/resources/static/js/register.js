@@ -1,13 +1,13 @@
 /**
- * 功能说明:		输入验证
- * @author:		vivy <lizhizyan@qq.com>
- * @time:		2015-9-25 16:15:30
- * @version:		V1.1.0
+ * 功能说明:        输入验证
+ * @author:        vivy <lizhizyan@qq.com>
+ * @time:        2015-9-25 16:15:30
+ * @version:        V1.1.0
  * @使用方法:
  * <input class="required" type="text" data-valid="isNonEmpty||isEmail" data-error="email不能为空||邮箱格式不正确" id="" />
  * 1、需要验证的元素都加上【required】样式
- * 2、@data-valid		验证规则，验证多个规则中间用【||】隔开，更多验证规则，看rules和rule，后面遇到可继续增加
- * 3、@data-error		规则对应的提示信息，一一对应
+ * 2、@data-valid        验证规则，验证多个规则中间用【||】隔开，更多验证规则，看rules和rule，后面遇到可继续增加
+ * 3、@data-error        规则对应的提示信息，一一对应
  *
  * @js调用方法：
  * verifyCheck({
@@ -27,10 +27,10 @@
  *
  * 详细代码请看register.src.js
  */
-(function($) {
+(function ($) {
     var h, timerC = 60,
         opt;
-    var j = function(a) {
+    var j = function (a) {
         a = $.extend(require.defaults, a || {});
         opt = a;
         return (new require())._init(a)
@@ -42,64 +42,64 @@
             company: /^[一-龥a-zA-Z][一-龥a-zA-Z0-9\s-,-.]*$/,
             uname: /^[一-龥a-zA-Z][一-龥a-zA-Z0-9_]*$/,
             zh: /^[一-龥]+$/,
-            card: /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(((((19|20)((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229)))|20000229)\d{3}(\d|X|x))|(((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}))$/,
+            card: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
             int: /^[0-9]*$/,
             s: ''
         };
         this.rules = {
-            isNonEmpty: function(a, b) {
+            isNonEmpty: function (a, b) {
                 b = b || " ";
                 if (!a.length) return b
             },
-            minLength: function(a, b, c) {
+            minLength: function (a, b, c) {
                 c = c || " ";
                 if (a.length < b) return c
             },
-            maxLength: function(a, b, c) {
+            maxLength: function (a, b, c) {
                 c = c || " ";
                 if (a.length > b) return c
             },
-            isRepeat: function(a, b, c) {
+            isRepeat: function (a, b, c) {
                 c = c || " ";
                 if (a !== $("#" + b).val()) return c
             },
-            between: function(a, b, c) {
+            between: function (a, b, c) {
                 c = c || " ";
                 var d = parseInt(b.split('-')[0]);
                 var e = parseInt(b.split('-')[1]);
                 if (a.length < d || a.length > e) return c
             },
-            level: function(a, b, c) {
+            level: function (a, b, c) {
                 c = c || " ";
                 var r = j.pwdStrong(a);
                 if (b > 4) b = 3;
                 if (r < b) return c
             },
-            isPhone: function(a, b) {
+            isPhone: function (a, b) {
                 b = b || " ";
                 if (!g.phone.test(a)) return b
             },
-            isCompany: function(a, b) {
+            isCompany: function (a, b) {
                 b = b || " ";
                 if (!g.company.test(a)) return b
             },
-            isInt: function(a, b) {
+            isInt: function (a, b) {
                 b = b || " ";
                 if (!g.int.test(a)) return b
             },
-            isUname: function(a, b) {
+            isUname: function (a, b) {
                 b = b || " ";
                 if (!g.uname.test(a)) return b
             },
-            isZh: function(a, b) {
+            isZh: function (a, b) {
                 b = b || " ";
                 if (!g.zh.test(a)) return b
             },
-            isCard: function(a, b) {
+            isCard: function (a, b) {
                 b = b || " ";
                 if (!g.card.test(a)) return b
             },
-            isChecked: function(c, d, e) {
+            isChecked: function (c, d, e) {
                 d = d || " ";
                 var a = $(e).find('input:checked').length,
                     b = $(e).find('.on').length;
@@ -108,40 +108,40 @@
         }
     };
     require.prototype = {
-        _init: function(b) {
+        _init: function (b) {
             this.config = b;
             this.getInputs = $('#' + b.formId).find('.required:visible');
             var c = false;
             var d = this;
             if (b.code) {
-                $("#verifyYz").click(function() {
+                $("#verifyYz").click(function () {
                     $("#time_box").text("60 s后可重发");
                     d._sendVerify()
                 })
             }
             $('body').on({
-                blur: function(a) {
+                blur: function (a) {
                     d.formValidator($(this));
                     if (b.phone && $(this).attr("id") === "phone") d._change($(this));
                     b.onBlur ? b.onBlur($(this)) : ''
                 },
-                focus: function(a) {
+                focus: function (a) {
                     b.onFocus ? b.onFocus($(this)) : $(this).parent().find("label.focus").not(".valid").removeClass("hide").siblings(".valid").addClass("hide") && $(this).parent().find(".blank").addClass("hide") && $(this).parent().find(".close").addClass("hide")
                 },
-                keyup: function(a) {
+                keyup: function (a) {
                     if (b.phone && $(this).attr("id") === "phone") d._change($(this))
                 },
-                change: function(a) {
+                change: function (a) {
                     b.onChange ? b.onChange($(this)) : ''
                 }
             }, "#" + b.formId + " .required:visible");
-            $('body').on("click", ".close", function() {
+            $('body').on("click", ".close", function () {
                 var p = $(this).parent(),
                     input = p.find("input");
                 input.val("").focus()
             })
         },
-        formValidator: function(a) {
+        formValidator: function (a) {
             var b = a.attr('data-valid');
             if (b === undefined) return false;
             var c = b.split('||');
@@ -154,10 +154,11 @@
                     strategy: c[i],
                     errorMsg: e[i]
                 })
-            };
+            }
+            ;
             return this._add(a, f)
         },
-        _add: function(a, b) {
+        _add: function (a, b) {
             var d = this;
             for (var i = 0, rule; rule = b[i++];) {
                 var e = rule.strategy.split(':');
@@ -175,7 +176,7 @@
             opt.successTip ? (opt.resultTips ? opt.resultTips(a, true) : j._resultTips(a, true)) : j._clearTips(a);
             return true
         },
-        _sendVerify: function() {
+        _sendVerify: function () {
             var a = this;
             $("#verifyYz").text("发送验证码").hide();
             $("#time_box").text("10 s后可重发").show();
@@ -193,11 +194,11 @@
             }
             $("#time_box").text(timerC + " s后可重发");
             timerC--;
-            h = setTimeout(function() {
+            h = setTimeout(function () {
                 a._sendVerify()
             }, 1000)
         },
-        _change: function(a) {
+        _change: function (a) {
             var b = this;
             if (a.val().length != 11) {
                 $("#verifyYz").hide();
@@ -218,26 +219,26 @@
             }
         }
     };
-    j._click = function(c) {
+    j._click = function (c) {
         c = c || opt.formId;
         var d = $("#" + c).find('.required:visible'),
             self = this,
             result = true,
             t = new require(),
             r = [];
-        $.each(d, function(a, b) {
+        $.each(d, function (a, b) {
             result = t.formValidator($(b));
             if (result) r.push(result)
         });
         if (d.length !== r.length) result = false;
         return result
     };
-    j._clearTips = function(a) {
+    j._clearTips = function (a) {
         a.parent().find(".blank").addClass("hide");
         a.parent().find(".valid").addClass("hide");
         a.removeClass("v_error")
     };
-    j._resultTips = function(a, b, c) {
+    j._resultTips = function (a, b, c) {
         a.parent().find("label.focus").not(".valid").addClass("hide").siblings(".focus").removeClass("hide");
         a.parent().find(".close").addClass("hide");
         a.removeClass("v_error");
@@ -253,12 +254,12 @@
         }
         o.text("").append(c)
     };
-    j.textChineseLength = function(a) {
+    j.textChineseLength = function (a) {
         var b = /[一-龥]|[、-。]|[：-？]|[《-』]|[【-〕]|[–-”]|[！-．]|[〈-〉]|[…]|[￥]/g;
         if (b.test(a)) return a.match(b).length;
         else return 0
     };
-    j.pwdStrong = function(a) {
+    j.pwdStrong = function (a) {
         var b = 0;
         if (a.match(/[a-z]/g)) {
             b++
@@ -291,23 +292,24 @@
     };
     window.verifyCheck = $.verifyCheck = j
 })(jQuery);
-(function($) {
+(function ($) {
     var f;
-    var g = function() {
+    var g = function () {
         return (new require())._init()
     };
 
-    function require(a) {};
+    function require(a) {
+    };
     require.prototype = {
-        _init: function() {
+        _init: function () {
             var b = this;
             $('body').on({
-                click: function(a) {
+                click: function (a) {
                     b._click($(this))
                 }
             }, ".showpwd:visible")
         },
-        _click: function(a) {
+        _click: function (a) {
             var c = a.attr('data-eye');
             if (c === undefined) return false;
             var d = $("#" + c),
@@ -335,8 +337,9 @@
                 }
                 d.remove();
                 a.removeClass("hidepwd")
-            };
-            $('body').on("click", "#" + c, function() {
+            }
+            ;
+            $('body').on("click", "#" + c, function () {
                 $(this).parent().find(".hidepwd").click();
                 if (isB && $.trim($(this).val()) === "") {
                     d.show();
@@ -349,22 +352,23 @@
     require.defaults = {};
     window.togglePwd = $.togglePwd = g
 })(jQuery);
-(function($) {
+(function ($) {
     var b, timerC, opt;
-    var d = function(a) {
+    var d = function (a) {
         a = $.extend(require.defaults, a || {});
         opt = a;
         d._clear();
         return (new require())._init()
     };
 
-    function require(a) {};
+    function require(a) {
+    };
     require.prototype = {
-        _init: function() {
+        _init: function () {
             timerC = opt.maxTime;
             this._sendVerify()
         },
-        _sendVerify: function() {
+        _sendVerify: function () {
             var a = this;
             if (timerC === 0) {
                 d._clear();
@@ -374,26 +378,28 @@
             }
             timerC--;
             opt.ing(timerC);
-            b = setTimeout(function() {
+            b = setTimeout(function () {
                 a._sendVerify()
             }, 1000)
         }
     };
-    d._clear = function() {
+    d._clear = function () {
         clearTimeout(b)
     };
     require.defaults = {
         maxTime: 60,
         minTime: 0,
-        ing: function(c) {},
-        after: function() {}
+        ing: function (c) {
+        },
+        after: function () {
+        }
     };
     window.countdown = $.countdown = d
 })(jQuery);
-$(function() {
+$(function () {
     togglePwd();
     verifyCheck();
-    $('body').on("keyup", "#password", function() {
+    $('body').on("keyup", "#password", function () {
         var t = $(this).val(),
             o = $(this).parent().find(".strength");
         if (t.length >= 6) {
@@ -408,3 +414,197 @@ $(function() {
         }
     })
 });
+
+function getCookie(name) {
+    var cookieArray = document.cookie.split("; ");//得到分割的cookie名值对
+    for (var i = 0; i < cookieArray.length; i++) {
+        var arr = cookieArray[i].split("=");//将名和值分开
+        if (arr[0] == name) return unescape(arr[1]);//如果是指定的cookie，则返回它的值
+    }
+    return "";
+}
+
+var URL = "http://localhost:8080/shopping";
+//图片验证码 验证
+$(function () {
+    $("#randCode").change(function () {
+        var code = $("#randCode").val();
+        if (code.length == 4) {
+            var cookie = getCookie('bs-verifyCode');
+            var element = $(document.getElementsByClassName("focusa"));
+            $.ajax({
+                url: URL + "/verify-code-img",
+                data: {code: code, sessionCode: cookie},
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data['code'] == 200) {
+                        element.html(data['data']);
+                        element.css("color", "green");
+                    }
+                    if (data['code'] == 400) {
+                        element.html(data['data']);
+                        element.css("color", "red");
+                    }
+                },
+                error: function () {
+                    alert("系统繁忙请稍后再试！！！");
+                }
+            })
+        }
+    });
+});
+
+//用户名检测存在
+$(function () {
+    $("#user_name_check").change(function () {
+        var checker = $(document.getElementById("user_name_check"));
+        var nkName = checker.val();
+        var matcher = /^[一-龥a-zA-Z][一-龥a-zA-Z0-9_]*$/;
+        if (!matcher.test(nkName))
+            return;
+        var element = $(document.getElementsByClassName("focus_user_isExist"));
+        if (!nkName.length < 3 || nkName.length > 20) {
+            $.ajax({
+                url: URL + "/verify-user-isExist",
+                data: {nkName: nkName},
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data['code'] == '2001020') {
+                        element.html(data['message']);
+                        element.css("color", "#FF3333");
+                    }
+                    if (data['code'] == '2001021') {
+                        element.html(data['message']);
+                        element.css("color", "#6fb600");
+                    }
+                },
+                error: function () {
+                    alert("系统繁忙请稍后再试！！！")
+                }
+            });
+        }
+    })
+});
+
+//手机检测存在
+$(function () {
+    $("#phone").change(function () {
+        var checker = $(document.getElementById("phone"));
+        var phone = checker.val();
+        var matcher = /^1(3|4|5|7|8)\d{9}$/;
+        if (!matcher.test(phone))
+            return;
+        var element = $(document.getElementsByClassName("focus_phone_isExist"));
+        if (phone.length == 11) {
+            $.ajax({
+                url: URL + "/verify-phone-isExist",
+                data: {phone: phone},
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    if (data['code'] == '2001030') {
+                        element.html(data['message']);
+                        element.css("color", "#FF3333");
+                        $("#phoneCode").text(phone);
+                    }
+                    if (data['code'] == '2001031') {
+                        element.html(data['message']);
+                        element.css("color", "#6fb600");
+                        $("#phoneCode").text(phone);
+                    }
+                },
+                error: function () {
+                    alert("系统繁忙请稍后再试！！！")
+                }
+            });
+        }
+    })
+});
+
+//短信验证码发送
+$(function () {
+    $("#verifyYz").mousedown(function () {
+        var attrv = $("#time_box").css('display');
+        if (attrv == 'none') {
+            var phone = $("#phone").val();
+            var timestamp = new Date().getTime();
+            $.ajax({
+                url: URL + "/send-sms-code",
+                data: {phoneNum: phone, businessTime: timestamp},
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    var v = data['message'];
+                    $("#sendsmstag").text(v);
+                },
+                error: function () {
+                    alert("系统繁忙请稍后再试！！！")
+                }
+            });
+        }
+    })
+});
+
+//调用注册接口
+$(function () {
+    $("#btn_part2").mouseup(function () {
+        var verifyNo = $("#verifyNo").val();
+        if (verifyNo != '') {
+            var nkName = $("#user_name_check").val();
+            var phone = $("#phone").val();
+            var passWord = md5($("#password").val());
+            var timestamp = new Date().getTime();
+            var vCode = $("#verifyNo").val();
+            $.ajax({
+                url: URL + "/register-user",
+                data: {nkName: nkName, phone: phone, passWord: passWord, vCode: vCode},
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function (data) {
+                },
+                error: function () {
+                    alert("系统繁忙请稍后再试！！！")
+                }
+            });
+        }
+    })
+});
+
+//完善信息
+$(function () {
+    $("#btn_part3").mouseup(function () {
+        var nkName = $("#user_name_check").val();
+        var name = $("#adminNo").val();
+        var eMail = $("#eMail").val();
+        $.ajax({
+            url: URL + "/register-perfect-info",
+            data: {name: name, eMail: eMail, nkName: nkName},
+            dataType: "json",
+            type: "post",
+            async: false,
+            cache: false,
+            success: function (data) {
+            },
+            error: function () {
+                alert("系统繁忙请稍后再试！！！")
+            }
+        });
+
+    })
+});
+
+
+
+

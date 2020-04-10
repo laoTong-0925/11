@@ -13,7 +13,8 @@ public enum Sms {
     SMS_NEW(0,"新建"),
     SMS_ING(1,"正在发送"),
     SMS_SU(2,"发送成功"),
-    SMS_FI(3,"发送失败");
+    SMS_FI(3,"发送失败"),
+    SMS_FI_R(4,"redis设置失败");
 
     private int code;
     private String message;

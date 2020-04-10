@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -34,16 +35,9 @@ public class TestController {
         return mv;
     }
 
-    @RequestMapping("/register")
-    public String verify() {
-//        ModelAndView mv = new ModelAndView();
-//        mv.setViewName("register.html");
-        return "register";
-    }
-    @RequestMapping("/index")
-    public String index() {
-//        ModelAndView mv = new ModelAndView();
-//        mv.setViewName("register.html");
+    @RequestMapping("/indexs")
+    @ResponseBody
+    public String indexs() {
         return "index";
     }
 
@@ -61,9 +55,10 @@ public class TestController {
         int i = testMapper.selectCount();
         System.out.println(i);
     }
+
     @RequestMapping("/mail")
-    public void mail(){
-        mailService.send("826389503@qq.com","hello","?");
+    public void mail() {
+        mailService.send("826389503@qq.com", "hello", "?");
     }
 
 }

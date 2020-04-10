@@ -15,6 +15,40 @@
         <result property="eMail" column="e_mail"/>
     </resultMap>
 
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="nkName!=null and nkName!=''">
+                nk_name,
+            </if>
+            <if test="passWord!=null and passWord!=''">
+                pass_word,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="eMail!=null and eMail!=''">
+                e_mail,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="nkName!=null and nkName!=''">
+                #{nkName},
+            </if>
+            <if test="passWord!=null and passWord!=''">
+                #{passWord},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="eMail!=null and eMail!=''">
+                #{eMail},
+            </if>
+        </trim>
+    </sql>
+
     <select id="selectUserByNkName" resultType="com.app.shopping.model.User" resultMap="userResultMap">
         select * from <include refid="TABLE"></include> where nk_name = #{nkName}
     </select>
@@ -23,4 +57,32 @@
         select * from <include refid="TABLE"></include> where phone = #{phone}
     </select>
 
+    <insert id="insert" parameterType="com.app.shopping.model.User">
+        insert into
+        <include refid="TABLE"/>
+        (<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <update id="setNameAndEmailByNkName">
+        update
+        <include refid="TABLE"/>
+        set `name` = #{name} , e_mail = #{eMail}
+        where nk_name = #{nkName}
+    </update>
+
+    <select id="verifyAccount" resultType="com.app.shopping.model.User">
+        SELECT *
+        FROM
+        <include refid="TABLE"/>
+        <where>
+            pass_word = #{passWord}
+            <if test="nkName != null and nkName != ''">
+                AND nk_name = #{nkName}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone = #{phone}
+            </if>
+        </where>
+    </select>
 </mapper>

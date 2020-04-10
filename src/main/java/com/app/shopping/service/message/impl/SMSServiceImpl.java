@@ -20,6 +20,7 @@ import com.app.shopping.service.message.SMSService;
 import com.app.shopping.util.*;
 import com.app.shopping.util.Constant.SystemConstant;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,10 +80,16 @@ public class SMSServiceImpl implements SMSService {
             log.info("号码:{} 短信服务返回结果:{}", toNum, response.getData());
             String message = alibbResponseUtil.getCommonResponseMessage(response);
             sendAfter(record, logR, message, response.getData());
-            if (message.equals("OK") || message.equals("账户余额不足"))
-//            if (message.equals("OK"))
+            if (message.equals("OK") || message.equals("账户余额不足")) {
+//            if (message.equals("OK")){
+                String setex = jedisUtil.setex(SystemConstant.REDISVTAG + toNum, code, SystemConstant.EXPIRETIME / 1000);
+                log.info("setex验证码:{}", setex);
+                if (Strings.isBlank(setex)) {//redis设置失败
+                    smsRecordMapper.updateStateById(record.getId(), Sms.SMS_FI_R.getCode());
+                    return Result.response("redis设置验证码为空", ResultCode.SMS_SEND_FAILED.getMessage(), ResultCode.SMS_SEND_FAILED.getCode());
+                }
                 return Result.response(null, ResultCode.SMS_SEND_SUCCESS.getMessage(), ResultCode.SMS_SEND_SUCCESS.getCode());
-            else
+            } else
                 return Result.response(null, ResultCode.SMS_SEND_FAILED.getMessage(), ResultCode.SMS_SEND_FAILED.getCode());
         } catch (ServerException e) {
             e.printStackTrace();
@@ -100,7 +107,6 @@ public class SMSServiceImpl implements SMSService {
      */
     private void sendBefore(SmsRecord record, SmsRecordLog logR, String toNum, String code, long businessTime) {
         //插入record
-//        User user = userService.selectByPhone(toNum);
         Date date = new Date(businessTime);
         record.build(toNum, Sms.SMS_v.getCode(), date);
         int recordR = smsRecordMapper.insertSMS(record);
@@ -171,16 +177,17 @@ public class SMSServiceImpl implements SMSService {
         smsVCode.setExpireTime(expireDate);
     }
 
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            if (i == 5)
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-//                    e.printStackTrace();
-                }
-            System.out.println(i);
-        }
+    /**
+     * 查redis 验证码是否存在
+     * 不存在 不相等 返回false
+     *
+     * @param phone
+     * @param code
+     * @return
+     */
+    @Override
+    public boolean vCodeIsExpire(String phone, String code) {
+        String s = jedisUtil.get(SystemConstant.REDISVTAG + phone, SystemConstant.REDISVTAG_DATAINDEX);
+        return !Strings.isBlank(s) && code.equals(s);
     }
-
 }
