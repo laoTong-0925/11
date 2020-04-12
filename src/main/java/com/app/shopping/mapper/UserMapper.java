@@ -11,4 +11,6 @@ public interface UserMapper {
     int insert(User user);
     int setNameAndEmailByNkName(String nkName,String name,String eMail);
     User verifyAccount(String nkName, String phone, String passWord);
+
+
 }

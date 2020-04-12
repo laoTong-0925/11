@@ -11,6 +11,8 @@ public interface UserService {
 
     User selectByPhone(String phone);
 
+    User selectByNkname(String nkName);
+
     Result register(String nkName, String phone, String passWord, String vCode);
 
     Result perfectInfo(String nkName, String name, String eMail);

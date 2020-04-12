@@ -1,4 +1,4 @@
-package com.app.shopping.cotroller;
+package com.app.shopping.controller;
 
 import com.app.shopping.service.message.SMSService;
 import com.app.shopping.util.CodeUtil;

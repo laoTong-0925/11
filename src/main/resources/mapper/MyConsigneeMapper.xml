@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.shopping.mapper.MyConsigneeMapper">
+
+<!--    <resultMap type=".entity.UserConsignee" id="UserConsigneeMap">-->
+<!--        <result property="id" column="id" jdbcType="INTEGER"/>-->
+<!--        <result property="userId" column="user_id" jdbcType="INTEGER"/>-->
+<!--        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>-->
+<!--        <result property="consigneeMan" column="consignee_man" jdbcType="VARCHAR"/>-->
+<!--        <result property="phone" column="phone" jdbcType="VARCHAR"/>-->
+<!--        <result property="isDel" column="is_del" jdbcType="INTEGER"/>-->
+<!--        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>-->
+<!--    </resultMap>-->
+
+<!--    &lt;!&ndash;查询单个&ndash;&gt;-->
+<!--    <select id="queryById" resultMap="UserConsigneeMap">-->
+<!--        select-->
+<!--          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time-->
+<!--        from shopping_t.user_consignee-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;查询指定行数据&ndash;&gt;-->
+<!--    <select id="queryAllByLimit" resultMap="UserConsigneeMap">-->
+<!--        select-->
+<!--          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time-->
+<!--        from shopping_t.user_consignee-->
+<!--        limit #{offset}, #{limit}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;通过实体作为筛选条件查询&ndash;&gt;-->
+<!--    <select id="queryAll" resultMap="UserConsigneeMap">-->
+<!--        select-->
+<!--          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time-->
+<!--        from shopping_t.user_consignee-->
+<!--        <where>-->
+<!--            <if test="id != null">-->
+<!--                and id = #{id}-->
+<!--            </if>-->
+<!--            <if test="userId != null">-->
+<!--                and user_id = #{userId}-->
+<!--            </if>-->
+<!--            <if test="consignee != null and consignee != ''">-->
+<!--                and consignee = #{consignee}-->
+<!--            </if>-->
+<!--            <if test="consigneeMan != null and consigneeMan != ''">-->
+<!--                and consignee_man = #{consigneeMan}-->
+<!--            </if>-->
+<!--            <if test="phone != null and phone != ''">-->
+<!--                and phone = #{phone}-->
+<!--            </if>-->
+<!--            <if test="isDel != null">-->
+<!--                and is_del = #{isDel}-->
+<!--            </if>-->
+<!--            <if test="updateTime != null">-->
+<!--                and update_time = #{updateTime}-->
+<!--            </if>-->
+<!--            <if test="creatTime != null">-->
+<!--                and creat_time = #{creatTime}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;新增所有列&ndash;&gt;-->
+<!--    <insert id="insert" keyProperty="id" useGeneratedKeys="true">-->
+<!--        insert into shopping_t.user_consignee(user_id, consignee, consignee_man, phone, is_del, update_time, creat_time)-->
+<!--        values (#{userId}, #{consignee}, #{consigneeMan}, #{phone}, #{isDel}, #{updateTime}, #{creatTime})-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash;通过主键修改数据&ndash;&gt;-->
+<!--    <update id="update">-->
+<!--        update shopping_t.user_consignee-->
+<!--        <set>-->
+<!--            <if test="userId != null">-->
+<!--                user_id = #{userId},-->
+<!--            </if>-->
+<!--            <if test="consignee != null and consignee != ''">-->
+<!--                consignee = #{consignee},-->
+<!--            </if>-->
+<!--            <if test="consigneeMan != null and consigneeMan != ''">-->
+<!--                consignee_man = #{consigneeMan},-->
+<!--            </if>-->
+<!--            <if test="phone != null and phone != ''">-->
+<!--                phone = #{phone},-->
+<!--            </if>-->
+<!--            <if test="isDel != null">-->
+<!--                is_del = #{isDel},-->
+<!--            </if>-->
+<!--            <if test="updateTime != null">-->
+<!--                update_time = #{updateTime},-->
+<!--            </if>-->
+<!--            <if test="creatTime != null">-->
+<!--                creat_time = #{creatTime},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash;通过主键删除&ndash;&gt;-->
+<!--    <delete id="deleteById">-->
+<!--        delete from shopping_t.user_consignee where id = #{id}-->
+<!--    </delete>-->
+
+</mapper>

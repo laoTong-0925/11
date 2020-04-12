@@ -1,8 +1,12 @@
+var URL = "http://localhost:8080/shopping";
+
 $(document).ready(
     setTimeout(function () {
         var account = getCookie(ACCOUNT);
         if (account !== "" ) {
             $("#account").text(account);
+            $("#userAfter").css("display","inline");
+            $("#userCentre_li").attr("href",URL+'/userCentre?nkName='+account);
         } else {
             $("#user_play").css("display","inline");
         }

@@ -1,4 +1,4 @@
-package com.app.shopping.cofig;
+package com.app.shopping.config;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import

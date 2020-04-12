@@ -59,6 +59,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User selectByNkname(String nkName) {
+        User user = userMapper.selectUserByNkName(nkName);
+        if (Objects.isNull(user)) {
+            log.info("userIsExistByNkName() 查询出的user为null");
+            return null;
+        }
+        log.info("userIsExistByNkName() 查询出的user为: {}", user);
+        return user;
+    }
+
+
+
+    @Override
     public Result register(String nkName, String phone, String passWord, String vCode) {
         String s = CodeUtil.MD5toDo("11111q");
         log.info(s);

@@ -10,5 +10,5 @@ public interface ResponseCode {
      *
      */
 
-
+String PLEASE_LOGIN = "请先登录或注册";
 }

@@ -1,4 +1,4 @@
-package com.app.shopping.cotroller;
+package com.app.shopping.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -28,15 +28,7 @@ public class HtmlController {
         return "login";
     }
 
-    /**
-     * 用户信息
-     *
-     * @return
-     */
-    @RequestMapping("/userInfo")
-    public String userInfo() {
-        return "userInfo";
-    }
+
 
     /**
      * 主页
@@ -48,65 +40,6 @@ public class HtmlController {
         return "index";
     }
 
-    /**
-     * 用户中心
-     *
-     * @return
-     */
-    @RequestMapping("/userCentre")
-    public String userCentre() {
-        return "userCentre";
-    }
-
-    /**
-     * 订单
-     *
-     * @return
-     */
-    @RequestMapping("/myOrder")
-    public String myOrder() {
-        return "myOrder";
-    }
-
-    /**
-     * 收货地址
-     *
-     * @return
-     */
-    @RequestMapping("/myConsignee")
-    public String myConsignee() {
-        return "myConsignee";
-    }
-
-    /**
-     * 购买记录
-     *
-     * @return
-     */
-    @RequestMapping("/consumeLog")
-    public String consumeLog() {
-        return "consumeLog";
-    }
-
-    /**
-     * 我的收藏
-     *
-     * @return
-     */
-    @RequestMapping("/collections")
-    public String collections() {
-        return "collections";
-    }
-
-    /**
-     * 余额
-     *
-     * @return
-     */
-    @RequestMapping("/balance")
-    public String balance() {
-        return "balance";
-    }
 
     /**
      * 头页面
