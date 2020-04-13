@@ -24,6 +24,12 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> success(T data) {
         return new Result<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
     }
+    public static <T> Result<T> success() {
+        return success(ResultCode.SUCCESS);
+    }
+    public static <T> Result<T> success(ResultCode errorCode) {
+        return new Result<T>(errorCode.getCode(), errorCode.getMessage(), null);
+    }
 
     /**
      * 成功返回结果

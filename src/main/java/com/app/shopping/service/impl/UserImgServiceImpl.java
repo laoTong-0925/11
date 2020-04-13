@@ -50,9 +50,10 @@ public class UserImgServiceImpl implements UserImgService {
      * @return 实例对象
      */
     @Override
-    public UserImg insert(UserImg userImg) {
-        this.userImgMapper.insert(userImg);
-        return userImg;
+    public int insert(UserImg userImg) {
+        if (null != userImg)
+            return userImgMapper.insert(userImg);
+        return 0;
     }
 
     /**

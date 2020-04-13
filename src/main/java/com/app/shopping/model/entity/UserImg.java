@@ -21,7 +21,7 @@ public class UserImg extends ModelObject implements Serializable {
     /**
     * 用户头像
     */
-    private Object userImg;
+    private String userImg;
 
 
 }

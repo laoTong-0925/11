@@ -5,19 +5,19 @@
     <resultMap type="com.app.shopping.model.entity.UserImg" id="UserImgMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
-        <result property="userImg" column="user_img" jdbcType="BLOB"/>
+        <result property="userImg" column="user_img" jdbcType="VARCHAR"/>
         <result property="isDel" column="is_del" jdbcType="INTEGER"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <!--    &lt;!&ndash;查询单个&ndash;&gt;-->
-    <!--    <select id="queryById" resultMap="UserImgMap">-->
-    <!--        select-->
-    <!--          id, user_id, user_img, is_del, update_time, creat_time-->
-    <!--        from shopping_t.user_img-->
-    <!--        where id = #{id}-->
-    <!--    </select>-->
+        <!--查询单个-->
+        <select id="queryById" resultMap="UserImgMap" resultType="com.app.shopping.model.entity.UserImg">
+            select
+              id, user_id, user_img, is_del, update_time, creat_time
+            from shopping_t.user_img
+            where user_id = #{userId}
+        </select>
 
     <!--    &lt;!&ndash;查询指定行数据&ndash;&gt;-->
     <!--    <select id="queryAllByLimit" resultMap="UserImgMap">-->

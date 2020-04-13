@@ -36,7 +36,7 @@ public interface UserImgService {
      * @param userImg 实例对象
      * @return 实例对象
      */
-    UserImg insert(UserImg userImg);
+    int insert(UserImg userImg);
 
     /**
      * 修改数据

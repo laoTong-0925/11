@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.shopping.mapper.MyConsigneeMapper">
 
-<!--    <resultMap type=".entity.UserConsignee" id="UserConsigneeMap">-->
-<!--        <result property="id" column="id" jdbcType="INTEGER"/>-->
-<!--        <result property="userId" column="user_id" jdbcType="INTEGER"/>-->
-<!--        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>-->
-<!--        <result property="consigneeMan" column="consignee_man" jdbcType="VARCHAR"/>-->
-<!--        <result property="phone" column="phone" jdbcType="VARCHAR"/>-->
-<!--        <result property="isDel" column="is_del" jdbcType="INTEGER"/>-->
-<!--        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>-->
-<!--        <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>-->
-<!--    </resultMap>-->
+    <resultMap type="com.app.shopping.model.entity.UserConsignee" id="UserConsigneeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
+        <result property="consigneeMan" column="consignee_man" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
 
 <!--    &lt;!&ndash;查询单个&ndash;&gt;-->
 <!--    <select id="queryById" resultMap="UserConsigneeMap">-->
