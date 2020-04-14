@@ -4,6 +4,7 @@ package com.app.shopping.service.impl;
 import com.app.shopping.mapper.UserImgMapper;
 import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.UserImgService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -55,6 +56,20 @@ public class UserImgServiceImpl implements UserImgService {
             return userImgMapper.insert(userImg);
         return 0;
     }
+
+    /**
+     * 构建地址
+     * @param fileName
+     * @return
+     */
+    @Override
+    public String buPath(String fileName) {
+        if (Strings.isBlank(fileName))
+            return "";
+        String path = "F:\\shopping-api\\src\\main\\resources\\static\\images";
+        return path + "/" + fileName;
+    }
+
 
     /**
      * 修改数据
