@@ -38,6 +38,7 @@ public interface UserImgService {
      */
     int insert(UserImg userImg);
 
+    String buPath(String fileName);
     /**
      * 修改数据
      *

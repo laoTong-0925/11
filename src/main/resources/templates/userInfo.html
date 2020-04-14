@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="css/common.css" rel="stylesheet" type="text/css"/>
@@ -118,7 +118,8 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img src="images/people.png">
+                        <a href="#" title="修改头像" class="btn_link"></a>
+                        <img th:src="@{images/+userImg}" id="user_img">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
@@ -230,10 +231,17 @@
                     <ul class="Head_portrait">
                         <li class="User_avatar"><img src="images/people.png"/></li>
                         <li>
-                            <form action="http://localhost:8080/shopping/userImg/update-img">
-                                <input name="file" type="file" value="上传头像" class="submit"/>
-                                <input type="submit" value="上传" />
+                            <!--                            <form action="http://localhost:8080/shopping/userImg/update-img">-->
+                            <!--                                <input name="file" type="file" value="上传头像" class="submit"/>-->
+                            <!--                                <input type="submit" value="上传" />-->
+                            <!--                            </form>-->
+                            <form action="http://localhost:8080/shopping/userImg/fileUpload" method="post"
+                                  target="form_iframe" enctype="multipart/form-data">
+                                <input type="file" name="file"/>
+                                <input type="submit" name="" value="提交"/></br>
+                                上传成功后刷新页面
                             </form>
+                            <iframe id="form_iframe" name="form_iframe" style="display:none;"></iframe>
                         </li>
                     </ul>
                 </div>

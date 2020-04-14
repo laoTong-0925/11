@@ -2,7 +2,10 @@ server:
   servlet:
     context-path: /shopping
   port: 8080
-
+file:
+  upload:
+    path: F://images/
+      relative: /images/**
 spring:
   #  前端
   thymeleaf:

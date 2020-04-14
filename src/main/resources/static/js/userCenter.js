@@ -17,6 +17,20 @@ $(document).ready(
             $("#balance").attr("href",URL+'/balance?nkName='+account);
             $("#consumeLog").attr("href",URL+'/consumeLog?nkName='+account);
         }
+        $.ajax({
+            url: URL + "/get-user-img",
+            data: {nkName: account},
+            dataType: "json",
+            type: "post",
+            async: false,
+            cache: false,
+            success: function (data) {
+                    $("#user_img").attr("src",data['data']);
+            },
+            error: function () {
+                alert("系统繁忙请稍后再试！！！")
+            }
+        });
     }, 500)
 );
 

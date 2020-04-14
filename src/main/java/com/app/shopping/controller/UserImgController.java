@@ -1,7 +1,9 @@
 package com.app.shopping.controller;
 
+import com.app.shopping.model.User;
 import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.UserImgService;
+import com.app.shopping.service.UserService;
 import com.app.shopping.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ public class UserImgController {
 
     @Autowired
     UserImgService userImgService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/update-img")
     public void updateImg(@RequestParam("file") MultipartFile file) {
@@ -52,27 +56,29 @@ public class UserImgController {
      */
     @RequestMapping("/fileUpload")
     @ResponseBody
-    public Result fileUpload(@RequestParam("file") MultipartFile file,@RequestParam("nkName") String nkName) {
+    public Result fileUpload(@RequestParam("file") MultipartFile file,@RequestParam("nkName")String nkName) {
         if (file.isEmpty()) {
             return Result.failed();
         }
         String fileName = file.getOriginalFilename();
-        String type = fileName.substring(fileName.indexOf("."));
+        String type = fileName.substring(fileName.indexOf(".")+1);
         if (!(type.equals("bmp") || type.equals("jpg") || type.equals("png") || type.equals("gif")))
             return Result.failed("目前支持bmp,jpg,png,gif格式");
         int size = (int) file.getSize();
         System.out.println(fileName + "-->" + size);
 
-        String path = "F://shopping";
-        File dest = new File(path + "/" + fileName);
+        String path = userImgService.buPath(fileName);
+        File dest = new File(path);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
             dest.getParentFile().mkdir();
         }
         try {
             file.transferTo(dest); //保存文件
+            User user = userService.selectByNkname(nkName);
             UserImg userImg = new UserImg();
-//            userImg.setUserId();
-//            userImgService.insert()
+            userImg.setUserId(user.getId());
+            userImg.setUserImg(path);
+            userImgService.insert(userImg);
             return Result.success();
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
