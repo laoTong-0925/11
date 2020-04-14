@@ -1,6 +1,8 @@
 package com.app.shopping.controller;
 
 import com.app.shopping.model.User;
+import com.app.shopping.model.entity.UserImg;
+import com.app.shopping.service.UserImgService;
 import com.app.shopping.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.util.Strings;
@@ -16,6 +18,8 @@ public class UserCentreController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserImgService userImgService;
 
     /**
      * 用户信息
@@ -29,7 +33,9 @@ public class UserCentreController {
             mv.setViewName("login");
         }
         User user = userService.selectByNkname(nkName);
+        UserImg userImg = userImgService.queryById(user.getId());
         mv.addObject("user",user);
+        mv.addObject("userImg",userImg.getUserImg());
         return mv;
     }
 

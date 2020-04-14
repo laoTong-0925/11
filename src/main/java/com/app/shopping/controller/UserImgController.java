@@ -1,14 +1,20 @@
 package com.app.shopping.controller;
 
+import com.app.shopping.model.User;
 import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.UserImgService;
+import com.app.shopping.service.UserService;
 import com.app.shopping.util.Result;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +31,12 @@ public class UserImgController {
 
     @Autowired
     UserImgService userImgService;
+    @Autowired
+    UserService userService;
+
+    /**上传地址*/
+    @Value("${files.upload.path}")
+    private String filePath;
 
     @RequestMapping("/update-img")
     public void updateImg(@RequestParam("file") MultipartFile file) {
@@ -47,42 +59,49 @@ public class UserImgController {
      * </form>
      * <iframe id="form_iframe" name="form_iframe" style="display:none;"></iframe>
      *
+     *
+     * <form action="../upload" method="post" enctype="multipart/form-data">
+     *     <input type="file" name="file" accept="image/*">
+     *     <br>
+     *     <input type="submit" value="上传" class="btn btn-success">
+     * </form>
+     * [[${filename}]]
+     * <br>
+     * <img th:src="@{${filename}}" alt="图片">
      * @param file
      * @return
      */
     @RequestMapping("/fileUpload")
-    @ResponseBody
-    public Result fileUpload(@RequestParam("file") MultipartFile file,@RequestParam("nkName") String nkName) {
+    public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, @RequestParam("nkName") String nkName, ModelAndView mav) {
         if (file.isEmpty()) {
-            return Result.failed();
+            return mav.addObject("请选择头像");
         }
-        String fileName = file.getOriginalFilename();
-        String type = fileName.substring(fileName.indexOf("."));
-        if (!(type.equals("bmp") || type.equals("jpg") || type.equals("png") || type.equals("gif")))
-            return Result.failed("目前支持bmp,jpg,png,gif格式");
-        int size = (int) file.getSize();
-        System.out.println(fileName + "-->" + size);
-
-        String path = "F://shopping";
-        File dest = new File(path + "/" + fileName);
-        if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
-            dest.getParentFile().mkdir();
+        if (Strings.isBlank(nkName)){
+            mav.setViewName("login");
+        }
+        // 获取上传文件名
+        String filename = file.getOriginalFilename();
+        // 定义上传文件保存路径
+        String path = filePath;
+        // 新建文件
+        File filepath = new File(path, filename);
+        // 判断路径是否存在，如果不存在就创建一个
+        if (!filepath.getParentFile().exists()) {
+            filepath.getParentFile().mkdirs();
         }
         try {
-            file.transferTo(dest); //保存文件
-            UserImg userImg = new UserImg();
-//            userImg.setUserId();
-//            userImgService.insert()
-            return Result.success();
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return Result.failed();
+            // 写入文件
+            file.transferTo(new File(path + File.separator + filename));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return Result.failed();
         }
+        // 将src路径发送至html页面
+        ModelAndView mv = new ModelAndView();
+        User user = userService.selectByNkname(nkName);
+        mv.addObject("user",user);
+        mv.addObject("filename",filename);
+        mv.setViewName("userInfo");
+        return mv;
     }
 
 

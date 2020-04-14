@@ -71,3 +71,8 @@ logging:
 mail:
   fromMail:
     addr: shopping@qq.com
+
+#文件上传路径
+files:
+  upload:
+    path: /users/t_t/IdeaProjects/demo/src/main/resources/static
