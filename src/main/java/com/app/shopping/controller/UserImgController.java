@@ -8,6 +8,9 @@ import com.app.shopping.util.Result;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +29,15 @@ import java.io.IOException;
  * @since 2020-04-12 17:37:07
  */
 @RestController
-@RequestMapping("/userImg")
+@RequestMapping()
 public class UserImgController {
+
+    private final ResourceLoader resourceLoader;
+
+    @Autowired
+    public UserImgController(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     @Autowired
     UserImgService userImgService;
@@ -71,7 +81,7 @@ public class UserImgController {
      * @param file
      * @return
      */
-    @RequestMapping("/fileUpload")
+    @RequestMapping("/upload")
     public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, @RequestParam("nkName") String nkName, ModelAndView mav) {
         if (file.isEmpty()) {
             return mav.addObject("请选择头像");
@@ -98,10 +108,32 @@ public class UserImgController {
         // 将src路径发送至html页面
         ModelAndView mv = new ModelAndView();
         User user = userService.selectByNkname(nkName);
-        mv.addObject("user",user);
-        mv.addObject("filename",filename);
-        mv.setViewName("userInfo");
+        //存库
+//        mv.addObject("user",user);
+//        mv.addObject("userImg",file.getOriginalFilename());
+        mv.setViewName("redirect:userInfo?nkName="+user.getNkName());
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return mv;
+    }
+
+    /**
+     * 显示单张图片
+     * @return
+     */
+    @RequestMapping("/show")
+    public ResponseEntity showPhotos(String fileName){
+
+        try {
+            // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
+            Resource resource = resourceLoader.getResource("file:" + filePath + fileName);
+            return ResponseEntity.ok(resourceLoader.getResource("file:" + filePath + fileName));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

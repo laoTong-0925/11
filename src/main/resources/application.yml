@@ -2,10 +2,7 @@ server:
   servlet:
     context-path: /shopping
   port: 8080
-file:
-  upload:
-    path: F://images/
-      relative: /images/**
+
 spring:
   #  前端
   thymeleaf:
@@ -78,4 +75,6 @@ mail:
 #文件上传路径
 files:
   upload:
-    path: /users/t_t/IdeaProjects/demo/src/main/resources/static
+    path: F:/img/
+#    path: F:\shopping-api\src\main\resources\static\userImg
+#      relative: /images/**

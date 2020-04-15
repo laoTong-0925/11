@@ -118,7 +118,8 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img th:src="@{${userImg}}">
+<!--                        <a href="#" title="修改头像" class="btn_link"></a> <img th:src="@{${userImg}}">-->
+                        <a href="#" title="修改头像" class="btn_link"></a> <img th:src="@{/show(fileName=${userImg})}">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
@@ -230,9 +231,11 @@
                     <ul class="Head_portrait">
                         <li class="User_avatar"><img src="images/people.png"/></li>
                         <li>
-                            <form action="http://localhost:8080/shopping/userImg/update-img">
-                                <input name="file" type="file" value="上传头像" class="submit"/>
-                                <input type="submit" value="上传" />
+                            <form action="../shopping/upload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file" accept="image/*">
+                                <input id="hidden_nkName" type="hidden" name="nkName" value=""/>
+                                <br>
+                                <input type="submit" value="上传" class="btn btn-success">
                             </form>
                         </li>
                     </ul>

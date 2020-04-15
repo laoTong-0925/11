@@ -16,6 +16,7 @@ $(document).ready(
             $("#collections").attr("href",URL+'/collections?nkName='+account);
             $("#balance").attr("href",URL+'/balance?nkName='+account);
             $("#consumeLog").attr("href",URL+'/consumeLog?nkName='+account);
+            $("#hidden_nkName").attr("value",account);
         }
         $.ajax({
             url: URL + "/get-user-img",
