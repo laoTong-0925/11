@@ -219,6 +219,14 @@
                         <li><label>移动电话：</label> <span><input name="phone" type="text"
                                                               class="text" th:value="${user.phone}"
                                                               disabled="disabled"/></span></li>
+                        <li class="User_avatar">
+                            <label>头像修改：</label>
+                            <form action="../shopping/upload" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file" accept="image/*">
+                                <input id="hidden_nkName" type="hidden" name="nkName" value=""/>
+                                <input type="submit" value="上传" class="btn btn-success">
+                            </form>
+                        </li>
                         <!--                        <li><label>固定电话：</label> <span><input name="" type="text" value="455656565" class="text"-->
                         <!--                                                              disabled="disabled"/></span></li>-->
                         <div class="bottom"><input name="" type="submit" value="修改信息" class="modify"/>
@@ -228,17 +236,17 @@
                                    class="confirm"/>
                         </div>
                     </ul>
-                    <ul class="Head_portrait">
-                        <li class="User_avatar"><img src="images/people.png"/></li>
-                        <li>
-                            <form action="../shopping/upload" method="post" enctype="multipart/form-data">
-                                <input type="file" name="file" accept="image/*">
-                                <input id="hidden_nkName" type="hidden" name="nkName" value=""/>
-                                <br>
-                                <input type="submit" value="上传" class="btn btn-success">
-                            </form>
-                        </li>
-                    </ul>
+<!--                    <ul class="Head_portrait">-->
+<!--                        <li class="User_avatar"><img src="images/people.png"/></li>-->
+<!--                        <li>-->
+<!--                            <form action="../shopping/upload" method="post" enctype="multipart/form-data">-->
+<!--                                <input type="file" name="file" accept="image/*">-->
+<!--                                <input id="hidden_nkName" type="hidden" name="nkName" value=""/>-->
+<!--                                <br>-->
+<!--                                <input type="submit" value="上传" class="btn btn-success">-->
+<!--                            </form>-->
+<!--                        </li>-->
+<!--                    </ul>-->
                 </div>
             </div>
         </div>

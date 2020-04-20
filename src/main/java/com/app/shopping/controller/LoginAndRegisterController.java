@@ -114,11 +114,13 @@ public class LoginAndRegisterController {
      */
     @RequestMapping("/register-user")
     @ResponseBody
-    public Result register(String nkName, String phone, String passWord, String vCode) {
+    public Result register(String nkName, String phone, String passWord, String vCode, HttpServletResponse response) {
         log.info("register 参数nkName:{} \nphone:{} \npassword:{} \nvCode:{}", nkName, phone, passWord, vCode);
         if (Strings.isBlank(nkName) || Strings.isBlank(passWord) || Strings.isBlank(phone) || Strings.isBlank(vCode))
             return Result.validateFailed();
-
+        Cookie cookie = new Cookie("account", nkName);
+        cookie.setMaxAge(60 * 60 * 24 * 7);//7天有效
+        response.addCookie(cookie);
         return userService.register(nkName, phone, passWord, vCode);
     }
 
