@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.shopping.mapper.UserInfoMapper">
+
+    <resultMap type="com.app.shopping.model.entity.UserInfo" id="UserInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="balance" column="balance" jdbcType="VARCHAR"/>
+        <result property="integral" column="integral" jdbcType="INTEGER"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+        <result property="payPass" column="pay_pass" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserInfoMap">
+        select
+          id, user_id, balance, integral, is_del, update_time, creat_time, pay_pass
+        from shopping_t.user_info
+        where id = #{id}
+    </select>
+
+    <select id="queryByUserId" resultMap="UserInfoMap">
+        select
+          id, user_id, balance, integral, is_del, update_time, creat_time, pay_pass
+        from shopping_t.user_info
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserInfoMap">
+        select
+          id, user_id, balance, integral, is_del, update_time, creat_time, pay_pass
+        from shopping_t.user_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserInfoMap">
+        select
+          id, user_id, balance, integral, is_del, update_time, creat_time, pay_pass
+        from shopping_t.user_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="balance != null and balance != ''">
+                and balance = #{balance}
+            </if>
+            <if test="integral != null">
+                and integral = #{integral}
+            </if>
+            <if test="isDel != null">
+                and is_del = #{isDel}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="creatTime != null">
+                and creat_time = #{creatTime}
+            </if>
+            <if test="payPass != null and payPass != ''">
+                and pay_pass = #{payPass}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into shopping_t.user_info(user_id, balance, integral, is_del, update_time, creat_time, pay_pass)
+        values (#{userId}, #{balance}, #{integral}, #{isDel}, #{updateTime}, #{creatTime}, #{payPass})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shopping_t.user_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="balance != null and balance != ''">
+                balance = #{balance},
+            </if>
+            <if test="integral != null">
+                integral = #{integral},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="creatTime != null">
+                creat_time = #{creatTime},
+            </if>
+            <if test="payPass != null and payPass != ''">
+                pay_pass = #{payPass},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from shopping_t.user_info where id = #{id}
+    </delete>
+
+</mapper>
