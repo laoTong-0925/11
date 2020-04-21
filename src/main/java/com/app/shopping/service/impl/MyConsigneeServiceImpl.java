@@ -3,9 +3,10 @@ package com.app.shopping.service.impl;
 import com.app.shopping.mapper.MyConsigneeMapper;
 import com.app.shopping.model.entity.UserConsignee;
 import com.app.shopping.service.MyConsigneeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Service("userConsigneeService")
 public class MyConsigneeServiceImpl implements MyConsigneeService {
-    @Resource
+    @Autowired
     private MyConsigneeMapper myConsigneeMapper;
 
     /**

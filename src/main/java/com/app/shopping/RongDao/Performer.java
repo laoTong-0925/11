@@ -1,4 +1,4 @@
-package com.app.shopping.RongDao;
+package com.app.shopping.RongMapper;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

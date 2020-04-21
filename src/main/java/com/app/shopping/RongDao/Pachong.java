@@ -1,4 +1,4 @@
-package com.app.shopping.RongDao;
+package com.app.shopping.RongMapper;
 
 public class Pachong {
 //    private static SqlU

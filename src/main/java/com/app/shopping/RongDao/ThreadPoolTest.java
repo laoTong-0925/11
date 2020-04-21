@@ -1,4 +1,4 @@
-package com.app.shopping.RongDao;
+package com.app.shopping.RongMapper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

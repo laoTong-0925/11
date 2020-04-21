@@ -26,6 +26,8 @@ public class UserInfo extends ModelObject implements Serializable {
     * 积分
     */
     private Integer integral;
-
-
+    /**
+     * 支付密码
+     */
+    private String payPass;
 }

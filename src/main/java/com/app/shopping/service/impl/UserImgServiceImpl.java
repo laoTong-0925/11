@@ -5,9 +5,10 @@ import com.app.shopping.mapper.UserImgMapper;
 import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.UserImgService;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Service("userImgService")
 public class UserImgServiceImpl implements UserImgService {
-    @Resource
+    @Autowired
     private UserImgMapper userImgMapper;
 
     /**

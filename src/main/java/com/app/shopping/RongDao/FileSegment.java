@@ -1,4 +1,4 @@
-package com.app.shopping.RongDao;
+package com.app.shopping.RongMapper;
 
 import java.io.*;
 import java.security.MessageDigest;
