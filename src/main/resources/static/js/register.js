@@ -429,30 +429,40 @@ var URL = "http://localhost:8080/shopping";
 $(function () {
     $("#randCode").change(function () {
         var code = $("#randCode").val();
-        if (code.length == 4) {
+        if (code.length === 4) {
             var cookie = getCookie('bs-verifyCode');
             var element = $(document.getElementsByClassName("focusa"));
-            $.ajax({
-                url: URL + "/verify-code-img",
-                data: {code: code, sessionCode: cookie},
-                dataType: "json",
-                type: "post",
-                async: false,
-                cache: false,
-                success: function (data) {
-                    if (data['code'] == 200) {
-                        element.html(data['data']);
-                        element.css("color", "green");
-                    }
-                    if (data['code'] == 400) {
-                        element.html(data['data']);
-                        element.css("color", "red");
-                    }
-                },
-                error: function () {
-                    alert("系统繁忙请稍后再试！！！");
-                }
-            })
+            if (cookie == "") {
+                element.html('验证码超时');
+                element.css("color", "red");
+            } else if (cookie == code) {
+                element.html('验证码正确');
+                element.css("color", "green");
+            } else {
+                element.html('验证码错误');
+                element.css("color", "red");
+            }
+            // $.ajax({
+            //     url: URL + "/verify-code-img",
+            //     data: {code: code, sessionCode: cookie},
+            //     dataType: "json",
+            //     type: "post",
+            //     async: false,
+            //     cache: false,
+            //     success: function (data) {
+            //         if (data['code'] == 200) {
+            //             element.html(data['data']);
+            //             element.css("color", "green");
+            //         }
+            //         if (data['code'] == 400) {
+            //             element.html(data['data']);
+            //             element.css("color", "red");
+            //         }
+            //     },
+            //     error: function () {
+            //         alert("系统繁忙请稍后再试！！！");
+            //     }
+            // })
         }
     });
 });

@@ -19,6 +19,7 @@ public interface OrderMapper {
      * @return 实例对象
      */
     Order queryById(Long id);
+    List<Order> queryByState(int state);
 
     /**
      * 查询指定行数据

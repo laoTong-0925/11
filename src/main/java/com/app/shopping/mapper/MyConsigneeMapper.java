@@ -22,7 +22,9 @@ public interface MyConsigneeMapper {
      * @return 实例对象
      */
     UserConsignee queryById(Long id);
+    List<UserConsignee> queryByUserId(Long userId);
 
+    int updateById(Long id);
     /**
      * 查询指定行数据
      *

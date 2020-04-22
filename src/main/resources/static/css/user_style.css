@@ -383,7 +383,7 @@
 .commodity_list .user_title_name span{ border-bottom:3px solid #F30; display:block; width:100px; line-height:37px; text-align:center}
 .commodity_list li.collect_p{ width:245px; float:left; position:relative}
 .commodity_list li.collect_p .collect_info{ margin:10px;  border:3px solid #ddd;}
-.commodity_list li.collect_p.hover .collect_info{  border:3px solid #90b830}
+.commodity_list li.collect_p.hover .collect_info{  border:3px solid #1a97d7}
 .commodity_list li.collect_p .collect_info a{ display:block; color:#333}
 .commodity_list li.collect_p.hover .delete,
 .Order_form_list table td  a{ display:block}

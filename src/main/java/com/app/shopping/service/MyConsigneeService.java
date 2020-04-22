@@ -19,6 +19,9 @@ public interface MyConsigneeService {
      * @return 实例对象
      */
     UserConsignee queryById(Long id);
+    List<UserConsignee> queryByUserId(Long userId);
+
+    boolean updateById(Long id);
 
     /**
      * 查询多条数据

@@ -19,6 +19,8 @@ public interface OrderService {
      */
     Order queryById(Long id);
 
+    List<Order> queryByState(int state);
+
     /**
      * 查询多条数据
      *

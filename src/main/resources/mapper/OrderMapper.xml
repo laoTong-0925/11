@@ -25,6 +25,12 @@
         from shopping_t.order
         where id = #{id}
     </select>
+    <select id="queryByState" resultMap="OrderMap">
+        select
+          id, user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay
+        from shopping_t.order
+        where state = #{state}
+    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="OrderMap">

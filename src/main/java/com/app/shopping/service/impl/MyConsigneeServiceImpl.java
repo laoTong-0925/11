@@ -31,11 +31,23 @@ public class MyConsigneeServiceImpl implements MyConsigneeService {
         return this.myConsigneeMapper.queryById(id);
     }
 
+    @Override
+    public List<UserConsignee> queryByUserId(Long userId) {
+        List<UserConsignee> userConsignees = myConsigneeMapper.queryByUserId(userId);
+        return userConsignees;
+    }
+
+    @Override
+    public boolean updateById(Long id) {
+        int i = myConsigneeMapper.updateById(id);
+        return i > 0;
+    }
+
     /**
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override

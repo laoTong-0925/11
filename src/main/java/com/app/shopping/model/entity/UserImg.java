@@ -23,5 +23,12 @@ public class UserImg extends ModelObject implements Serializable {
     */
     private String userImg;
 
+    public UserImg(Long userId, String userImg) {
+        this.userId = userId;
+        this.userImg = userImg;
+    }
 
+    public UserImg(Long userId) {
+        this.userId = userId;
+    }
 }

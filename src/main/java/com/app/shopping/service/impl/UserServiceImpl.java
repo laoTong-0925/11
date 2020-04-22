@@ -3,6 +3,10 @@ package com.app.shopping.service.impl;
 import com.app.shopping.cache.JedisUtil;
 import com.app.shopping.mapper.UserMapper;
 import com.app.shopping.model.User;
+import com.app.shopping.model.entity.UserImg;
+import com.app.shopping.model.entity.UserInfo;
+import com.app.shopping.service.UserImgService;
+import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
 import com.app.shopping.service.message.SMSService;
 import com.app.shopping.util.CodeUtil;
@@ -10,7 +14,7 @@ import com.app.shopping.util.Result;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -24,6 +28,10 @@ public class UserServiceImpl implements UserService {
     SMSService smsService;
     @Autowired
     JedisUtil jedisUtil;
+    @Autowired
+    UserInfoService userInfoService;
+    @Autowired
+    UserImgService userImgService;
 
     @Override
     public boolean userIsExistByNkName(String nkName) {
@@ -72,6 +80,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public Result register(String nkName, String phone, String passWord, String vCode) {
         String s = CodeUtil.MD5toDo("11111q");
         log.info(s);
@@ -91,7 +100,11 @@ public class UserServiceImpl implements UserService {
         user.setPhone(phone);
         user.setPassWord(passWord);
         int insert = userMapper.insert(user);
-        if (insert == 1) {
+        if (insert == 1 ) {
+            //账户添加
+            UserInfo insert1 = userInfoService.insert(new UserInfo(user.getId(),passWord));
+            //图片添加
+            int insert2 = userImgService.insert(new UserImg(user.getId(),""));
             return Result.success("");
         } else {
             return Result.failed();

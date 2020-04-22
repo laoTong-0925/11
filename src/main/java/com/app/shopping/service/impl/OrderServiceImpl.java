@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +30,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order queryById(Long id) {
         return this.orderMapper.queryById(id);
+    }
+
+    @Override
+    public List<Order> queryByState(int state) {
+        List<Order> orders = orderMapper.queryByState(state);
+        return orders;
     }
 
     /**

@@ -2,8 +2,6 @@ package com.app.shopping.controller;
 
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.ConsumeLog;
-import com.app.shopping.model.entity.UserInfo;
-import com.app.shopping.model.vo.PageVo;
 import com.app.shopping.service.ConsumeLogService;
 import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;

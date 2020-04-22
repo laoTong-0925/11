@@ -23,7 +23,7 @@ public class MyOrderController {
      */
     @RequestMapping("/myOrder")
     public ModelAndView myOrder(@RequestParam(value = "nkName") String nkName,
-                                @RequestParam(value = "state", required = false)int state,
+                                @RequestParam(value = "state", required = false)int state
 //                                @RequestParam()
     ) {
         ModelAndView mv = new ModelAndView();

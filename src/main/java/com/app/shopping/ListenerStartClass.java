@@ -6,12 +6,16 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Log4j2
 class ListenerStartClass implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired(required = false)
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         log.info("开机自启动");
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+//        executorService.submit()
     }
 }

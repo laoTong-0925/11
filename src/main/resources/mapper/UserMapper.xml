@@ -57,7 +57,7 @@
         select * from <include refid="TABLE"></include> where phone = #{phone}
     </select>
 
-    <insert id="insert" parameterType="com.app.shopping.model.User">
+    <insert id="insert" parameterType="com.app.shopping.model.User" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into
         <include refid="TABLE"/>
         (<include refid="key"/>)

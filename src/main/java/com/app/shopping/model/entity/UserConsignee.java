@@ -33,5 +33,10 @@ public class UserConsignee extends ModelObject implements Serializable {
     */
     private String phone;
 
-
+    public UserConsignee(Long userId, String consignee, String consigneeMan, String phone) {
+        this.userId = userId;
+        this.consignee = consignee;
+        this.consigneeMan = consigneeMan;
+        this.phone = phone;
+    }
 }

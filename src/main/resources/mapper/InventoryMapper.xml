@@ -22,6 +22,12 @@
         from shopping_t.inventory
         where id = #{id}
     </select>
+    <select id="queryByCommodityIdAndPro" resultMap="InventoryMap">
+        select
+          id, commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log
+        from shopping_t.inventory
+        where is_del = 0 and commodity_id = #{cId} and property =#{property}
+    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="InventoryMap">

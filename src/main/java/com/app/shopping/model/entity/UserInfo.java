@@ -30,4 +30,10 @@ public class UserInfo extends ModelObject implements Serializable {
      * 支付密码
      */
     private String payPass;
+
+    public UserInfo(Long userId, String payPass) {
+        this.userId = userId;
+        this.payPass = payPass;
+    }
+
 }

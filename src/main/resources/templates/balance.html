@@ -117,7 +117,7 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img src="images/people.png">
+                        <a href="#" title="修改头像" class="btn_link"></a> <img th:src="@{/show(fileName=${userImg})}">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
@@ -177,7 +177,7 @@
             <div class="title_style"><em></em>账户管理</div>
             <div class="user_Account_style">
                 <div class="user_Account">
-                    <div class="title_name">我的账户余额：（小充钱包）</div>
+                    <div class="title_name">我的账户余额：（钱包）</div>
                     <div class="Balance clearfix">
                         <p class="je_Balance">账户余额：
                             <b>

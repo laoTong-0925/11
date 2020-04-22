@@ -17,8 +17,9 @@ spring:
   #    mysql
   datasource:
     username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/travel?serverTimezone=UTC&characterEncoding=utf-8
+#    password: 123456
+    password: 123456789QQ
+    url: jdbc:mysql://localhost:3306/shopping_t?serverTimezone=UTC&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
   #    AOP
   aop:
@@ -78,3 +79,6 @@ files:
     path: F:/img/
 #    path: F:\shopping-api\src\main\resources\static\userImg
 #      relative: /images/**
+
+
+#  <𝑝𝑡ℎ:𝑡𝑒𝑥𝑡=" {testBoolean}?'当testBoolean为真的时候，显示本句话，这是用三相表达式做的':''" >

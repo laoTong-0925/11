@@ -23,4 +23,10 @@ public class UserShoppingCar extends ModelObject implements Serializable {
     
     private Integer sum;
 
+    public UserShoppingCar(Long userId, Long commodityId, String commodityPro, Integer sum) {
+        this.userId = userId;
+        this.commodityId = commodityId;
+        this.commodityPro = commodityPro;
+        this.sum = sum;
+    }
 }

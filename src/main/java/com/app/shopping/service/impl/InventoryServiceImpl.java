@@ -31,6 +31,11 @@ public class InventoryServiceImpl implements InventoryService {
         return this.inventoryMapper.queryById(id);
     }
 
+    @Override
+    public Inventory queryByCommodityIdAndPro(Long cId, String property) {
+       return inventoryMapper.queryByCommodityIdAndPro(cId, property);
+    }
+
     /**
      * 查询多条数据
      *

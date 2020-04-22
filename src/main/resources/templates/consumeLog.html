@@ -119,7 +119,7 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img src="images/people.png">
+                        <a href="#" title="修改头像" class="btn_link"></a> <img th:src="@{/show(fileName=${userImg})}">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
