@@ -14,6 +14,8 @@
     <script src="js/iCheck.js" type="text/javascript"></script>
     <script src="js/custom.js" type="text/javascript"></script>
     <script src="layer/layer.js" type="text/javascript"></script>
+    <script src="js/head.js" type="text/javascript"></script>
+    <script src="js/userCenter.js" type="text/javascript"></script>
     <title>用户中心-账户管理</title>
 </head>
 
@@ -22,14 +24,30 @@
     <div id="header_top">
         <div id="top">
             <div class="Inside_pages">
-                <div class="Collection"><a href="#" class="green">请登录</a> <a href="#" class="green">免费注册</a></div>
+                <div class="Collection">
+							<span style="display: none">
+							<a href="http://localhost:8080/shopping/login" class="green">请登录</a>
+							<a href="http://localhost:8080/shopping/register" class="green">免费注册</a>
+							</span>
+                    <span id="account"></span>
+                </div>
                 <div class="hd_top_manu clearfix">
                     <ul class="clearfix">
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">首页</a></li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">我的小充</a></li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">消息中心</a></li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">商品分类</a></li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover"><a href="#">我的购物车<b>(23)</b></a></li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a href="http://localhost:8080/shopping/index">首页</a>
+                        </li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a id="userCentre_li" href="">我的信息</a>
+                        </li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a href="#">消息中心</a>
+                        </li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a href="#">商品分类</a>
+                        </li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a href="#">我的购物车<b>(23)</b></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -112,8 +130,8 @@
                         <dt class="transaction_manage"><em class="icon_1"></em>订单管理</dt>
                         <dd>
                             <ul>
-                                <li><a href="http://localhost:8080/shopping/myOrder">我的订单</a></li>
-                                <li><a href="http://localhost:8080/shopping/myConsignee">收货地址</a></li>
+                                <li><a id="myOrder" href="">我的订单</a></li>
+                                <li><a id="myConsignee" href="">收货地址</a></li>
                                 <li><a href="#">产品预订</a></li>
                             </ul>
                         </dd>
@@ -122,8 +140,8 @@
                         <dt class="transaction_manage"><em class="icon_2"></em>会员管理</dt>
                         <dd>
                             <ul>
-                                <li><a href="http://localhost:8080/shopping/userInfo">用户信息</a></li>
-                                <li><a href="http://localhost:8080/shopping/collections">我的收藏</a></li>
+                                <li><a id="userInfo" href="">用户信息</a></li>
+                                <li><a id="collections" href="">我的收藏</a></li>
                                 <li><a href="#">我的留言</a></li>
                                 <li><a href="#">我的标签</a></li>
                                 <li><a href="#">我的推荐</a></li>
@@ -135,8 +153,8 @@
                         <dt class="transaction_manage"><em class="icon_3"></em>账户管理</dt>
                         <dd>
                             <ul>
-                                <li><a href="http://localhost:8080/shopping/balance">账户余额</a></li>
-                                <li><a href="http://localhost:8080/shopping/consumeLog">消费记录</a></li>
+                                <li><a id="balance" href="">账户余额</a></li>
+                                <li><a id="consumeLog" href="">消费记录</a></li>
                                 <li><a href="#">跟踪包裹</a></li>
                                 <li><a href="#">资金管理</a></li>
                             </ul>
@@ -161,7 +179,13 @@
                 <div class="user_Account">
                     <div class="title_name">我的账户余额：（小充钱包）</div>
                     <div class="Balance clearfix">
-                        <p class="je_Balance">账户余额：<b><i>1</i><i>2</i><i>3</i><i>4</i>.<i>3</i></b>元 </p>
+                        <p class="je_Balance">账户余额：
+                            <b>
+                                <i th:text="${balanceH}"></i>
+                                .
+                                <i th:text="${balanceT}"></i>
+                            </b>元
+                        </p>
                         <p class="clearfix Account_btn"><a href="#" class="Recharge_btn" id="Recharge_btn">充值</a><a
                                 href="#" class="withdraw_btn" id="cz_Records_btn">充值记录</a></p>
                     </div>

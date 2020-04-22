@@ -4,6 +4,7 @@ import com.app.shopping.model.User;
 import com.app.shopping.model.entity.UserInfo;
 import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,16 +39,7 @@ public class UserInfoController {
         return this.userInfoService.queryById(Long.valueOf(id));
     }
 
-    @RequestMapping("/balance")
-    public ModelAndView myBalance(@RequestParam(value = "nkName") String nkName) {
-        ModelAndView mv = new ModelAndView();
-        User user = userService.selectByNkname(nkName);
-        UserInfo userInfo = userInfoService.queryByUserId(user.getId());
 
-        mv.addObject("balance", userInfo.getBalance());
-        mv.setViewName("balance");
-        return mv;
-    }
 
 
 }

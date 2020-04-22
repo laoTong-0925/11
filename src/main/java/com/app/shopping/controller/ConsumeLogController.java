@@ -21,7 +21,6 @@ import java.util.List;
  * @since 2020-04-21 18:29:26
  */
 @Controller
-@RequestMapping("/consumeLog")
 public class ConsumeLogController {
     /**
      * 服务对象
@@ -46,32 +45,35 @@ public class ConsumeLogController {
     }
 
     /**
-     * 分页查寻
+     * 分页查寻,消费记录
      *
-     * @param nowPage
+     * @param index
+     * @param nkName
      * @return
      */
-    @RequestMapping("/select-page")
-    @ResponseBody
-    public PageVo<List<ConsumeLog>> selectByPage(@RequestParam(value = "nowPage", defaultValue = "1", required = false) int nowPage,
-                                                 @RequestParam(value = "nkName") String nkName) {
-        User user = userService.selectByNkname(nkName);
-        List<ConsumeLog> consumeLogs = consumeLogService.selectByPage(user.getId(), nowPage - 1, 10);
-        int sum = consumeLogService.selectSum(user.getId());
-        return new PageVo<>(sum, nowPage, consumeLogs);
-    }
-
     @RequestMapping("/consumeLog")
-    public ModelAndView myBalance(@RequestParam(value = "nkName") String nkName) {
+    @ResponseBody
+    public ModelAndView selectByPage(@RequestParam(value = "index", defaultValue = "0", required = false) int index,
+                                     @RequestParam(value = "nkName") String nkName) {
         ModelAndView mv = new ModelAndView();
         User user = userService.selectByNkname(nkName);
-        UserInfo userInfo = userInfoService.queryByUserId(user.getId());
-
-        mv.addObject("balance", userInfo.getBalance());
-        mv.setViewName("balance");
+        if (null == user) {
+            mv.setViewName("login");
+            return mv;
+        }
+        if (index < 0)
+            index = 0;
+        List<ConsumeLog> consumeLogs = consumeLogService.selectByPage(user.getId(), index, 10);
+        int size = consumeLogService.selectSum(user.getId());
+        mv.addObject("consumeLogList", consumeLogs);
+        mv.addObject("userName", user.getNkName());
+        mv.addObject("pageSize", 10);
+        mv.addObject("size", size);
+        mv.addObject("lastPage", size/10);
+        mv.addObject("index", index);
+        mv.setViewName("consumeLog");
         return mv;
     }
-
 
 
 }

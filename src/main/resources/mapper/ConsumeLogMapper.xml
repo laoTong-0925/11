@@ -12,7 +12,7 @@
         <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
     </resultMap>
     <!--查询总记录数-->
-    <select id="selectSum" resultMap="ConsumeLogMap">
+    <select id="selectSum" resultType="int">
         select
           count(1)
         from shopping_t.consume_log

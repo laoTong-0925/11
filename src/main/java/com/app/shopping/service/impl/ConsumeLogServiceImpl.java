@@ -22,16 +22,15 @@ public class ConsumeLogServiceImpl implements ConsumeLogService {
     private ConsumeLogMapper consumeLogMapper;
 
     @Override
-    public List<ConsumeLog> selectByPage(long userId, int page, int pageSize) {
-        List<ConsumeLog> consumeLogs = consumeLogMapper.selectByPage(userId, page, pageSize);
-        if (null == consumeLogs || consumeLogs.isEmpty())
-            return null;
+    public List<ConsumeLog> selectByPage(long userId, int index, int pageSize) {
+        List<ConsumeLog> consumeLogs = consumeLogMapper
+                .selectByPage(userId, index * pageSize, (index + 1) * pageSize);
         return consumeLogs;
     }
 
     @Override
     public int selectSum(long userId) {
-        return  consumeLogMapper.selectSum(userId);
+        return consumeLogMapper.selectSum(userId);
     }
 
     /**

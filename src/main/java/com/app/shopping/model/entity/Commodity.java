@@ -1,6 +1,7 @@
 package com.app.shopping.model.entity;
 
 import com.app.shopping.model.ModelObject;
+import lombok.Data;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-04-21 18:15:13
  */
+@Data
 public class Commodity extends ModelObject implements Serializable {
     
     private String name;

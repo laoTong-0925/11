@@ -1,6 +1,7 @@
 package com.app.shopping.model.entity;
 
 import com.app.shopping.model.ModelObject;
+import lombok.Data;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-04-12 17:29:02
  */
+@Data
 public class UserConsignee extends ModelObject implements Serializable {
     private static final long serialVersionUID = 331732254706701273L;
     /**

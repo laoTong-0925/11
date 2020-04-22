@@ -1,6 +1,5 @@
 package com.app.shopping.controller;
 
-import com.app.shopping.model.ModelObject;
 import com.app.shopping.model.User;
 import com.app.shopping.service.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -23,10 +22,13 @@ public class MyOrderController {
      * @return
      */
     @RequestMapping("/myOrder")
-    public ModelAndView myOrder(@RequestParam("nkName") String nkName) {
+    public ModelAndView myOrder(@RequestParam(value = "nkName") String nkName,
+                                @RequestParam(value = "state", required = false)int state,
+//                                @RequestParam()
+    ) {
         ModelAndView mv = new ModelAndView();
         User user = userService.selectByNkname(nkName);
-        mv.addObject("user",user);
+        mv.addObject("userName",user.getNkName());
         mv.setViewName("myOrder");
         return mv;
     }
