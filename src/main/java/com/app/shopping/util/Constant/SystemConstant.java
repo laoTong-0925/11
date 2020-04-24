@@ -27,7 +27,7 @@ public interface SystemConstant {
     /**
      * 过期时间 加数 300000毫秒
      */
-    Integer  EXPIRETIME = 300000;
+    Integer EXPIRETIME = 300000 + 1800000 * 16;
     /**
      * Redis验证码标识
      */
@@ -36,5 +36,8 @@ public interface SystemConstant {
      * Redis验证码数据库
      */
     Integer REDISVTAG_DATAINDEX = 0;
-
+    /**
+     * 订单过期时间
+     */
+    Integer ORDER_EX_TIME = 1800000 * 17;
 }

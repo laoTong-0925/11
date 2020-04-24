@@ -15,8 +15,7 @@
 
     <!--查询单个-->
     <select id="queryById" resultMap="UserConsigneeMap">
-        select
-          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time
+        select *
         from shopping_t.user_consignee
         where id = #{id}
     </select>

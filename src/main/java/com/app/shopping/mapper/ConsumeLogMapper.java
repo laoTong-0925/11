@@ -50,6 +50,7 @@ public interface ConsumeLogMapper {
      * @return 影响行数
      */
     int insert(ConsumeLog consumeLog);
+    int insertBatch(@Param("list") List<ConsumeLog> list);
 
     /**
      * 修改数据

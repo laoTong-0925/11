@@ -1,10 +1,11 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 购物车(UserShoppingCar)实体类
@@ -13,7 +14,9 @@ import java.io.Serializable;
  * @since 2020-04-21 18:20:32
  */
 @Data
-public class UserShoppingCar extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserShoppingCar implements Serializable {
     
     private Long userId;
     
@@ -22,6 +25,10 @@ public class UserShoppingCar extends ModelObject implements Serializable {
     private String commodityPro;
     
     private Integer sum;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
     public UserShoppingCar(Long userId, Long commodityId, String commodityPro, Integer sum) {
         this.userId = userId;

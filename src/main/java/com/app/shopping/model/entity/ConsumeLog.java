@@ -1,10 +1,11 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 消费记录(ConsumeLog)实体类
@@ -13,7 +14,9 @@ import java.io.Serializable;
  * @since 2020-04-21 18:15:13
  */
 @Data
-public class ConsumeLog extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ConsumeLog  implements Serializable {
 
     /**
     * user_id
@@ -23,5 +26,14 @@ public class ConsumeLog extends ModelObject implements Serializable {
     private Long orderId;
     
     private String money;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
+    public ConsumeLog(Long userId, Long orderId, String money) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.money = money;
+    }
 }

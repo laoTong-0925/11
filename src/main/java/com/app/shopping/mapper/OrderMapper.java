@@ -2,6 +2,7 @@ package com.app.shopping.mapper;
 
 import com.app.shopping.model.entity.Order;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public interface OrderMapper {
 
+    int autoCancel(List<Long> ids, int state);
+
     /**
      * 通过ID查询单条数据
      *
@@ -19,13 +22,18 @@ public interface OrderMapper {
      * @return 实例对象
      */
     Order queryById(Long id);
+
     List<Order> queryByState(int state);
+
+    List<Order> queryByStateAndId(int state, List<Long> ids);
+
+    int updateStateAndPayByUserId(int state, String pay, long userId, List<Long> ids);
 
     /**
      * 查询指定行数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<Order> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);

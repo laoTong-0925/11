@@ -13,20 +13,29 @@
         <result property="money" column="money" jdbcType="VARCHAR"/>
         <result property="activityMoney" column="activity_money" jdbcType="VARCHAR"/>
         <result property="moneyLog" column="money_log" jdbcType="VARCHAR"/>
+        <result property="inventory" column="inventory" jdbcType="INTEGER"/>
+        <result property="isActivity" column="is_activity" jdbcType="INTEGER"/>
+        <result property="isTicket" column="is_ticket" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="InventoryMap">
         select
-          id, commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log
+          *
         from shopping_t.inventory
-        where id = #{id}
+        where id = #{id} and is_del = 0
     </select>
     <select id="queryByCommodityIdAndPro" resultMap="InventoryMap">
         select
-          id, commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log
+          *
         from shopping_t.inventory
         where is_del = 0 and commodity_id = #{cId} and property =#{property}
+    </select>
+    <select id="queryByCId" resultMap="InventoryMap">
+        select  *
+        from shopping_t.inventory
+        where is_del = 0
+        and commodity_id = #{cId}
     </select>
 
     <!--查询指定行数据-->
@@ -39,87 +48,49 @@
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="InventoryMap">
-        select
-          id, commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log
+        select *
         from shopping_t.inventory
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="commodityId != null">
-                and commodity_id = #{commodityId}
-            </if>
-            <if test="property != null and property != ''">
-                and property = #{property}
-            </if>
-            <if test="inventory != null">
-                and inventory = #{inventory}
-            </if>
-            <if test="isDel != null">
-                and is_del = #{isDel}
-            </if>
-            <if test="updateTime != null">
-                and update_time = #{updateTime}
-            </if>
-            <if test="creatTime != null">
-                and creat_time = #{creatTime}
-            </if>
-            <if test="money != null and money != ''">
-                and money = #{money}
-            </if>
-            <if test="activityMoney != null and activityMoney != ''">
-                and activity_money = #{activityMoney}
-            </if>
-            <if test="moneyLog != null and moneyLog != ''">
-                and money_log = #{moneyLog}
-            </if>
-        </where>
+        where is_del = 0
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.inventory(commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log)
-        values (#{commodityId}, #{property}, #{inventory}, #{isDel}, #{updateTime}, #{creatTime}, #{money}, #{activityMoney}, #{moneyLog})
+        insert into shopping_t.inventory(commodity_id, property, inventory, money)
+        values (#{commodityId}, #{property}, #{inventory}, #{money})
     </insert>
 
-    <!--通过主键修改数据-->
-    <update id="update">
-        update shopping_t.inventory
-        <set>
-            <if test="commodityId != null">
-                commodity_id = #{commodityId},
-            </if>
-            <if test="property != null and property != ''">
-                property = #{property},
-            </if>
-            <if test="inventory != null">
-                inventory = #{inventory},
-            </if>
-            <if test="isDel != null">
-                is_del = #{isDel},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
-            </if>
-            <if test="creatTime != null">
-                creat_time = #{creatTime},
-            </if>
-            <if test="money != null and money != ''">
-                money = #{money},
-            </if>
-            <if test="activityMoney != null and activityMoney != ''">
-                activity_money = #{activityMoney},
-            </if>
-            <if test="moneyLog != null and moneyLog != ''">
-                money_log = #{moneyLog},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO shopping_t.inventory(commodity_id, property, inventory, money)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.commodityId},#{item.property},#{item.inventory},#{item.money})
+        </foreach>
+    </insert>
+
 
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from shopping_t.inventory where id = #{id}
     </delete>
+
+    <update id="updateIsTByCId">
+        update shopping_t.inventory
+        set is_ticket = #{isT}
+        where commodity_id = #{cId} and is_del = 0
+    </update>
+
+    <update id="updateInventoryById">
+        update shopping_t.inventory
+        set inventory = #{inventory}
+        where id = #{id} and is_del = 0
+    </update>
+
+    <update id="updateInventoryAndMoneyByCIdAndPro">
+        update shopping_t.inventory
+        set inventory = #{inventory},money =#{money}
+        where commodity_id = #{cId}
+        and is_del = 0
+        and property = #{pro}
+    </update>
 
 </mapper>

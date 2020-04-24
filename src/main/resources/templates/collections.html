@@ -16,6 +16,8 @@
     <script src="js/head.js" type="text/javascript"></script>
     <script src="js/userCenter.js" type="text/javascript"></script>
     <script src="js/shoppingCar.js" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
     <title>会员中心-我的收藏</title>
     <style type="text/css">
         .ss {
@@ -92,26 +94,10 @@
             </div>
             <!--购物车样式-->
             <div class="hd_Shopping_list" id="Shopping_list">
-                <div class="s_cart"><a href="#">我的购物车</a> <i class="ci-right">&gt;</i><i class="ci-count"
-                                                                                         id="shopping-amount">0</i>
+                <div class="s_cart"><a href="#">我的购物车</a> <i class="ci-right">&gt;</i>
                 </div>
                 <div class="dorpdown-layer">
                     <div class="spacer"></div>
-                    <!--<div class="prompt"></div><div class="nogoods"><b></b>购物车中还没有商品，赶紧选购吧！</div>-->
-                    <ul class="p_s_list">
-                        <li>
-                            <div class="img"><img src="images/tianma.png"></div>
-                            <div class="content"><p class="name"><a href="#">产品名称</a></p>
-                                <p>颜色分类:紫花8255尺码:XL</p></div>
-                            <div class="Operations">
-                                <p class="Price">￥55.00</p>
-                                <p><a href="#">删除</a></p></div>
-                        </li>
-                    </ul>
-                    <div class="Shopping_style">
-                        <div class="p-total">共<b>1</b>件商品　共计<strong>￥ 515.00</strong></div>
-                        <a href="Shop_cart.html" title="去购物车结算" id="btn-payforgoods" class="Shopping">去购物车结算</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -139,11 +125,11 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img src="images/people.png">
+                        <a href="#" title="" class="btn_link"></a> <img th:src="@{/show(fileName=${userImg})}">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
-                        <p><span class="name" id="user_account_r2" th:text="${userName}"></span>
+                        <p><span class="name" id="user_account_r2" th:text="${user.getNkName()}"></span>
                             <a href="#">[修改密码]</a></p>
                     </div>
                 </div>
@@ -202,75 +188,63 @@
                 <div class="hd">
                     <ul>
                         <li>收藏的商品</li>
-                        <li>收藏的店铺</li>
+                        <!--                        <li>收藏的店铺</li>-->
                     </ul>
                 </div>
                 <div class="bd">
                     <ul class="commodity_list clearfix">
-                        <div class="Number_Favorites">共收藏：23条</div>
+
+                        <div class="Number_Favorites">
+                            收货地址：
+                            <span th:each="sh,x:${consignees}">
+                                <p>
+                                    <input th:id="'shId,'+${sh.getId()}" type="checkbox" th:value="'shId,'+${sh.getId()}" onchange="shChange(this.id)"/>
+                                    <span th:text="'收货人姓名：'+${sh.getConsigneeMan()}+
+                                    '   收货地址：'+${sh.getConsignee()}+'   电话：'+${sh.getPhone()}">
+                                    </span>
+                                </p>
+                            </span>
+                        </div>
+
                         <div class="clearfix">
-<!--                            <li style="width:245px; float:left; position:relative" th:each="commodity,userStat:${shoppingCarVoList}">-->
-<!--                                <div style="border:3px solid;border-color: #fff2f2">-->
-<!--                                    <div class="img_link">-->
-<!--                                        <a href="#" class="center "><img src="products/p_4.jpg"></a>-->
-<!--                                    </div>-->
-<!--                                    <dl class="xinxi">-->
-<!--                                        <dt>-->
-<!--                                            -->
-<!--                                            <a href="#" class="name">施华蔻多效修护套包(600ml洗+600ml润+50ml膜)</a>-->
-<!--                                        </dt>-->
-<!--                                        <dd>-->
-<!--                                            <span class="Price"><b>价格：￥</b>321.00</span>-->
-<!--                                            <p style="padding-right: 2px">-->
-<!--                                            <span class="collect_Amount"><b>活动价￥</b>300</span>-->
-<!--                                            </p>-->
-<!--                                        </dd>-->
-<!--                                    </dl>-->
-<!--                                </div>-->
-<!--                            </li>-->
-                            <li style="width:245px; float:left; position:relative" th:each="shoppingCarVo,userStat:${shoppingCarVoList}">
+
+                            <input type="hidden" id="paySome" value=""/>
+                            <input type="hidden" id="shd" value=""/>
+
+                            <li style="width:245px; float:left; position:relative"
+                                th:each="shoppingCarVo,i:${shoppingCarVoList}">
                                 <div style="border:3px solid;border-color: #fff2f2">
                                     <div class="img_link">
-                                        <a href="#" class="center "><img src="products/p_4.jpg"></a>
+                                        <a href="#" class="center "><img
+                                                th:src="@{/show(fileName=${shoppingCarVo.getImgPth()})}"></a>
                                     </div>
-                                    <dl class="xinxi">
-                                        <dt>
-                                            <input id="sp1" type="checkbox" value="" onclick="checkO()"/>
-                                            <script type="text/javascript">
-                                                function checkO() {
-                                                    var checkedOfAll=$("#sp1").prop("checked");
-                                                    alert(checkedOfAll);
-                                                }
-                                            </script>
-                                            <a href="#" class="name">施华蔻多效修护套包(600ml洗+600ml润+50ml膜)</a>
-                                        </dt>
-                                        <b>￥</b>421.00
-                                        <p>活动价：345</p>
-                                        <p>总价: 245</p>
-                                    </dl>
+                                    <div class="xinxi" align="right">
+
+                                        <input th:id="sp+${shoppingCarVo.getShoppingCarId()}" type="checkbox"
+                                               th:value="${shoppingCarVo.getShoppingCarId()}"
+                                               onclick="checkO(this.id)"/>
+                                        <input th:id="userCarCommodityId+${i.index}" type="hidden"
+                                               th:value="${shoppingCarVo.getShoppingCarId()}"/>
+
+                                        <a href="#" class="name"
+                                           th:text="${shoppingCarVo.getCommodityName()} +'☆'+ ${shoppingCarVo.getCommodityPro()}">
+                                        </a>
+                                        <b>￥</b><span th:text="${shoppingCarVo.getCommodityMoney()}"></span>
+                                        <p>活动价：<span th:text="${shoppingCarVo.getCommodityAMoney()}"></span></p>
+                                        <p>数量：<span th:text="${shoppingCarVo.getSum()}"></span></p>
+                                        <p>总价：<span th:text="${shoppingCarVo.getSumMoney()}"></span></p>
+                                        <a th:id="${i.index}" onmouseup="removeFromShoppingCar(this.id)">移除</a>
+                                    </div>
                                 </div>
                             </li>
-                            <!--                            <li class="collect_p">-->
-                            <!--                                <em class="iconfont  delete" id=""></em>-->
-                            <!--                                <a href="#" class="buy_btn">立即购买</a>-->
-                            <!--                                <div class="collect_info">-->
-                            <!--                                    <div class="img_link"><a href="#" class="center "><img src="products/p_17.jpg"></a>-->
-                            <!--                                    </div>-->
-                            <!--                                    <dl class="xinxi">-->
-                            <!--                                        <dt><a href="#" class="name">施华蔻多效修护套包(600ml洗+600ml润+50ml膜)</a></dt>-->
-                            <!--                                        <dd><span class="Price"><b>￥</b>321.00</span><span class="collect_Amount"><i-->
-                            <!--                                                class="iconfont icon-shoucang"></i>345</span></dd>-->
-                            <!--                                    </dl>-->
-                            <!--                                </div>-->
-                            <!--                            </li>-->
 
                         </div>
                         <div class="" style="margin-top: 20px">
                             <input type="hidden" id="ap1"/>
                             <input type="hidden" id="ap2"/>
                             <center>
-                                <p class="clearfix Account_btn">
-                                    <a href="#" class="ss" id="Recharge_btn">结算</a>
+                                <p class="clearfix Account_btn" onclick="pay()">
+                                    <a class="ss" id="Recharge_btn">结算下单</a>
                                 </p>
                             </center>
                         </div>
@@ -363,14 +337,7 @@
 <!--网站页脚-->
 <div class="copyright">
     <div class="copyright-bg">
-        <div class="hotline">为生活充电在线 <span>招商热线：****-********</span> 客服热线：400-******</div>
-        <div class="hotline co-ph">
-            <p>版权所有Copyright ©***************</p>
-            <p>*ICP备***************号 不良信息举报</p>
-            <p>总机电话：****-*********/194/195/196 客服电话：4000****** 传 真：********
 
-                <a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
-        </div>
     </div>
 </div>
 </body>

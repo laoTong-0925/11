@@ -21,7 +21,15 @@ public interface InventoryMapper {
      */
     Inventory queryById(Long id);
 
+    int updateIsTByCId(Long cId,int isT);
+
+    List<Inventory> queryByCId(Long cId);
+
     Inventory queryByCommodityIdAndPro(Long cId, String property);
+
+    int updateInventoryById(int inventory, Long id);
+
+    int updateInventoryAndMoneyByCIdAndPro(int inventory, String money, Long cId, String pro);
 
     /**
      * 查询指定行数据
@@ -39,7 +47,8 @@ public interface InventoryMapper {
      * @param inventory 实例对象
      * @return 对象列表
      */
-    List<Inventory> queryAll(Inventory inventory);
+//    List<Inventory> queryAll(Inventory inventory);
+    List<Inventory> queryAll();
 
     /**
      * 新增数据
@@ -48,6 +57,8 @@ public interface InventoryMapper {
      * @return 影响行数
      */
     int insert(Inventory inventory);
+
+    int insertBatch(@Param("list") List<Inventory> inventory);
 
     /**
      * 修改数据

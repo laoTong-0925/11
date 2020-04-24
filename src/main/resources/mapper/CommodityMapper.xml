@@ -11,6 +11,7 @@
         <result property="isDel" column="is_del" jdbcType="INTEGER"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+        <result property="aEndTime" column="a_end_time" jdbcType="TIMESTAMP"/>
         <result property="isTicket" column="is_ticket" jdbcType="INTEGER"/>
         <result property="isActivity" column="is_activity" jdbcType="INTEGER"/>
     </resultMap>
@@ -18,17 +19,25 @@
     <!--查询单个-->
     <select id="queryById" resultMap="CommodityMap">
         select
-          id, name, img, detail, type, is_del, update_time, creat_time, is_ticket, is_activity
+          *
         from shopping_t.commodity
-        where id = #{id}
+        where id = #{id} and is_del = 0
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CommodityMap">
         select
-          id, name, img, detail, type, is_del, update_time, creat_time, is_ticket, is_activity
+          *
         from shopping_t.commodity
+        where is_del = 0
+        order by id desc
         limit #{offset}, #{limit}
+    </select>
+    <select id="queryCount"  resultType="int">
+        select
+          count(1)
+        from shopping_t.commodity
+        where is_del = 0
     </select>
 
     <!--通过实体作为筛选条件查询-->
@@ -72,10 +81,20 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.commodity(name, img, detail, type, is_del, update_time, creat_time, is_ticket, is_activity)
-        values (#{name}, #{img}, #{detail}, #{type}, #{isDel}, #{updateTime}, #{creatTime}, #{isTicket}, #{isActivity})
+        insert into shopping_t.commodity(`name`, img, detail)
+        values (#{name}, #{img}, #{detail})
     </insert>
 
+    <update id="updateImg">
+        update shopping_t.commodity
+        set img = #{img}
+        where id = #{id} and is_del = 0
+    </update>
+    <update id="updateIsTById">
+        update shopping_t.commodity
+        set is_ticket = #{isT}
+        where id = #{id} and is_del = 0
+    </update>
     <!--通过主键修改数据-->
     <update id="update">
         update shopping_t.commodity
@@ -101,6 +120,9 @@
             <if test="creatTime != null">
                 creat_time = #{creatTime},
             </if>
+            <if test="aEndTime != null">
+                a_end_time = #{aEndTime},
+            </if>
             <if test="isTicket != null">
                 is_ticket = #{isTicket},
             </if>
@@ -108,7 +130,7 @@
                 is_activity = #{isActivity},
             </if>
         </set>
-        where id = #{id}
+        where id = #{id} and is_del = 0
     </update>
 
     <!--通过主键删除-->

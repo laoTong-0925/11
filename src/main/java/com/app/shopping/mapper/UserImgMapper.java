@@ -17,14 +17,14 @@ import java.util.Map;
 public interface UserImgMapper {
 
 
-    UserImg getQrcode(Map<String, Object> params);
+    int updateImgByUserId(String img,long userId);
     /**
      * 通过ID查询单条数据
      *
      * @param id 主键
      * @return 实例对象
      */
-    UserImg queryById(Long id);
+    UserImg queryById(Long userId);
 
     /**
      * 查询指定行数据

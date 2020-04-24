@@ -1,6 +1,7 @@
 package com.app.shopping.service;
 
 
+import com.app.shopping.model.User;
 import com.app.shopping.model.entity.ActivityUser;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
  * @since 2020-04-21 18:29:13
  */
 public interface ActivityUserService {
+
+    void userIntoPool(User user,Long cId,String consignee);
 
     /**
      * 通过ID查询单条数据

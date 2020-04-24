@@ -1,13 +1,11 @@
 package com.app.shopping.model.msg;
 
-import com.app.shopping.model.ModelObject;
 import lombok.Data;
 
-import java.security.Timestamp;
 import java.util.Date;
 
 @Data
-public class SmsRecord extends ModelObject {
+public class SmsRecord {
 
     private String toNumber;
 
@@ -24,6 +22,10 @@ public class SmsRecord extends ModelObject {
      * 短信状态 0新建 1发送中 2成功 3失败
      */
     private Integer state;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
     public void build(String toNumber, long logRecordId,
                       long smsvRecordId, int type, Date businessTime) {

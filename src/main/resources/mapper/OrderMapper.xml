@@ -16,35 +16,54 @@
         <result property="exTime" column="ex_time" jdbcType="TIMESTAMP"/>
         <result property="isTicket" column="is_ticket" jdbcType="INTEGER"/>
         <result property="pay" column="pay" jdbcType="VARCHAR"/>
+        <result property="properties" column="properties" jdbcType="VARCHAR"/>
+        <result property="cSum" column="csum" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="OrderMap">
         select
-          id, user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay
-        from shopping_t.order
+*        from shopping_t.order
         where id = #{id}
     </select>
     <select id="queryByState" resultMap="OrderMap">
         select
-          id, user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay
-        from shopping_t.order
+*        from shopping_t.order
         where state = #{state}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="OrderMap">
         select
-          id, user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay
-        from shopping_t.order
+*        from shopping_t.order
         limit #{offset}, #{limit}
     </select>
+
+    <select id="queryByStateAndId" resultMap="OrderMap">
+        select *
+        from shopping_t.order
+        where state = #{state}
+        and id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="updateStateAndPayByUserId">
+        update shopping_t.order
+        set state = #{state},pay = #{pay}
+        where user_id = #{userId}
+        and is_del = 0
+        and id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="OrderMap">
         select
-          id, user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay
-        from shopping_t.order
+        * from shopping_t.order
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -90,8 +109,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.order(user_id, consignee, commodity_id, money, state, is_del, valid, update_time, creat_time, ex_time, is_ticket, pay)
-        values (#{userId}, #{consignee}, #{commodityId}, #{money}, #{state}, #{isDel}, #{valid}, #{updateTime}, #{creatTime}, #{exTime}, #{isTicket}, #{pay})
+        insert into shopping_t.order(user_id, consignee, commodity_id, money, state, ex_time,csum,properties)
+        values (#{userId}, #{consignee}, #{commodityId}, #{money}, #{state},  #{exTime} ,#{cSum}, #{properties})
     </insert>
 
     <!--通过主键修改数据-->
@@ -142,5 +161,14 @@
     <delete id="deleteById">
         delete from shopping_t.order where id = #{id}
     </delete>
+
+    <update id="autoCancel">
+        update shopping_t.order
+        set state = #{state}
+        where id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
 
 </mapper>

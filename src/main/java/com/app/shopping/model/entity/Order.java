@@ -1,7 +1,8 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -13,13 +14,19 @@ import java.io.Serializable;
  * @since 2020-04-21 18:15:13
  */
 @Data
-public class Order extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order implements Serializable {
     
     private Long userId;
     
     private String consignee;
     
     private Long commodityId;
+
+    private int cSum;
+
+    private String properties;
     
     private String money;
     /**
@@ -38,5 +45,21 @@ public class Order extends ModelObject implements Serializable {
     
     private String pay;
 
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
+
+    public Order(Long userId, String consignee, Long commodityId, String money, Integer state, Integer valid, Date exTime,int cSum,String properties) {
+        this.userId = userId;
+        this.consignee = consignee;
+        this.commodityId = commodityId;
+        this.money = money;
+        this.state = state;
+        this.valid = valid;
+        this.exTime = exTime;
+        this.cSum = cSum;
+        this.properties =properties;
+    }
 }

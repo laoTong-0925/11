@@ -1,8 +1,10 @@
 package com.app.shopping.service.impl;
 
 import com.app.shopping.mapper.ActivityUserMapper;
+import com.app.shopping.model.User;
 import com.app.shopping.model.entity.ActivityUser;
 import com.app.shopping.service.ActivityUserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,17 @@ import java.util.List;
  * @author makejava
  * @since 2020-04-21 18:29:13
  */
-@Service("activityUserService")
+@Service
+@Log4j2
 public class ActivityUserServiceImpl implements ActivityUserService {
     @Autowired
     private ActivityUserMapper activityUserMapper;
+
+    @Override
+    public void userIntoPool(User user, Long cId,String consignee) {
+        int i = activityUserMapper.insert(new ActivityUser(cId, user.getId(),consignee));
+        log.info("用户 ：{} 入奖池结果 ：{}",user.toString(),i);
+    }
 
     /**
      * 通过ID查询单条数据

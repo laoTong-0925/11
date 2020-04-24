@@ -1,7 +1,9 @@
 package com.app.shopping.service;
 
 
+import com.app.shopping.model.Release;
 import com.app.shopping.model.entity.Activity;
+import com.app.shopping.util.Result;
 
 import java.util.List;
 
@@ -13,13 +15,18 @@ import java.util.List;
  */
 public interface ActivityService {
 
+    /**发布
+     *
+     */
+    Result release (String name, String detail, List<Release> releaseList);
+
     /**
      * 通过ID查询单条数据
      *
      * @param id 主键
      * @return 实例对象
      */
-    Activity queryById(Long id);
+    Activity queryById(int id);
 
     /**
      * 查询多条数据
@@ -44,7 +51,7 @@ public interface ActivityService {
      * @param activity 实例对象
      * @return 实例对象
      */
-    Activity update(Activity activity);
+
 
     /**
      * 通过主键删除数据

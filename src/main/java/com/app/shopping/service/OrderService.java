@@ -1,6 +1,9 @@
 package com.app.shopping.service;
 
+import com.app.shopping.model.User;
 import com.app.shopping.model.entity.Order;
+import com.app.shopping.util.Result;
+
 import java.util.List;
 
 /**
@@ -10,6 +13,13 @@ import java.util.List;
  * @since 2020-04-21 18:29:36
  */
 public interface OrderService {
+
+    /**
+     * 下单操作
+     */
+    Result creatOrder(int sum, long commodityId, String properties, User user, long consigneeId);
+
+    Result creatOrderByUserId(long consigneeId,User user);
 
     /**
      * 通过ID查询单条数据
@@ -25,7 +35,7 @@ public interface OrderService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<Order> queryAllByLimit(int offset, int limit);

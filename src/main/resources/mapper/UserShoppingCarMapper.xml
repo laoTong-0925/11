@@ -22,8 +22,7 @@
     </select>
 
     <select id="queryByUserId" resultMap="UserShoppingCarMap">
-        select
-          id, is_del, update_time, creat_time, user_id, commodity_id, commodity_pro, `sum`
+        select *
         from shopping_t.user_shopping_car
         where is_del = 0 and user_id = #{userId}
     </select>
@@ -106,7 +105,7 @@
 
     <update id="deleteByUserIdAndCommodity">
         update shopping_t.user_shopping_car
-        is_del = 1
+        set is_del = 1
         where user_id = #{userId}
         and commodity_id = #{commodityId}
         and commodity_pro = #{commodityPro}

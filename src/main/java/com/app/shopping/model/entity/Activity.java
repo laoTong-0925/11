@@ -1,7 +1,8 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -13,8 +14,14 @@ import java.io.Serializable;
  * @since 2020-04-21 18:18:59
  */
 @Data
-public class Activity extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Activity implements Serializable {
 
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
     /**
     * 商品id
     */

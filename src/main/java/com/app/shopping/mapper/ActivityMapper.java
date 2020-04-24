@@ -19,7 +19,7 @@ public interface ActivityMapper {
      * @param id 主键
      * @return 实例对象
      */
-    Activity queryById(Long id);
+    Activity queryById(int id);
 
     /**
      * 查询指定行数据

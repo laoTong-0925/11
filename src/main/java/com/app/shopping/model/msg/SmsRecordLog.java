@@ -1,17 +1,20 @@
 package com.app.shopping.model.msg;
 
-import com.app.shopping.model.ModelObject;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class SmsRecordLog extends ModelObject {
+public class SmsRecordLog  {
 
     private Long smsRecordId;
     /**
      * 返回信息
      */
     private String message;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
 }

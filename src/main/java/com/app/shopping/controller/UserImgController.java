@@ -1,5 +1,7 @@
 package com.app.shopping.controller;
 
+import com.app.shopping.mapper.UserImgMapper;
+import com.app.shopping.mapper.UserMapper;
 import com.app.shopping.model.User;
 import com.app.shopping.service.UserImgService;
 import com.app.shopping.service.UserService;
@@ -36,9 +38,11 @@ public class UserImgController {
     }
 
     @Autowired
-    UserImgService userImgService;
+    private UserImgService userImgService;
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private UserImgMapper  userImgMapper;
 
     /**上传地址*/
     @Value("${files.upload.path}")
@@ -104,6 +108,7 @@ public class UserImgController {
         // 将src路径发送至html页面
         ModelAndView mv = new ModelAndView();
         User user = userService.selectByNkname(nkName);
+        int i = userImgMapper.updateImgByUserId(filename, user.getId());
         //存库
 //        mv.addObject("user",user);
 //        mv.addObject("userImg",file.getOriginalFilename());

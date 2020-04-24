@@ -14,6 +14,8 @@ public interface UserInfoMapper {
 
     UserInfo queryByUserId(Long userId);
 
+    int updateMoney(long userId, String balance);
+
     /**
      * 通过ID查询单条数据
      *

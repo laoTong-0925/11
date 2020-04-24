@@ -1,6 +1,7 @@
 package com.app.shopping.model.entity;
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -12,7 +13,9 @@ import java.io.Serializable;
  * @since 2020-04-12 17:23:48
  */
 @Data
-public class UserInfo extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserInfo implements Serializable {
 
     /**
     * user_id
@@ -30,6 +33,10 @@ public class UserInfo extends ModelObject implements Serializable {
      * 支付密码
      */
     private String payPass;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
     public UserInfo(Long userId, String payPass) {
         this.userId = userId;

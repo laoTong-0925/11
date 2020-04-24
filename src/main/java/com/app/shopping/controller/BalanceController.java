@@ -1,7 +1,9 @@
 package com.app.shopping.controller;
 
 import com.app.shopping.model.User;
+import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.model.entity.UserInfo;
+import com.app.shopping.service.UserImgService;
 import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +21,8 @@ public class BalanceController {
     private UserInfoService userInfoService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserImgService userImgService;
 
     /**
      * 余额
@@ -31,8 +35,11 @@ public class BalanceController {
         User user = userService.selectByNkname(nkName);
         UserInfo userInfo = userInfoService.queryByUserId(user.getId());
         String balance = userInfo.getBalance();
+        UserImg userImg = userImgService.queryById(user.getId());
+
         String[] split = StringUtils.split(balance, ".");
         mv.addObject("userName", user.getNkName());
+        mv.addObject("userImg",userImg.getUserImg());
         mv.addObject("balanceH", split[0]);
         mv.addObject("balanceT", split[1]);
         mv.setViewName("balance");

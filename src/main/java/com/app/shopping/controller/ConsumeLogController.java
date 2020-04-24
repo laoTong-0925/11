@@ -2,7 +2,9 @@ package com.app.shopping.controller;
 
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.ConsumeLog;
+import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.ConsumeLogService;
+import com.app.shopping.service.UserImgService;
 import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +30,10 @@ public class ConsumeLogController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserInfoService userInfoService;
+    private UserImgService userImgService;
 
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @RequestMapping("/selectOne")
-    public ConsumeLog selectOne(Long id) {
-        return this.consumeLogService.queryById(id);
-    }
+
 
     /**
      * 分页查寻,消费记录
@@ -61,10 +54,12 @@ public class ConsumeLogController {
         }
         if (index < 0)
             index = 0;
+        UserImg userImg = userImgService.queryById(user.getId());
         List<ConsumeLog> consumeLogs = consumeLogService.selectByPage(user.getId(), index, 10);
         int size = consumeLogService.selectSum(user.getId());
         mv.addObject("consumeLogList", consumeLogs);
         mv.addObject("userName", user.getNkName());
+        mv.addObject("userImg",userImg.getUserImg());
         mv.addObject("pageSize", 10);
         mv.addObject("size", size);
         mv.addObject("lastPage", size/10);

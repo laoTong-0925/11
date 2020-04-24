@@ -1,12 +1,17 @@
 package com.app.shopping.model.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShoppingCarVo {
+    private long shoppingCarId;
 
     /**
      * 图片地址
@@ -17,6 +22,8 @@ public class ShoppingCarVo {
      * 名称
      */
     private String commodityName;
+
+    private String commodityPro;
 
     /**
      * 价格
@@ -36,13 +43,4 @@ public class ShoppingCarVo {
      */
     private String sumMoney;
 
-
-    public ShoppingCarVo(String imgPth, String commodityName, String commodityMoney, int sum, String commodityAMoney1, String sumMoney) {
-        this.imgPth = imgPth;
-        this.commodityName = commodityName;
-        this.commodityMoney = commodityMoney;
-        this.sum = sum;
-        this.commodityAMoney = commodityAMoney1;
-        this.sumMoney = sumMoney;
-    }
 }

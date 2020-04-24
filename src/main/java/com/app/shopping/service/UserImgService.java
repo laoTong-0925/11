@@ -2,6 +2,7 @@ package com.app.shopping.service;
 
 
 import com.app.shopping.model.entity.UserImg;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
  * @since 2020-04-12 17:37:06
  */
 public interface UserImgService {
+
+    boolean loadImg(MultipartFile file, long id);
 
     /**
      * 通过ID查询单条数据

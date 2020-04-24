@@ -20,6 +20,8 @@ public interface CommodityMapper {
      */
     Commodity queryById(Long id);
 
+    int updateImg(Long id, String img);
+
     /**
      * 查询指定行数据
      *
@@ -38,6 +40,8 @@ public interface CommodityMapper {
      */
     List<Commodity> queryAll(Commodity commodity);
 
+    int queryCount();
+
     /**
      * 新增数据
      *
@@ -53,6 +57,7 @@ public interface CommodityMapper {
      * @return 影响行数
      */
     int update(Commodity commodity);
+    int updateIsTById(long id,int isT);
 
     /**
      * 通过主键删除数据

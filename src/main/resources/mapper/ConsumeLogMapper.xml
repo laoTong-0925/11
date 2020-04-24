@@ -78,6 +78,13 @@
         insert into shopping_t.consume_log(user_id, order_id, money, is_del, update_time, creat_time)
         values (#{userId}, #{orderId}, #{money}, #{isDel}, #{updateTime}, #{creatTime})
     </insert>
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO shopping_t.consume_log(user_id, order_id, money)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.userId},#{item.orderId},#{item.money})
+        </foreach>
+    </insert>
 
     <!--通过主键修改数据-->
     <update id="update">

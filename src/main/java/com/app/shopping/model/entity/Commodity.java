@@ -1,10 +1,11 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 商品表(Commodity)实体类
@@ -13,7 +14,9 @@ import java.io.Serializable;
  * @since 2020-04-21 18:15:13
  */
 @Data
-public class Commodity extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Commodity  implements Serializable {
     
     private String name;
     
@@ -33,6 +36,22 @@ public class Commodity extends ModelObject implements Serializable {
     * 是否活动 0否 1是
     */
     private Integer isActivity;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Date aEndTime;
+    private Integer isDel;
 
 
+
+    public Commodity(String name, String img, String detail) {
+        this.name = name;
+        this.img = img;
+        this.detail = detail;
+    }
+
+    public Commodity(String name, String detail) {
+        this.name = name;
+        this.detail = detail;
+    }
 }

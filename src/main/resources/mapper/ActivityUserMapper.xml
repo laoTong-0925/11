@@ -4,7 +4,7 @@
 
     <resultMap type="com.app.shopping.model.entity.ActivityUser" id="ActivityUserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="commodityId" column="commodity_id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="isDel" column="is_del" jdbcType="INTEGER"/>
         <result property="valid" column="valid" jdbcType="INTEGER"/>
@@ -15,15 +15,23 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ActivityUserMap">
         select
-          id, activity_id, user_id, is_del, valid, update_time, creat_time
+          *
         from shopping_t.activity_user
         where id = #{id}
+    </select>
+    <select id="queryByCidAndUserId" resultMap="ActivityUserMap">
+        select
+          *
+        from shopping_t.activity_user
+        where commodity_id = #{cId}
+        and is_del = 0
+        and user_id = #{userId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ActivityUserMap">
         select
-          id, activity_id, user_id, is_del, valid, update_time, creat_time
+          *
         from shopping_t.activity_user
         limit #{offset}, #{limit}
     </select>
@@ -31,14 +39,14 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ActivityUserMap">
         select
-          id, activity_id, user_id, is_del, valid, update_time, creat_time
+          *
         from shopping_t.activity_user
         <where>
             <if test="id != null">
                 and id = #{id}
             </if>
-            <if test="activityId != null">
-                and activity_id = #{activityId}
+            <if test="commodityId != null">
+                and commodity_id = #{commodityId}
             </if>
             <if test="userId != null">
                 and user_id = #{userId}
@@ -60,16 +68,16 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.activity_user(activity_id, user_id, is_del, valid, update_time, creat_time)
-        values (#{activityId}, #{userId}, #{isDel}, #{valid}, #{updateTime}, #{creatTime})
+        insert into shopping_t.activity_user(commodity_id, user_id)
+        values (#{commodityId}, #{userId})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update shopping_t.activity_user
         <set>
-            <if test="activityId != null">
-                activity_id = #{activityId},
+            <if test="commodityId != null">
+                commodity_id = #{commodityId},
             </if>
             <if test="userId != null">
                 user_id = #{userId},

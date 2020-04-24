@@ -37,6 +37,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.queryByUserId(userId);
     }
 
+
     /**
      * 查询多条数据
      *

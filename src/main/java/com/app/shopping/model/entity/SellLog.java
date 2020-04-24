@@ -1,10 +1,11 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 销量表(SellLog)实体类
@@ -13,7 +14,9 @@ import java.io.Serializable;
  * @since 2020-04-21 18:13:02
  */
 @Data
-public class SellLog extends ModelObject implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class SellLog implements Serializable {
 
     private Long commodityId;
     
@@ -27,6 +30,10 @@ public class SellLog extends ModelObject implements Serializable {
     * 商品属性
     */
     private String property;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
 
 }

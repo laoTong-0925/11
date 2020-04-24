@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface ActivityUserMapper {
 
+     ActivityUser queryByCidAndUserId(long cId,long userId);
+
     /**
      * 通过ID查询单条数据
      *

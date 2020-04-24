@@ -35,7 +35,18 @@
         from shopping_t.user_info
         limit #{offset}, #{limit}
     </select>
-
+    <update id="updateMoney">
+        update shopping_t.user_info
+        set  balance = #{balance}
+        where user_id = #{userId}
+    </update>
+<!--    <select id="queryByUserIds" resultMap="UserInfoMap">-->
+<!--        select * from shopping_t.user_info-->
+<!--        where user_id in-->
+<!--        <foreach collection="userIds" index="index" item="userId" separator="," open="(" close=")">-->
+<!--            #{userId}-->
+<!--        </foreach>-->
+<!--    </select>-->
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserInfoMap">
         select

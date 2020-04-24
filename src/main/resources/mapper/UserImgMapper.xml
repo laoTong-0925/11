@@ -11,13 +11,18 @@
         <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-        <!--查询单个-->
-        <select id="queryById" resultMap="UserImgMap" resultType="com.app.shopping.model.entity.UserImg">
-            select
-              id, user_id, user_img, is_del, update_time, creat_time
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserImgMap" resultType="com.app.shopping.model.entity.UserImg">
+            select *
             from shopping_t.user_img
             where user_id = #{userId}
         </select>
+
+    <update id="updateImgByUserId">
+        update shopping_t.user_img
+        set user_img = #{img}
+        where user_id = #{userId}
+    </update>
 
     <!--    &lt;!&ndash;查询指定行数据&ndash;&gt;-->
     <!--    <select id="queryAllByLimit" resultMap="UserImgMap">-->

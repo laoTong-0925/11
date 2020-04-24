@@ -59,35 +59,7 @@ public class HtmlController {
         return "footer";
     }
 
-    /**
-     * 商品目录
-     *
-     * @return
-     */
-    @RequestMapping("/commodityList")
-    public String commodityList() {
-        return "commodityList";
-    }
 
-    /**
-     * 商品管理
-     *
-     * @return
-     */
-    @RequestMapping("/commodityManage")
-    public String commodityManage() {
-        return "commodityManage";
-    }
-
-    /**
-     * 商品发布
-     *
-     * @return
-     */
-    @RequestMapping("/commodityRelease")
-    public String commodityRelease() {
-        return "commodityRelease";
-    }
 
     /**
      * 发货管理

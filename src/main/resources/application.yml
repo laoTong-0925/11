@@ -17,8 +17,8 @@ spring:
   #    mysql
   datasource:
     username: root
-#    password: 123456
-    password: 123456789QQ
+    password: 123456
+#    password: 123456789QQ
     url: jdbc:mysql://localhost:3306/shopping_t?serverTimezone=UTC&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
   #    AOP

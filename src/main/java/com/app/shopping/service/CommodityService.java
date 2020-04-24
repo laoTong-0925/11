@@ -1,6 +1,9 @@
 package com.app.shopping.service;
 
+import com.app.shopping.model.ManageCommoditVo;
 import com.app.shopping.model.entity.Commodity;
+import com.app.shopping.model.vo.CommodityVo;
+
 import java.util.List;
 
 /**
@@ -10,6 +13,9 @@ import java.util.List;
  * @since 2020-04-21 18:29:15
  */
 public interface CommodityService {
+
+    List<ManageCommoditVo> manageCommodityV(int offset, int limit);
+
 
     /**
      * 通过ID查询单条数据

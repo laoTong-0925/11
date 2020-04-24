@@ -1,11 +1,11 @@
 package com.app.shopping.model.entity;
 
-import com.app.shopping.model.ModelObject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.servlet.ModelAndView;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (UserConsignee)实体类
@@ -14,8 +14,9 @@ import java.io.Serializable;
  * @since 2020-04-12 17:29:02
  */
 @Data
-public class UserConsignee extends ModelObject implements Serializable {
-    private static final long serialVersionUID = 331732254706701273L;
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserConsignee  implements Serializable {
     /**
     * user_id
     */
@@ -32,11 +33,23 @@ public class UserConsignee extends ModelObject implements Serializable {
     * 收货电话
     */
     private String phone;
+    private Long id;
+    private Date creatTime;
+    private Date updateTime;
+    private Integer isDel;
 
     public UserConsignee(Long userId, String consignee, String consigneeMan, String phone) {
         this.userId = userId;
         this.consignee = consignee;
         this.consigneeMan = consigneeMan;
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "地址=" + consignee + "《》" +
+                ", 收货人=" + consigneeMan + "《》" +
+                ", 电话=" + phone ;
     }
 }

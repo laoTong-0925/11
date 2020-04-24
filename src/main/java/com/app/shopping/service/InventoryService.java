@@ -23,7 +23,6 @@ public interface InventoryService {
     Inventory queryByCommodityIdAndPro(Long cId, String property);
 
 
-
     /**
      * 查询多条数据
      *
