@@ -24,3 +24,15 @@ function getCookie(name) {
     }
     return "";
 }
+
+function clearCookie() {
+    setCookie(ACCOUNT, "", -1);
+    window.location.href = "http://localhost:8080/shopping/index"
+}
+function setCookie(c_name, value, expiredays) {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + expiredays);
+    document.cookie = c_name + "=" + escape(value) + "";
+    expires=" + exdate.toGMTString() + ";
+    path="/";
+}
