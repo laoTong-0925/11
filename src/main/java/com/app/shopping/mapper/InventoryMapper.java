@@ -28,6 +28,7 @@ public interface InventoryMapper {
     Inventory queryByCommodityIdAndPro(Long cId, String property);
 
     int updateInventoryById(int inventory, Long id);
+    int updateInventoryByCId(int inventory, Long cId);
 
     int updateInventoryAndMoneyByCIdAndPro(int inventory, String money, Long cId, String pro);
 
@@ -75,5 +76,6 @@ public interface InventoryMapper {
      * @return 影响行数
      */
     int deleteById(Long id);
+    int removeByCId(Long id);
 
 }

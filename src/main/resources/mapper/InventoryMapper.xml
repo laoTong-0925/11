@@ -43,6 +43,7 @@
         select
           id, commodity_id, property, inventory, is_del, update_time, creat_time, money, activity_money, money_log
         from shopping_t.inventory
+        where is_del = 0
         limit #{offset}, #{limit}
     </select>
 
@@ -73,6 +74,12 @@
         delete from shopping_t.inventory where id = #{id}
     </delete>
 
+    <update id="removeByCId">
+        update shopping_t.inventory
+        set is_del = 1
+        where commodity_id = #{cId}
+    </update>
+
     <update id="updateIsTByCId">
         update shopping_t.inventory
         set is_ticket = #{isT}
@@ -83,6 +90,12 @@
         update shopping_t.inventory
         set inventory = #{inventory}
         where id = #{id} and is_del = 0
+    </update>
+
+    <update id="updateInventoryByCId">
+        update shopping_t.inventory
+        set inventory = #{inventory}
+        where commodity_id = #{cId} and is_del = 0
     </update>
 
     <update id="updateInventoryAndMoneyByCIdAndPro">

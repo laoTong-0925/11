@@ -1339,7 +1339,7 @@ margin-top:65px;
 }
 .pro-tab  a:hover,
 .pro-tab .ahover {color: #ff8000;border-bottom: #ff8000 2px solid;height: 45px;line-height: 45px;}
-/******************************************消息中心样式属性*************************************/
+/******************************************我的购物车样式属性*************************************/
 .Message_Center { margin:20px 0px;}
 .Message_Center .title_name{ border-bottom:1px solid #ddd; height:40px; line-height:40px; font-size:18px; margin-bottom:20px;}
 .Message_content .hd{ position:relative; border-bottom:1px solid #ddd; height:40px; line-height:40px}

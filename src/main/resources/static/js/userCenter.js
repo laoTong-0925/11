@@ -34,11 +34,12 @@ $(document).ready(
             async: false,
             cache: false,
             success: function (data) {
-                    $("#user_img").attr("src",data['data']);
+                var faile = data['data'];
+                    $("#user_img").attr("src",URL+'/show?fileName='+ faile);
             },
             error: function () {
             }
-        });
+        })
     }, 500)
 );
 

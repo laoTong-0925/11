@@ -1,20 +1,17 @@
 package com.app.shopping.service.impl;
 
 import com.app.shopping.mapper.InventoryMapper;
-import com.app.shopping.model.ManageCommoditVo;
+import com.app.shopping.model.vo.ManageCommoditVo;
 import com.app.shopping.model.entity.Commodity;
 import com.app.shopping.mapper.CommodityMapper;
 import com.app.shopping.model.entity.Inventory;
-import com.app.shopping.model.vo.CommodityVo;
 import com.app.shopping.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

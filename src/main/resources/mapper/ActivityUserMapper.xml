@@ -8,6 +8,7 @@
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="isDel" column="is_del" jdbcType="INTEGER"/>
         <result property="valid" column="valid" jdbcType="INTEGER"/>
+        <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -17,7 +18,7 @@
         select
           *
         from shopping_t.activity_user
-        where id = #{id}
+        where id = #{id} and is_del = 0
     </select>
     <select id="queryByCidAndUserId" resultMap="ActivityUserMap">
         select
@@ -27,12 +28,20 @@
         and is_del = 0
         and user_id = #{userId}
     </select>
+    <select id="queryByCid" resultMap="ActivityUserMap">
+        select
+          *
+        from shopping_t.activity_user
+        where commodity_id = #{cId}
+        and is_del = 0
+    </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ActivityUserMap">
         select
           *
         from shopping_t.activity_user
+        where is_del = 0
         limit #{offset}, #{limit}
     </select>
 
@@ -68,8 +77,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.activity_user(commodity_id, user_id)
-        values (#{commodityId}, #{userId})
+        insert into shopping_t.activity_user(commodity_id, user_id,consignee)
+        values (#{commodityId}, #{userId},#{consignee})
     </insert>
 
     <!--通过主键修改数据-->

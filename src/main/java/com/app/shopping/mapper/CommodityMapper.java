@@ -2,6 +2,8 @@ package com.app.shopping.mapper;
 
 import com.app.shopping.model.entity.Commodity;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,6 +13,8 @@ import java.util.List;
  * @since 2020-04-21 18:29:13
  */
 public interface CommodityMapper {
+
+    List<Commodity> getACommodityByEndTimeAndIsT(Date endTime);
 
     /**
      * 通过ID查询单条数据
@@ -39,8 +43,14 @@ public interface CommodityMapper {
      * @return 对象列表
      */
     List<Commodity> queryAll(Commodity commodity);
+    List<Commodity> queryByUserId(long userId);
+    int queryCountByUserId(long userId);
+
+    List<Commodity> queryByName(@Param("name") String name,int offset,int limit);
 
     int queryCount();
+
+
 
     /**
      * 新增数据
@@ -66,5 +76,6 @@ public interface CommodityMapper {
      * @return 影响行数
      */
     int deleteById(Long id);
+    int removeById(Long id);
 
 }

@@ -57,7 +57,6 @@ function pay() {
             if (data['code'] === 200) {
                 var payPass = md5(prompt("下单成功，请输入支付密码"));
                 var orderIds = data['data'];
-                alert(data['data'].toString());
                 $.ajax({
                     url: URL + "/order/pay",
                     data: {nkName: nkName, passWord: payPass, orderIds: orderIds},

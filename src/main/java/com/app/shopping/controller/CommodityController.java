@@ -2,13 +2,13 @@ package com.app.shopping.controller;
 
 import com.app.shopping.mapper.CommodityMapper;
 import com.app.shopping.mapper.InventoryMapper;
-import com.app.shopping.model.ManageCommoditVo;
+import com.app.shopping.model.vo.CommodityVo;
+import com.app.shopping.model.vo.ManageCommoditVo;
 import com.app.shopping.model.Release;
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.Commodity;
 import com.app.shopping.model.entity.Inventory;
 import com.app.shopping.model.entity.UserConsignee;
-import com.app.shopping.model.vo.CommodityVo;
 import com.app.shopping.service.*;
 import com.app.shopping.util.DateUtil;
 import com.app.shopping.util.Result;
@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -55,14 +53,46 @@ public class CommodityController {
      * @return 单条数据
      */
     /**
-     * 商品目录
+     * 商品目录/搜索商品
      *
      * @return
      */
     @RequestMapping("/commodityList")
-    public ModelAndView commodityList() {
+    public ModelAndView commodityList(@RequestParam(value = "index", defaultValue = "0", required = false) int index,
+                                      @RequestParam(value = "spName", required = false) String spName,
+                                      @RequestParam(value = "nkName", required = false) String nkName) {
+
         ModelAndView mv = new ModelAndView();
+        if (index < 0)
+            index = 0;
+        List<Commodity> commodities = new ArrayList<>();
+        if (StringUtils.isBlank(spName)) {//无搜索条件
+            commodities = commodityMapper.queryAllByLimit(index * 10, (index + 1) * 10);
+        } else {
+            commodities = commodityMapper.queryByName(spName, index * 10, (index + 1) * 10);
+        }
+        List<CommodityVo> vos = new ArrayList<>();
+        if (commodities.size() != 0)
+            for (Commodity e : commodities) {
+                List<Inventory> inventories = inventoryMapper.queryByCId(e.getId());
+                inventories.forEach(v -> {
+                    CommodityVo vo = new CommodityVo(e.getId(), v.getProperty(), v.getInventory(),
+                            e.getName(), e.getIsTicket(), v.getMoney(), e.getImg());
+                    vos.add(vo);
+                });
+            }
+        if (StringUtils.isNotBlank(nkName)) {//登录状态
+            mv.addObject("nkName", nkName);
+        }
+
+        int lastPage = commodities.size() / 10;
+        mv.addObject("commodityList", vos);
+        mv.addObject("count", vos.size());
+        mv.addObject("lastPage", lastPage);
+        mv.addObject("index", index);
+
         mv.setViewName("commodityList");
+
         return mv;
     }
 
@@ -75,7 +105,6 @@ public class CommodityController {
      */
     @RequestMapping("/commodity")
     public ModelAndView selectOne(@RequestParam(value = "id") Long id,
-//                                  @RequestParam(value = "pro") String pro,
                                   @RequestParam(value = "nkName", required = false) String nkName) {
         Commodity commodity = commodityMapper.queryById(id);
         ModelAndView mv = new ModelAndView();
@@ -101,6 +130,19 @@ public class CommodityController {
         mv.setViewName("commodity");
         return mv;
     }
+
+//    /**
+//     * 搜索商品
+//     *
+//     * @param name
+//     * @return
+//     */
+//    @ResponseBody
+//    @RequestMapping("search")
+//    public Result commoditySearch(String name) {
+//
+//
+//    }
 
     /**
      * 商品发布
@@ -191,9 +233,9 @@ public class CommodityController {
         if (StringUtils.isNotBlank(pro3) && StringUtils.isNotBlank(pro3m) && pro3Kc != 0)
             inventories.add(new Inventory(cId, pro3, pro3Kc, pro3m));
         //修改是否抽奖
-        if (StringUtils.isNotBlank(isT)){
+        if (StringUtils.isNotBlank(isT)) {
             int isTicket = "否".equals(isT) ? 0 : 1;
-            if (1==isTicket){
+            if (1 == isTicket) {
                 //设置活动过期时间
                 Commodity commodity = new Commodity();
                 commodity.setId(cId);
@@ -209,6 +251,19 @@ public class CommodityController {
             int i = inventoryMapper.updateInventoryAndMoneyByCIdAndPro(e.getInventory(), e.getMoney(), cId, e.getProperty());
         });
         return Result.success();
+    }
+
+    @RequestMapping("/admin/remove/sp")
+    @ResponseBody
+    @Transactional
+    public Result adminRemoveSp(Long cId) {
+        if (null == cId)
+            return Result.failed();
+        int i = commodityMapper.removeById(cId);
+        int i1 = inventoryMapper.removeByCId(cId);
+        if (i != 0 && i1 != 0)
+            return Result.success();
+        return Result.failed();
     }
 
 

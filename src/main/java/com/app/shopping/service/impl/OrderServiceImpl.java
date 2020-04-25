@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -79,6 +80,22 @@ public class OrderServiceImpl implements OrderService {
     public Result creatOrderByUserId(long consigneeId, User user) {
 
         return null;
+    }
+
+    @Override
+    public List<Order> findByStateAndUser(User user, int state, int offset, int limit) {
+        if (null == user)
+            return new ArrayList<>();
+        List<Order> byStateAndUser = orderMapper.findByStateAndUser(user.getId(), state, offset, limit);
+        return byStateAndUser;
+    }
+
+    @Override
+    public List<Order> findByUser(User user, int offset, int limit) {
+        if (null == user)
+            return new ArrayList<>();
+        List<Order> byUser = orderMapper.findByUser(user.getId(), offset, limit);
+        return byUser;
     }
 
     private Date creatExTime() {

@@ -1,4 +1,4 @@
-package com.app.shopping.model;
+package com.app.shopping.model.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

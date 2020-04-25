@@ -24,6 +24,27 @@
         where id = #{id} and is_del = 0
     </select>
 
+    <select id="getACommodityByEndTimeAndIsT" resultMap="CommodityMap">
+        select
+          *
+        from shopping_t.commodity
+        where a_end_time = #{endTime}
+        and is_del = 0
+        and is_ticket = 1
+    </select>
+    <select id="queryByUserId" resultMap="CommodityMap">
+        select
+          *
+        from shopping_t.commodity
+        where user_id = #{usetId} and is_del = 0
+    </select>
+
+    <select id="queryCountByUserId" resultType="java.lang.Integer">
+        select
+          count(1)
+        from shopping_t.commodity
+        where user_id = #{usetId} and is_del = 0
+    </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CommodityMap">
         select
@@ -33,17 +54,25 @@
         order by id desc
         limit #{offset}, #{limit}
     </select>
-    <select id="queryCount"  resultType="int">
+    <select id="queryCount" resultType="int">
         select
           count(1)
         from shopping_t.commodity
         where is_del = 0
     </select>
+    <select id="queryByName" resultMap="CommodityMap">
+        select *
+        from shopping_t.commodity
+        where is_del = 0
+        and `name` like #{name}
+        order by id desc
+        limit #{offset}, #{limit}
+    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CommodityMap">
         select
-          id, name, img, detail, type, is_del, update_time, creat_time, is_ticket, is_activity
+        id, name, img, detail, type, is_del, update_time, creat_time, is_ticket, is_activity
         from shopping_t.commodity
         <where>
             <if test="id != null">
@@ -138,4 +167,9 @@
         delete from shopping_t.commodity where id = #{id}
     </delete>
 
+    <update id="removeById">
+        update shopping_t.commodity
+        set is_del = 1
+        where id = #{id}
+    </update>
 </mapper>

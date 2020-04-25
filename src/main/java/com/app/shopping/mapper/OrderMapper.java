@@ -29,6 +29,8 @@ public interface OrderMapper {
 
     int updateStateAndPayByUserId(int state, String pay, long userId, List<Long> ids);
 
+    int remove(long id);
+
     /**
      * 查询指定行数据
      *
@@ -37,6 +39,7 @@ public interface OrderMapper {
      * @return 对象列表
      */
     List<Order> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    int queryCountByUserId(long userId);
 
 
     /**
@@ -55,6 +58,10 @@ public interface OrderMapper {
      */
     int insert(Order order);
 
+    List<Order> findByStateAndUser(long userId, int state, int offset, int limit);
+
+    List<Order> findByUser(long userId, int offset, int limit);
+
     /**
      * 修改数据
      *
@@ -62,6 +69,9 @@ public interface OrderMapper {
      * @return 影响行数
      */
     int update(Order order);
+    int updateStateById(long id,int state);
+
+
 
     /**
      * 通过主键删除数据

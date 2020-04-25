@@ -25,17 +25,43 @@
         select
 *        from shopping_t.order
         where id = #{id}
+        AND is_del = 0
     </select>
     <select id="queryByState" resultMap="OrderMap">
-        select
-*        from shopping_t.order
+        select *
+        from shopping_t.order
         where state = #{state}
+        AND is_del = 0
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="OrderMap">
+        select *
+        from shopping_t.order
+        where is_del = 0
+        limit #{offset}, #{limit}
+    </select>
+    <select id="queryCountByUserId" resultType="java.lang.Integer">
         select
-*        from shopping_t.order
+          count(1)
+        from shopping_t.order
+        where user_id = #{usetId} and is_del = 0
+    </select>
+    <select id="findByStateAndUser" resultMap="OrderMap">
+        select *
+        from shopping_t.order
+        where is_del = 0
+        and state = #{state}
+        and user_id = #{userId}
+        order by id desc
+        limit #{offset}, #{limit}
+    </select>
+    <select id="findByUser" resultMap="OrderMap">
+        select *
+        from shopping_t.order
+        where is_del = 0
+        and user_id = #{userId}
+        order by id desc
         limit #{offset}, #{limit}
     </select>
 
@@ -43,6 +69,7 @@
         select *
         from shopping_t.order
         where state = #{state}
+        AND is_del = 0
         and id in
         <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
             #{id}
@@ -113,6 +140,12 @@
         values (#{userId}, #{consignee}, #{commodityId}, #{money}, #{state},  #{exTime} ,#{cSum}, #{properties})
     </insert>
 
+    <update id="updateStateById">
+        update shopping_t.order
+        set stata = #{state}
+        where id = #{id} AND is_del = 0
+    </update>
+
     <!--通过主键修改数据-->
     <update id="update">
         update shopping_t.order
@@ -162,10 +195,18 @@
         delete from shopping_t.order where id = #{id}
     </delete>
 
+    <update id="remove">
+        update shopping_t.order
+        set is_del = 1
+        where id = #{id}
+        AND is_del = 0
+    </update>
+
     <update id="autoCancel">
         update shopping_t.order
         set state = #{state}
-        where id in
+        where is_del = 0
+        and id in
         <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>

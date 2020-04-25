@@ -21,6 +21,9 @@ public interface OrderService {
 
     Result creatOrderByUserId(long consigneeId,User user);
 
+    List<Order> findByStateAndUser(User user,int state, int offset, int limit);
+    List<Order> findByUser(User user, int offset, int limit);
+
     /**
      * 通过ID查询单条数据
      *

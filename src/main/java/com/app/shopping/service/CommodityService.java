@@ -1,8 +1,7 @@
 package com.app.shopping.service;
 
-import com.app.shopping.model.ManageCommoditVo;
+import com.app.shopping.model.vo.ManageCommoditVo;
 import com.app.shopping.model.entity.Commodity;
-import com.app.shopping.model.vo.CommodityVo;
 
 import java.util.List;
 

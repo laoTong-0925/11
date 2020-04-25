@@ -32,10 +32,6 @@ public class CommodityVo {
      * 是否抽奖 0无 1是
      */
     private Integer isTicket;
-    /**
-     * 是否活动 0否 1是
-     */
-    private Integer isActivity;
 
     private String money;
 
@@ -45,17 +41,15 @@ public class CommodityVo {
     private Date updateTime;
 
     public CommodityVo(Long commodityId, String pro, int inventory,
-                       String name, Integer type, Integer isTicket,
-                       Integer isActivity, String money, String aMoney) {
+                       String name, Integer isTicket,
+                       String money, String img) {
         this.commodityId = commodityId;
         this.pro = pro;
         this.inventory = inventory;
         this.name = name;
-        this.type = type;
         this.isTicket = isTicket;
-        this.isActivity = isActivity;
         this.money = money;
-        this.aMoney = aMoney;
+        this.img = img;
     }
 
 }

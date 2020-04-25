@@ -10,7 +10,7 @@ function subModify(id) {
     var pro1m = $("#m0").val();
     var pro2m = $("#m1").val();
     var pro3m = $("#m2").val();
-    var is_ticket = $("#is_ticket").val();
+    var is_ticket = $(document.getElementById("is_ticket"+id)).val();
 
     $.ajax({
         url: URL + "/admin-sp-modify",
@@ -35,5 +35,46 @@ function subModify(id) {
         }
     });
 }
+
+function remove(rid) {
+    if (confirm("是否进行修改？") === false)
+        return;
+    var id = rid.substr(6);
+    $.ajax({
+        url: URL + "/admin/remove/sp",
+        data: {cId: id},
+        dataType: "json",
+        type: "post",
+        async: false,
+        cache: false,
+        success: function (data) {
+            if (data['code'] === 200) {
+                window.location.href = "http://localhost:8080/shopping/commodityManage";
+            } else {
+                alert("删除失败")
+            }
+        },
+        error: function () {
+            alert("系统繁忙请稍后再试！！！")
+        }
+    });
+
+}
+
+$(document).ready(
+    function () {
+        // var account = getCookie(ACCOUNT);
+        var nextPage = $("#nextPage_input").val();
+        var beforePage = $("#beforePage_input").val();
+        var lastPage = $("#lastPage_input").val();
+        // if (account !== "" ) {
+            $("#nextPage").attr("href",'/shopping/commodityManage?index='+nextPage);
+            $("#beforePage").attr("href",'/shopping/commodityManage?index='+beforePage);
+            $("#lastPage").attr("href",'/shopping/commodityManage?index='+lastPage);
+            $("#headPage").attr("href",'/shopping/commodityManage?index=0');
+            $("#user_play").css("display","inline");
+        // }
+    }
+);
 
 var URL = "http://localhost:8080/shopping";

@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <link href="css/common.css" rel="stylesheet" type="text/css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
     <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
@@ -10,6 +10,7 @@
     <script src="js/common_js.js" type="text/javascript"></script>
     <script src="js/footer.js" type="text/javascript"></script>
     <script src="js/manage.js" type="text/javascript"></script>
+    <script src="js/consumeLog.js" type="text/javascript"></script>
     <title>商品专区</title>
 </head>
 
@@ -20,7 +21,7 @@
 
         </div>
     </div>
-    <div id="header" class="header page_style">
+    <div class="header page_style" id="header">
         <div class="logo"><a href="index.html"><img src="images/logo.png"/></a></div>
         <!--结束图层-->
         <div class="Search">
@@ -31,8 +32,12 @@
                 </ul>
             </div>
             <div class="clear search_cur">
-                <input name="searchName" id="searchName" class="search_box" onkeydown="keyDownSearch()" type="text">
-                <input name="" type="submit" value="搜 索" class="Search_btn"/>
+
+                <form action="../shopping/commodityList">
+                    <input id="searchNkName" name="nkName" type="hidden"/>
+                    <input class="search_box" id="searchName" name="spName" type="text">
+                    <input class="Search_btn" name="" type="submit" value="搜 索"/>
+                </form>
             </div>
             <div class="clear hotword">热门搜索词：香醋&nbsp;&nbsp;&nbsp;茶叶&nbsp;&nbsp;&nbsp;草莓&nbsp;&nbsp;&nbsp;葡萄&nbsp;&nbsp;&nbsp;菜油</div>
         </div>
@@ -41,14 +46,14 @@
     <!--菜单栏-->
     <div class="Navigation" id="Navigation">
         <ul class="Navigation_name">
-            <li><a href="Home.html">首页</a></li>
+            <li><a href="http://localhost:8080/shopping/index">首页</a></li>
             <li><span class="bg_muen"></span><a href="#">半小时生活圈</a></li>
             <li><a href="#">你身边的超市</a></li>
             <li><a href="#">预售专区</a><em class="hot_icon"></em></li>
-            <li><a href="products_list.html">商城</a></li>
+            <li><a href="http://localhost:8080/shopping/commodityList" id="products_list">商城</a></li>
             <li><a href="#">好评商户</a></li>
             <li><a href="#">热销活动</a></li>
-            <li><a href="Brands.html">联系我们</a></li>
+            <li></li>
         </ul>
     </div>
     <script>$("#Navigation").slide({titCell: ".Navigation_name li", trigger: "click"});</script>
@@ -75,10 +80,10 @@
         <div class="title_style"><em></em>商品专区</div>
         <div class="content_style">
             <div class="Products_area_style">
-                <div class="Add_product_style"><a href="商品专区-发布商品.html" class="Add_btn">发布商品</a> <a href="#">公共商品库下载</a>
+                <div class="Add_product_style"><a class="Add_btn" href="商品专区-发布商品.html">发布商品</a> <a href="#">公共商品库下载</a>
                 </div>
                 <div class="Search_Add">
-                    <input name="" type="text" placeholder="输入搜索关键字" class="add_text"/>
+                    <input class="add_text" name="" placeholder="输入搜索关键字" type="text"/>
                     <span>一级分类：</span><select name="" size="1">
                     <option value="1">一级分类</option>
                 </select>
@@ -93,7 +98,7 @@
                     <option value="2">审核未通过</option>
                     <option value="3">待审核</option>
                 </select>
-                    <input name="" type="submit" value="搜索" class="Search_btn"/>
+                    <input class="Search_btn" name="" type="submit" value="搜索"/>
                 </div>
                 <div class="Products_list_style">
                     <table>
@@ -129,33 +134,35 @@
                         <!--                        <input type="hidden" id="cId" th:value="${cId}"  />-->
                         <tr th:each="v,i:${manageCommoditVos}">
                             <td>
-                                <input style="width: 30px" id="is_ticket" type="text" th:value="${v.getIsT()}"/>
+                                <input style="width: 30px" th:id="is_ticket+${v.getCId()}" th:value="${v.getIsT()}"
+                                       type="text"/>
                                 结束时间为第二天 20:00 点 20:30开奖
                             </td>
                             <td>
                                 <div class="user_portrait">
-                                    <img width="200" height="200" th:src="@{/show(fileName=${v.getImg()})}">
-                                    <form action="../shopping/admin-loadImg" method="post" enctype="multipart/form-data">
-                                        <input type="file" name="file" accept="image/*">
-                                        <input type="hidden" name="cId" th:value="${v.getCId()}"/>
-                                        <input type="submit" value="上传" class="btn btn-success">
+                                    <img height="200" th:src="@{/show(fileName=${v.getImg()})}" width="270">
+                                    <form action="../shopping/admin-loadImg" enctype="multipart/form-data"
+                                          method="post">
+                                        <input accept="image/*" name="file" type="file">
+                                        <input name="cId" th:value="${v.getCId()}" type="hidden"/>
+                                        <input class="btn btn-success" type="submit" value="上传">
                                     </form>
                                     <div class="background_img"></div>
                                 </div>
                             </td>
                             <td><a th:href="@{/commodity(id=${v.getCId()})}" th:text="${v.getName()}"></a></td>
-                            <td><textarea style="background-color: rgba(122,191,120,0.11)" cols="20" rows="5"
+                            <td><textarea cols="20" rows="5" style="background-color: rgba(122,191,120,0.11)"
                                           th:text="${v.getDetail()}"></textarea></td>
                             <td>
-                                <input readonly th:id="'pro'+${pi.index}" style="width: 100px" th:each="pro,pi:${v.pro}"
+                                <input readonly style="width: 100px" th:each="pro,pi:${v.pro}" th:id="'pro'+${pi.index}"
                                        th:value="${pro}"/>
                             </td>
                             <td>
-                                <input th:id="'in'+${ini.index}" style="width: 100px" th:each="in,ini:${v.inventory}"
+                                <input style="width: 100px" th:each="in,ini:${v.inventory}" th:id="'in'+${ini.index}"
                                        th:value="${in}"/>
                             </td>
                             <td>
-                                <input th:id="'m'+${mi.index}" style="width: 100px" th:each="m,mi:${v.money}"
+                                <input style="width: 100px" th:each="m,mi:${v.money}" th:id="'m'+${mi.index}"
                                        th:value="${m}"/>
                             </td>
                             <!--          <td class="operating_btn relative">-->
@@ -164,24 +171,25 @@
                             <!--           </div>-->
                             <!--              <a href="#" class="sj_btn">复制信息</a>-->
                             <td class="operating_btn relative">
-                                <a href="#" class="fzxx_btn" th:id="${v.getCId()}" onclick="subModify(this.id)">提交修改</a>
-                                <a href="#" class="sj_btn">删除</a>
+                                <a class="fzxx_btn" href="#" onclick="subModify(this.id)" th:id="${v.getCId()}">提交修改</a>
+                                <a class="sj_btn" href="#" onclick="remove(this.id)"
+                                   th:id="'remove'+${v.getCId()}">删除</a>
                             </td>
                         </tr>
 
                         </tbody>
                     </table>
                     <div class="right">
-                        共<span th:text="${count}"></span>条
+                        共<span th:text="${count}"></span>条 每页10条
                         <a href="" id="headPage">首页</a>
-                        <input id="beforePage_input" type="hidden" th:value="${index - 1}"/>
+                        <input id="beforePage_input" th:value="${index - 1}" type="hidden"/>
                         <a href="" id="beforePage">上一页</a>
                         <!--                            <a href="#" class="digital">1</a>-->
                         <!--                            <a href="#" class="digital">2</a>-->
                         <!--                            <a href="#" class="digital">3</a>-->
                         <a href="" id="nextPage">下一页</a>
-                        <input id="nextPage_input" type="hidden" th:value="${index + 1}"/>
-                        <input id="lastPage_input" type="hidden" th:value="${lastPage}"/>
+                        <input id="nextPage_input" th:value="${index + 1}" type="hidden"/>
+                        <input id="lastPage_input" th:value="${lastPage}" type="hidden"/>
                         <a href="" id="lastPage">尾页</a>
                     </div>
                 </div>
@@ -192,8 +200,8 @@
 <!--网站地图-->
 <div class="fri-link-bg clearfix">
     <div class="fri-link">
-        <div class="logo left margin-r20"><img src="images/fo-logo.jpg" width="152" height="81"/></div>
-        <div class="left"><img src="images/qd.jpg" width="90" height="90"/>
+        <div class="logo left margin-r20"><img height="81" src="images/fo-logo.jpg" width="152"/></div>
+        <div class="left"><img height="90" src="images/qd.jpg" width="90"/>
             <p>扫描下载APP</p>
         </div>
         <div class="">

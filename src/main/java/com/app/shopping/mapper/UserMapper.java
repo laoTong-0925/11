@@ -9,6 +9,7 @@ public interface UserMapper {
     User selectUserByNkName(@Param("nkName") String nkName);
 
     User selectUserByPhone(@Param("phone") String phone);
+    User selectById(long id);
 
     int insert(User user);
 

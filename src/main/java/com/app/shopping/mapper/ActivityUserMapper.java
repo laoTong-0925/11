@@ -2,6 +2,7 @@ package com.app.shopping.mapper;
 
 import com.app.shopping.model.entity.ActivityUser;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -12,7 +13,9 @@ import java.util.List;
  */
 public interface ActivityUserMapper {
 
-     ActivityUser queryByCidAndUserId(long cId,long userId);
+    ActivityUser queryByCidAndUserId(long cId, long userId);
+
+    List<ActivityUser> queryByCid(long cId);
 
     /**
      * 通过ID查询单条数据
@@ -26,7 +29,7 @@ public interface ActivityUserMapper {
      * 查询指定行数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<ActivityUser> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);

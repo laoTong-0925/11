@@ -3,8 +3,11 @@ package com.app.shopping.controller;
 import com.app.shopping.mapper.UserImgMapper;
 import com.app.shopping.mapper.UserMapper;
 import com.app.shopping.model.User;
+import com.app.shopping.model.entity.UserImg;
 import com.app.shopping.service.UserImgService;
 import com.app.shopping.service.UserService;
+import com.app.shopping.util.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -135,6 +138,20 @@ public class UserImgController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @RequestMapping("/get-user-img")
+    public Result getUserImg(String nkName){
+        if (StringUtils.isBlank(nkName))
+            return Result.failed();
+        User user = userService.selectByNkname(nkName);
+        if (null == user)
+            return Result.failed();
+        UserImg userImg = userImgMapper.queryById(user.getId());
+        if (null != userImg){
+            return Result.success(userImg.getUserImg());
+        }
+        return Result.failed();
     }
 
 

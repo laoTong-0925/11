@@ -50,11 +50,14 @@
     </sql>
 
     <select id="selectUserByNkName" resultType="com.app.shopping.model.User" resultMap="userResultMap">
-        select * from <include refid="TABLE"></include> where nk_name = #{nkName}
+        select * from <include refid="TABLE"></include> where nk_name = #{nkName} and is_del = 0
+    </select>
+    <select id="selectById" resultType="com.app.shopping.model.User" resultMap="userResultMap">
+        select * from <include refid="TABLE"></include> where nk_name = #{nkName} and is_del = 0
     </select>
 
     <select id="selectUserByPhone" resultType="com.app.shopping.model.User" resultMap="userResultMap">
-        select * from <include refid="TABLE"></include> where phone = #{phone}
+        select * from <include refid="TABLE"></include> where phone = #{phone} and is_del = 0
     </select>
 
     <insert id="insert" parameterType="com.app.shopping.model.User" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
@@ -68,7 +71,7 @@
         update
         <include refid="TABLE"/>
         set `name` = #{name} , e_mail = #{eMail}
-        where nk_name = #{nkName}
+        where nk_name = #{nkName} and is_del = 0
     </update>
 
     <select id="verifyAccount" resultType="com.app.shopping.model.User">
@@ -83,6 +86,7 @@
             <if test="phone != null and phone != ''">
                 AND phone = #{phone}
             </if>
+            and is_del = 0
         </where>
     </select>
 </mapper>

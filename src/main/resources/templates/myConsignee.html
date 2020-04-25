@@ -34,13 +34,16 @@
                             <a id="userCentre_li" href="">我的信息</a>
                         </li>
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                            <a href="#">消息中心</a>
+                            <a href="#">我的购物车</a>
                         </li>
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
                             <a href="#">商品分类</a>
                         </li>
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                            <a href="#">我的购物车<b>(23)</b></a>
+                             <a id="my_shopping_car" href="#">我的购物车<b> </b></a>
+                        </li>
+                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                            <a href="#" onclick="clearCookie()"><b>注销</b></a>
                         </li>
                     </ul>
                 </div>
@@ -57,8 +60,12 @@
                     </ul>
                 </div>
                 <div class="clear search_cur">
-                    <input name="searchName" id="searchName" class="search_box" onkeydown="keyDownSearch()" type="text">
-                    <input name="" type="submit" value="搜 索" class="Search_btn"/>
+
+                    <form action="../shopping/commodityList">
+                        <input type="hidden" name="nkName" id="searchNkName"/>
+                        <input name="spName" id="searchName" class="search_box" type="text">
+                        <input name="" type="submit" value="搜 索" class="Search_btn"/>
+                    </form>
                 </div>
                 <div class="clear hotword">热门搜索词：香醋&nbsp;&nbsp;&nbsp;茶叶&nbsp;&nbsp;&nbsp;草莓&nbsp;&nbsp;&nbsp;葡萄&nbsp;&nbsp;&nbsp;菜油</div>
             </div>
@@ -90,14 +97,14 @@
         <!--菜单栏-->
         <div class="Navigation" id="Navigation">
             <ul class="Navigation_name">
-                <li><a href="Home.html">首页</a></li>
+                <li><a href="http://localhost:8080/shopping/index">首页</a></li>
                 <li><a href="#">你身边的超市</a></li>
                 <li><a href="#">预售专区</a><em class="hot_icon"></em></li>
-                <li><a href="products_list.html">商城</a></li>
+                <li><a id="products_list" href="http://localhost:8080/shopping/commodityList">商城</a></li>
                 <li><a href="#">半小时生活圈</a></li>
                 <li><a href="#">好评商户</a></li>
                 <li><a href="#">热销活动</a></li>
-                <li><a href="Brands.html">联系我们</a></li>
+                <li></li>
             </ul>
         </div>
         <script>$("#Navigation").slide({titCell: ".Navigation_name li", trigger: "click"});</script>
@@ -111,7 +118,7 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="修改头像" class="btn_link"></a> <img src="images/people.png">
+                        <a href="#" title="修改头像" class="btn_link"></a> <img id="user_img">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
@@ -135,7 +142,7 @@
                         <dd>
                             <ul>
                                 <li><a id="userInfo" href="">用户信息</a></li>
-                                <li><a id="collections" href="">我的收藏</a></li>
+                                <li><a id="collections" href="">我的购物车</a></li>
                                 <li><a href="#">我的留言</a></li>
                                 <li><a href="#">我的标签</a></li>
                                 <li><a href="#">我的推荐</a></li>

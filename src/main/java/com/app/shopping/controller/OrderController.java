@@ -1,12 +1,12 @@
 package com.app.shopping.controller;
 
-import com.app.shopping.mapper.ConsumeLogMapper;
-import com.app.shopping.mapper.OrderMapper;
-import com.app.shopping.mapper.UserInfoMapper;
+import com.app.shopping.mapper.*;
 import com.app.shopping.model.User;
+import com.app.shopping.model.entity.Commodity;
 import com.app.shopping.model.entity.ConsumeLog;
 import com.app.shopping.model.entity.Order;
 import com.app.shopping.model.entity.UserInfo;
+import com.app.shopping.model.vo.OrderVo;
 import com.app.shopping.service.OrderService;
 import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
@@ -29,7 +29,7 @@ import java.util.List;
 
 @Log4j2
 @Controller
-public class MyOrderController {
+public class OrderController {
 
     @Autowired
     private UserService userService;
@@ -44,6 +44,9 @@ public class MyOrderController {
     private UserInfoService userInfoService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CommodityMapper commodityMapper;
+
 
     /**
      * 订单
@@ -52,12 +55,35 @@ public class MyOrderController {
      */
     @RequestMapping("/myOrder")
     public ModelAndView myOrder(@RequestParam(value = "nkName") String nkName,
-                                @RequestParam(value = "state", required = false) int state
-//                                @RequestParam()
-    ) {
+                                @RequestParam(value = "state", required = false) Integer state,
+                                @RequestParam(value = "index", defaultValue = "0", required = false) int index) {
         ModelAndView mv = new ModelAndView();
         User user = userService.selectByNkname(nkName);
+        List<Order> orders;
+        List<OrderVo> vos = new ArrayList<>();
+        if (null == state) {
+            orders = orderService.findByUser(user, index * 10, (index + 1) * 10);
+        } else {
+            orders = orderService.findByStateAndUser(user, state, index * 10, (index + 1) * 10);
+        }
+        orders.forEach(e -> {
+            Commodity commodity = commodityMapper.queryById(e.getCommodityId());
+            double oneMoney = Double.parseDouble(e.getMoney()) / (double) e.getCSum();
+            if (null != commodity) {
+                vos.add(new OrderVo(e.getId(), e.getUserId(), e.getConsignee(),
+                        e.getCommodityId(), e.getCSum(), e.getProperties(), commodity.getName(), e.getMoney(),
+                        e.getState(), e.getExTime(), e.getIsTicket(), e.getPay(),
+                        e.getCreatTime(), e.getUpdateTime(), oneMoney + "", commodity.getImg()));
+            }
+
+        });
+        int count = orderMapper.queryCountByUserId(user.getId());
+        mv.addObject("orderVos", vos);
         mv.addObject("userName", user.getNkName());
+        mv.addObject("count", vos.size());
+        mv.addObject("lastPage", vos.size() / 10);
+        mv.addObject("index", index);
+        mv.addObject("size", count);
         mv.setViewName("myOrder");
         return mv;
     }
@@ -72,10 +98,26 @@ public class MyOrderController {
     ) {
         User user = userService.selectByNkname(nkName);
         Result result = orderService.creatOrder(sum, commodityId, properties, user, consigneeId);
-        if (null != result.getData()){
+        if (null != result.getData()) {
             String orderId = "," + result.getData();
             return Result.success(orderId);
         }
+        return Result.failed();
+    }
+
+    /**
+     * 手动取消订单
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/order/complete")
+    public Result complete(Integer id) {
+        if (null == id || 0 == id)
+            return Result.failed();
+        int i = orderMapper.updateStateById((long) id,OrderState.CANCEL.getCode());
+        if (i != 0)
+            return Result.success();
         return Result.failed();
     }
 
@@ -108,7 +150,7 @@ public class MyOrderController {
         int i = userInfoMapper.updateMoney(user.getId(), nowBalance);
         //订单状态修改
         int i1 = orderMapper.updateStateAndPayByUserId(OrderState.CREAT_PAY.getCode(),
-                sum + "", user.getId(),ids);
+                sum + "", user.getId(), ids);
         //消费记录
         ArrayList<ConsumeLog> consumeLogs = new ArrayList<>();
         String consumeMoney = sum + "";
