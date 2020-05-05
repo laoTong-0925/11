@@ -147,23 +147,6 @@
             float: right;
         }
     </style>
-    <script type="text/javascript">
-        //弹出隐藏层
-        function ShowDiv(show_div, bg_div) {
-            document.getElementById(show_div).style.display = 'block';
-            document.getElementById(bg_div).style.display = 'block';
-            var bgdiv = document.getElementById(bg_div);
-            bgdiv.style.width = document.body.scrollWidth;
-            $("#" + bg_div).height($(document).height());
-        };
-
-        //关闭弹出层
-        function CloseDiv(show_div, bg_div) {
-            document.getElementById(show_div).style.display = 'none';
-            document.getElementById(bg_div).style.display = 'none';
-        };
-
-    </script>
 </head>
 
 <body>
@@ -179,26 +162,26 @@
             <span id="account"></span>
         </div>
         <div class="float-rt">
-            <ul>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a href="http://localhost:8080/shopping/index">首页</a>
-                </li>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a id="userCentre_li" href="">我的信息</a>
-                </li>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a href="#">我的购物车</a>
-                </li>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a href="#">商品分类</a>
-                </li>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a href="#">我的购物车<b> </b></a>
-                </li>
-                <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                    <a href="#" onclick="clearCookie()"><b>注销</b></a>
-                </li>
-            </ul>
+            <div class="hd_top_manu clearfix">
+                <ul class="clearfix">
+                    <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                        <a href="http://localhost:8080/shopping/index">首页</a>
+                    </li>
+                    <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                        <a id="userCentre_li" href="">我的信息</a>
+                    </li>
+
+                    <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                        <a href="#">商品分类</a>
+                    </li>
+                    <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                        <a id="my_shopping_car" href="#">我的购物车<b> </b></a>
+                    </li>
+                    <li class="hd_menu_tit" data-addclass="hd_menu_hover">
+                        <a href="#" onclick="clearCookie()"><b>注销</b></a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -215,14 +198,11 @@
             </ul>
         </div>
         <div class="clear search_cur">
-            <ul>
-                <li>
-
-                </li>
-            </ul>
-            <ul>
-                <li class="search_btn"><a href="product-list.html">搜索</a></li>
-            </ul>
+                <form action="../shopping/commodityList">
+                    <input type="hidden" name="nkName" id="searchNkName"/>
+                    <input name="spName" id="searchName" class="search_box" type="text">
+                    <input name="" type="submit" value="搜 索" class="Search_btn"/>
+                </form>
         </div>
         <div class="clear hotword">热门搜索词：香醋&nbsp;&nbsp;&nbsp;茶叶&nbsp;&nbsp;&nbsp;草莓&nbsp;&nbsp;&nbsp;葡萄&nbsp;&nbsp;&nbsp;菜油</div>
     </div>
@@ -383,8 +363,8 @@
                 <div class="pro_detail_btn margin-t30">
                     <ul>
                         <li class="pro_detail_shop"><a href="#" onclick="pay()">立即购买</a></li>
-                        <li class="pro_detail_add"><a href="#" onclick="ShowDiv('MyDiv','fade')">加入我的货仓</a></li>
-                        <li class="pro_detail_shop"><a href="#" onclick="intoPoll()">参加抽奖</a></li>
+                        <li class="pro_detail_add"><a href="#" onclick="ShowDiv('MyDiv','fade')">加入购物车</a></li>
+                        <li class="pro_detail_shop" th:if="${isTicket} == 1"><a href="#" onclick="intoPoll()" >参加抽奖</a></li>
 
                     </ul>
                 </div>

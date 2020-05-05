@@ -82,8 +82,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.user_info(user_id)
-        values (#{userId})
+        insert into shopping_t.user_info(user_id,pay_pass)
+        values (#{userId},#{payPass})
     </insert>
 
     <!--通过主键修改数据-->

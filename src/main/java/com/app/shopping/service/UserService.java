@@ -19,4 +19,6 @@ public interface UserService {
 
     boolean verifyAccount(String nkName, String phone, String passWord);
 
+    int update(User user);
+
 }

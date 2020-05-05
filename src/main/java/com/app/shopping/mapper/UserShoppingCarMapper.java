@@ -20,6 +20,7 @@ public interface UserShoppingCarMapper {
      * @return 实例对象
      */
     UserShoppingCar queryById(Long id);
+    UserShoppingCar queryByCIdAndProAndUserId(Long cId,String pro,Long userId);
 
     List<UserShoppingCar> queryByUserId(Long id);
 

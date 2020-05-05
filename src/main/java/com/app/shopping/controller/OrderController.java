@@ -1,6 +1,9 @@
 package com.app.shopping.controller;
 
-import com.app.shopping.mapper.*;
+import com.app.shopping.mapper.CommodityMapper;
+import com.app.shopping.mapper.ConsumeLogMapper;
+import com.app.shopping.mapper.OrderMapper;
+import com.app.shopping.mapper.UserInfoMapper;
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.Commodity;
 import com.app.shopping.model.entity.ConsumeLog;
@@ -12,7 +15,6 @@ import com.app.shopping.service.UserInfoService;
 import com.app.shopping.service.UserService;
 import com.app.shopping.util.OrderState;
 import com.app.shopping.util.Result;
-import com.app.shopping.util.ResultCode;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +90,52 @@ public class OrderController {
         return mv;
     }
 
+    /**
+     * 订单id查询
+     *
+     * @param id
+     * @param nkName
+     * @return
+     */
+    @RequestMapping("/order-search")
+    public ModelAndView orderSearch(@RequestParam(value = "id") int id,
+                                    @RequestParam(value = "nkName") String nkName) {
+        ModelAndView mv = new ModelAndView();
+        if (StringUtils.isBlank(nkName)) {
+            mv.setViewName("login");
+            return mv;
+        }
+        if (id == 0)
+            return null;
+        Order e = orderMapper.queryById((long) id);
+        List<OrderVo> vos = new ArrayList<>();
+        Commodity commodity = commodityMapper.queryById(e.getCommodityId());
+        double oneMoney = Double.parseDouble(e.getMoney()) / (double) e.getCSum();
+        if (null != commodity) {
+            vos.add(new OrderVo(e.getId(), e.getUserId(), e.getConsignee(),
+                    e.getCommodityId(), e.getCSum(), e.getProperties(), commodity.getName(), e.getMoney(),
+                    e.getState(), e.getExTime(), e.getIsTicket(), e.getPay(),
+                    e.getCreatTime(), e.getUpdateTime(), oneMoney + "", commodity.getImg()));
+        }
+        User user = userService.selectByNkname(nkName);
+        mv.addObject("orderVos", vos);
+        mv.addObject("userName", user.getNkName());
+        mv.addObject("count", 1);
+        mv.addObject("size", 1);
+        mv.setViewName("myOrder");
+        return mv;
+    }
+
+    /**
+     * 订单创建
+     *
+     * @param commodityId
+     * @param nkName
+     * @param consigneeId
+     * @param sum
+     * @param properties
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/order/creat")
     public Result pay(@RequestParam(value = "commodityId") int commodityId,
@@ -107,6 +155,7 @@ public class OrderController {
 
     /**
      * 手动取消订单
+     *
      * @param id
      * @return
      */
@@ -115,7 +164,40 @@ public class OrderController {
     public Result complete(Integer id) {
         if (null == id || 0 == id)
             return Result.failed();
-        int i = orderMapper.updateStateById((long) id,OrderState.CANCEL.getCode());
+        int i = orderMapper.updateStateById((long) id, OrderState.CANCEL.getCode());
+        if (i != 0)
+            return Result.success();
+        return Result.failed();
+    }
+
+
+    /**
+     * 删除订单
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/order/remove")
+    public Result remove(Integer id) {
+        if (null == id || 0 == id)
+            return Result.failed();
+        int i = orderMapper.remove((long) id);
+        if (i != 0)
+            return Result.success();
+        return Result.failed();
+    }
+    /**
+     * 完成
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/order/wc")
+    public Result wc(Integer id) {
+        if (null == id || 0 == id)
+            return Result.failed();
+        int i = orderMapper.updateStateById((long) id, OrderState.END.getCode());
         if (i != 0)
             return Result.success();
         return Result.failed();
@@ -149,7 +231,7 @@ public class OrderController {
         //扣钱
         int i = userInfoMapper.updateMoney(user.getId(), nowBalance);
         //订单状态修改
-        int i1 = orderMapper.updateStateAndPayByUserId(OrderState.CREAT_PAY.getCode(),
+        int i1 = orderMapper.updateStateAndPayById(OrderState.CREAT_PAY.getCode(),
                 sum + "", user.getId(), ids);
         //消费记录
         ArrayList<ConsumeLog> consumeLogs = new ArrayList<>();

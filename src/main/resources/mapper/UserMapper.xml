@@ -53,7 +53,7 @@
         select * from <include refid="TABLE"></include> where nk_name = #{nkName} and is_del = 0
     </select>
     <select id="selectById" resultType="com.app.shopping.model.User" resultMap="userResultMap">
-        select * from <include refid="TABLE"></include> where nk_name = #{nkName} and is_del = 0
+        select * from <include refid="TABLE"></include> where id = #{id} and is_del = 0
     </select>
 
     <select id="selectUserByPhone" resultType="com.app.shopping.model.User" resultMap="userResultMap">
@@ -89,4 +89,29 @@
             and is_del = 0
         </where>
     </select>
+
+    <update id="update">
+            update shopping_t.user
+            <set>
+                <if test="nkName != null">
+                    nk_name = #{nkName},
+                </if>
+                <if test="name != null and name != ''">
+                    `name` = #{name},
+                </if>
+                <if test="phone != null and phone != ''">
+                    phone = #{phone},
+                </if>
+                <if test="passWord != null">
+                    pass_word = #{passWord},
+                </if>
+                <if test="isDel != null">
+                    is_del = #{isDel},
+                </if>
+                <if test="eMail != null and eMail != ''">
+                    e_mail = #{eMail},
+                </if>
+            </set>
+            where id = #{id}
+    </update>
 </mapper>

@@ -69,7 +69,7 @@ function pay() {
                             alert("支付成功，感谢购买!!!")
                             window.location.href = "http://localhost:8080/shopping/collections?nkName=" + nkName;
                         } else {
-                            alert(d['message'])
+                            window.location.href = "http://localhost:8080/shopping/myOrder?nkName=" + nkName;
                         }
                     },
                     error: function () {
@@ -89,12 +89,12 @@ function pay() {
 }
 
 function removeFromShoppingCar(id) {
+    var pro = $(document.getElementById('pro'+id)).val();
     var nkName = getCookie(ACCOUNT);
     var userCarCommodityIde = 'userCarCommodityId' + id;
-    var userCarCommodityId = $(document.getElementById(userCarCommodityIde)).val();
     $.ajax({
         url: URL + "/collections/remove",
-        data: {nkName: nkName, userCarCommodityId: userCarCommodityId},
+        data: {nkName: nkName, userCarCommodityId: id, pro: pro},
         dataType: "json",
         type: "post",
         async: false,

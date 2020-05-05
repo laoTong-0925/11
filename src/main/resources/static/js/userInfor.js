@@ -7,11 +7,34 @@ $(document).ready(
         if (account !== "") {
             $("#user_account_r2").text(account);
             $("#user_account_r1").text(account);
-            $("#userCentre_li").attr("href",URL+'?nkName='+account);
+            $("#userCentre_li").attr("href", URL + '?nkName=' + account);
         }
     }, 200),
 );
 
+function subInfo() {
+    var nkName = getCookie(ACCOUNT);
+    var phone = $("#phone").val();
+    var eMail = $("#eMail").val();
+    $.ajax({
+        url: "http://localhost:8080/shopping/userInfo-update",
+        data: {nkName: nkName, phone: phone, eMail: eMail},
+        dataType: "json",
+        type: "post",
+        async: false,
+        cache: false,
+        success: function (data) {
+            if (data['code'] === 200) {
+                window.location.href = "http://localhost:8080/shopping/userInfo?nkName="+nkName;
+            } else {
+                alert("修改失败")
+            }
+        },
+        error: function () {
+            alert("系统繁忙请稍后再试！！！")
+        }
+    });
+}
 
 $(function () {
     $("#randCode").change(function () {

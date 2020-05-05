@@ -18,19 +18,22 @@
         select *
         from shopping_t.user_consignee
         where id = #{id}
+        and is_del = 0
     </select>
     <select id="queryByUserId" resultMap="UserConsigneeMap">
         select
-          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time
+          *
         from shopping_t.user_consignee
         where user_id = #{userId}
+        and is_del = 0
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserConsigneeMap">
         select
-          id, user_id, consignee, consignee_man, phone, is_del, update_time, creat_time
+          *
         from shopping_t.user_consignee
+        where is_del = 0
         limit #{offset}, #{limit}
     </select>
 
@@ -69,24 +72,14 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into shopping_t.user_consignee(user_id, consignee, consignee_man, phone, is_del, update_time, creat_time)
-        values (#{userId}, #{consignee}, #{consigneeMan}, #{phone}, #{isDel}, #{updateTime}, #{creatTime})
+        insert into shopping_t.user_consignee(user_id, consignee, consignee_man, phone)
+        values (#{userId}, #{consignee}, #{consigneeMan}, #{phone})
     </insert>
 
     <update id="updateById">
         update shopping_t.user_consignee
-        <set>
-            <if test="consignee != null and consignee != ''">
-                consignee = #{consignee},
-            </if>
-            <if test="consigneeMan != null and consigneeMan != ''">
-                consignee_man = #{consigneeMan},
-            </if>
-            <if test="phone != null and phone != ''">
-                phone = #{phone},
-            </if>
-        </set>
-        where id = #{id}
+        set consignee = #{shd},consignee_man = #{shr},phone = #{phone}
+        where id = #{id} and is_del = 0
     </update>
 
     <!--通过主键修改数据-->
@@ -119,8 +112,10 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
-        delete from shopping_t.user_consignee where id = #{id}
-    </delete>
+    <update id="deleteById">
+        update shopping_t.user_consignee
+         set is_del = 1
+         where id = #{id}
+    </update>
 
 </mapper>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script th:src="@{js/jquery-2.1.1.min.js}"></script>
     <link rel="stylesheet" th:href="@{css/login.css}">
     <script th:src="@{js/login.js}"></script>
-    <script th:src="@{js/jquery-2.1.1.min.js}"></script>
 </head>
 <body>
 <header>
@@ -61,10 +61,11 @@
                     </div>
                     <div class="b_clear submit">
                         <button type="submit" id="sign_in">登&nbsp;&nbsp;录</button>
-                        <button class="register" style="background-color: #1a97d7">注   册</button>
                         <!--                        <a href="#" class="r_float" style="text-decoration:none;font-size: large">注 册&nbsp;&nbsp;&nbsp;</a>-->
                     </div>
                 </form>
+                <button class="register" style="background-color: #1a97d7" onclick="regester()">注   册</button>
+
             </div>
             <div class="login_con hidden">
                 <div class="qr_code">

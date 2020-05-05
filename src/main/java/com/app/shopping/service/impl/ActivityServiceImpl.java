@@ -37,7 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     @Transactional
     public Result release(String name, String detail, List<Release> releaseList) {
-        Commodity commodity = new Commodity(name,"w", detail);
+        Commodity commodity = new Commodity(name,"123.png", detail);
         int insert = commodityMapper.insert(commodity);
         releaseList.forEach(e->{
             int i = inventoryMapper.insert(new Inventory(commodity.getId(), e.getPro(), e.getSum(), e.getMoney()));

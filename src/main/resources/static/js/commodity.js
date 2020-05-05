@@ -54,11 +54,54 @@ function intoPoll() {
             alert(d['message'])
         },
         error: function () {
-            alert("支付失败！！！")
+            alert("系统繁忙！！！")
 
         }
     });
 
+}
+//加购
+//弹出隐藏层
+function ShowDiv(show_div, bg_div) {
+    var pro = $("#pro").val();
+    if (pro === '' || pro === null) {
+        alert("请选择商品属性");
+        return;
+    }
+    var sum = $("#sum").val();
+    if (sum === '' || sum === null || sum === 0) {
+        alert("请选择数量");
+        return;
+    }
+    document.getElementById(show_div).style.display = 'block';
+    document.getElementById(bg_div).style.display = 'block';
+    var bgdiv = document.getElementById(bg_div);
+    bgdiv.style.width = document.body.scrollWidth;
+    $("#" + bg_div).height($(document).height());
+    var commodityId = $("#commodityId").val();
+    var nkName = getCookie(ACCOUNT);
+    $.ajax({
+        url: URL + "/collections/add-into",
+        data: {nkName: nkName, sum: sum, commodityId: commodityId, commodityPro: pro},
+        dataType: "json",
+        type: "post",
+        async: false,
+        cache: false,
+        success: function (data) {
+            if (data['code'] !== 200)
+                alert(d['message'])
+        },
+        error: function () {
+            alert("加入失败！！！");
+        }
+    });
+
+}
+
+//关闭弹出层
+function CloseDiv(show_div, bg_div) {
+    document.getElementById(show_div).style.display = 'none';
+    document.getElementById(bg_div).style.display = 'none';
 }
 
 

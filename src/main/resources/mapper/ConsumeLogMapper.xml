@@ -21,7 +21,7 @@
     <!--分页查询-->
     <select id="selectByPage" resultMap="ConsumeLogMap">
         select
-          id, user_id, order_id, money, is_del, update_time, creat_time
+          *
         from shopping_t.consume_log
         where user_id = #{userId}
         order by id desc

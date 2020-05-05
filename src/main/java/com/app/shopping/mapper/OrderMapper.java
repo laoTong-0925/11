@@ -27,7 +27,7 @@ public interface OrderMapper {
 
     List<Order> queryByStateAndId(int state, List<Long> ids);
 
-    int updateStateAndPayByUserId(int state, String pay, long userId, List<Long> ids);
+    int updateStateAndPayById(int state, String pay, long userId, List<Long> ids);
 
     int remove(long id);
 

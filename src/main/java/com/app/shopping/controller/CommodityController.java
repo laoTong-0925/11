@@ -112,7 +112,6 @@ public class CommodityController {
         List<Inventory> inventories = inventoryMapper.queryByCId(id);
         //库存
         int sumInventor = inventories.stream().mapToInt(Inventory::getInventory).sum();
-        //todo销量
         //收货地址
         if (StringUtils.isNotBlank(nkName)) {
             User user = userService.selectByNkname(nkName);
@@ -121,7 +120,6 @@ public class CommodityController {
 
         }
         mv.addObject("isTicket", commodity.getIsTicket());
-        mv.addObject("sumInventor", sumInventor);
 //        mv.addObject("inventory", inventory);
         mv.addObject("commodity", commodity);
         mv.addObject("sumInventor", sumInventor);

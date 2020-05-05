@@ -82,13 +82,9 @@ public class LoginAndRegisterController {
             String createText = captchaProducer.createText();
             log.info("产生图片验证码:{}", createText);
             Cookie cookie = new Cookie("bs-verifyCode", createText);
-            cookie.setMaxAge(60);
+            cookie.setMaxAge(60*3);
             cookie.setPath("/");
             httpServletResponse.addCookie(cookie);
-//            session.setAttribute("verifyCode", createText);
-//            String setex = jedisUtil.setex(session.toString(), createText, 120);
-//            log.info(":{}", setex);
-            //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = captchaProducer.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
         } catch (IllegalArgumentException e) {

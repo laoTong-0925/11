@@ -103,6 +103,10 @@ $(function () {
     })
 });
 
+function regester() {
+    window.location.href = "http://localhost:8080/shopping/register";
+}
+
 
 // inputs[1].onmouseout = function () {
 

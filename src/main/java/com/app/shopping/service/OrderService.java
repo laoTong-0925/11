@@ -19,6 +19,8 @@ public interface OrderService {
      */
     Result creatOrder(int sum, long commodityId, String properties, User user, long consigneeId);
 
+    Result luckyDog(List<Long> orderIds,int state,long userId);
+
     Result creatOrderByUserId(long consigneeId,User user);
 
     List<Order> findByStateAndUser(User user,int state, int offset, int limit);

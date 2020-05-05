@@ -21,7 +21,7 @@ public interface MyConsigneeService {
     UserConsignee queryById(Long id);
     List<UserConsignee> queryByUserId(Long userId);
 
-    boolean updateById(Long id);
+    boolean updateAllById(Long id,String shd,String shr,String phone);
 
     /**
      * 查询多条数据

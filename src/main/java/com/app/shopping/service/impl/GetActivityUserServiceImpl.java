@@ -1,17 +1,16 @@
 package com.app.shopping.service.impl;
 
-import com.app.shopping.mapper.ActivityUserMapper;
-import com.app.shopping.mapper.CommodityMapper;
-import com.app.shopping.mapper.InventoryMapper;
-import com.app.shopping.mapper.UserMapper;
+import com.app.shopping.mapper.*;
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.ActivityUser;
 import com.app.shopping.model.entity.Commodity;
 import com.app.shopping.model.entity.Inventory;
+import com.app.shopping.model.entity.UserConsignee;
 import com.app.shopping.service.GetActivityUserService;
 import com.app.shopping.service.OrderService;
 import com.app.shopping.service.message.SMSService;
 import com.app.shopping.util.DateUtil;
+import com.app.shopping.util.OrderState;
 import com.app.shopping.util.Result;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.ListUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,6 +38,8 @@ public class GetActivityUserServiceImpl implements GetActivityUserService {
     private OrderService orderService;
     @Autowired
     private SMSService smsService;
+    @Autowired
+    private MyConsigneeMapper consigneeMapper;
     private static final Integer ACTIVITY_INVENTORY = 10;
     private static final Integer ACTIVITY_SUM = 1;
 
@@ -60,14 +62,26 @@ public class GetActivityUserServiceImpl implements GetActivityUserService {
                     int i = inventoryMapper.updateInventoryByCId(ACTIVITY_INVENTORY, e.getId());
                     //查商品所有属性
                     List<Inventory> inventories = inventoryMapper.queryByCId(e.getId());
-                    Commodity commodity = commodityMapper.queryByUserId(luckyDog.getUserId()).get(0);
+                    Commodity commodity = commodityMapper.queryById(e.getId());
+                    //收货地址
+                    UserConsignee userConsignee = consigneeMapper.queryByUserId(luckyDog.getUserId()).get(0);
+                    List<Long> orderIds = new ArrayList<>();
                     inventories.forEach(v -> {
                         //订单产生
                         Result result = orderService.creatOrder(ACTIVITY_SUM, e.getId(), v.getProperty(),
-                                user, commodity.getId());
+                                user, userConsignee.getId());
+                        if (200 == result.getCode()){
+                            Long data = (long) result.getData();
+                            orderIds.add( data);
+                        }
+
                     });
+                    //修改订单状态，支付金额为0
+                    Result result = orderService.luckyDog(orderIds, OrderState.CREAT_PAY.getCode(), user.getId());
                     //发短信
                     String luckyText = getLuckyText(commodity, user);
+                    //改活动状态
+                    int i1 = commodityMapper.updateIsTById(commodity.getId(), 0);
 //                Result send = smsService.send(user.getPhone(), luckyText, System.currentTimeMillis());
                 }
             }
@@ -91,8 +105,8 @@ public class GetActivityUserServiceImpl implements GetActivityUserService {
         if (ListUtils.isEmpty(activityUserList))
             return null;
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int i = random.nextInt(activityUserList.size() + 1);
-        if (i > 0)
+        int i = random.nextInt(activityUserList.size());
+        if (i >= 0)
             return activityUserList.get(i);
         return null;
     }

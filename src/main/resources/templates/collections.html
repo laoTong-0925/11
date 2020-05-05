@@ -63,9 +63,7 @@
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
                             <a id="userCentre_li" href="">我的信息</a>
                         </li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                            <a href="#">我的购物车</a>
-                        </li>
+
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
                             <a href="#">商品分类</a>
                         </li>
@@ -132,7 +130,7 @@
                 <div class="user_title"><a href="http://localhost:8080/shopping/userCentre">用户中心</a></div>
                 <div class="user_Head">
                     <div class="user_portrait">
-                        <a href="#" title="" class="btn_link"></a> <img th:src="@{/show(fileName=${userImg})}">
+                        <a href="#" title="" class="btn_link"></a> <img  th:src="@{/show(fileName=${userImg})}">
                         <div class="background_img"></div>
                     </div>
                     <div class="user_name">
@@ -194,7 +192,7 @@
             <div class="Favorites_slideTxtBox">
                 <div class="hd">
                     <ul>
-                        <li>收藏的商品</li>
+                        <li>购物车商品</li>
                         <!--                        <li>收藏的店铺</li>-->
                     </ul>
                 </div>
@@ -223,7 +221,7 @@
                                 <div style="border:3px solid;border-color: #fff2f2">
                                     <div class="img_link">
                                         <a href="#" class="center ">
-                                            <img th:src="@{/show(fileName=${shoppingCarVo.getImgPth()})}">
+                                            <img width="200" height="200" th:src="@{/show(fileName=${shoppingCarVo.getImgPth()})}">
                                         </a>
                                     </div>
                                     <div class="xinxi" align="right">
@@ -231,8 +229,8 @@
                                         <input th:id="sp+${shoppingCarVo.getShoppingCarId()}" type="checkbox"
                                                th:value="${shoppingCarVo.getShoppingCarId()}"
                                                onclick="checkO(this.id)"/>
-                                        <input th:id="userCarCommodityId+${i.index}" type="hidden"
-                                               th:value="${shoppingCarVo.getShoppingCarId()}"/>
+<!--                                        <input th:id="userCarCommodityId+${i.index}" type="hidden"-->
+<!--                                               th:value="${shoppingCarVo.getShoppingCarId()}"/>-->
 
                                         <a href="#" class="name"
                                            th:text="${shoppingCarVo.getCommodityName()} +'☆'+ ${shoppingCarVo.getCommodityPro()}">
@@ -241,7 +239,8 @@
                                         <p>活动价：<span th:text="${shoppingCarVo.getCommodityAMoney()}"></span></p>
                                         <p>数量：<span th:text="${shoppingCarVo.getSum()}"></span></p>
                                         <p>总价：<span th:text="${shoppingCarVo.getSumMoney()}"></span></p>
-                                        <a th:id="${i.index}" onmouseup="removeFromShoppingCar(this.id)">移除</a>
+                                        <a th:id="${shoppingCarVo.getShoppingCarId()}" onmouseup="removeFromShoppingCar(this.id)">移除</a>
+                                        <input type="hidden" th:id="'pro'+${shoppingCarVo.getShoppingCarId()}"  th:value="${shoppingCarVo.getCommodityPro()}"/>
                                     </div>
                                 </div>
                             </li>

@@ -1,11 +1,10 @@
 package com.app.shopping.service.impl;
 
 import com.app.shopping.mapper.InventoryMapper;
-import com.app.shopping.mapper.UserShoppingCarMapper;
+import com.app.shopping.mapper.OrderMapper;
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.Inventory;
 import com.app.shopping.model.entity.Order;
-import com.app.shopping.mapper.OrderMapper;
 import com.app.shopping.model.entity.UserConsignee;
 import com.app.shopping.service.*;
 import com.app.shopping.util.Constant.SystemConstant;
@@ -17,10 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.thymeleaf.util.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -65,15 +63,21 @@ public class OrderServiceImpl implements OrderService {
                 OrderState.CREAT_NOT_PAY.getCode(), 0, creatExTime(), sum, properties);
         //订单生成
         int insert = orderMapper.insert(order);
-        //购物车商品删除
-        boolean b = shoppingCarService.deleteByUserIdAndCommodity(user.getId(), commodityId, properties);
-        if (!b) {
-            log.info("购物车移除失败！！");
-        }
+
         if (insert != 0)
             return Result.success(order.getId(), ResultCode.CREAT_ORDER_S.getMessage());
         return Result.failed(ResultCode.CREAT_ORDER_F);
 
+    }
+
+    @Override
+    public Result luckyDog(List<Long> orderIds, int state, long userId) {
+        if (!ListUtils.isEmpty(orderIds)) {
+            int i = orderMapper.updateStateAndPayById(state, "0", userId, orderIds);
+            if (i != 0)
+                return Result.success();
+        }
+        return Result.failed();
     }
 
     @Override

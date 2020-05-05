@@ -78,7 +78,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     @Transactional
     public Result register(String nkName, String phone, String passWord, String vCode) {
@@ -100,11 +99,11 @@ public class UserServiceImpl implements UserService {
         user.setPhone(phone);
         user.setPassWord(passWord);
         int insert = userMapper.insert(user);
-        if (insert == 1 ) {
+        if (insert == 1) {
             //账户添加
-            UserInfo insert1 = userInfoService.insert(new UserInfo(user.getId(),passWord));
+            UserInfo insert1 = userInfoService.insert(new UserInfo(user.getId(), passWord));
             //图片添加
-            int insert2 = userImgService.insert(new UserImg(user.getId(),""));
+            int insert2 = userImgService.insert(new UserImg(user.getId(), ""));
             return Result.success("");
         } else {
             return Result.failed();
@@ -126,6 +125,11 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int update(User user) {
+        return userMapper.update(user);
     }
 
 }

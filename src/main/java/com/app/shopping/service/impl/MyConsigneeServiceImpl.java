@@ -38,8 +38,8 @@ public class MyConsigneeServiceImpl implements MyConsigneeService {
     }
 
     @Override
-    public boolean updateById(Long id) {
-        int i = myConsigneeMapper.updateById(id);
+    public boolean updateAllById(Long id,String shd,String shr,String phone) {
+        int i = myConsigneeMapper.updateById(id,shd,shr,phone);
         return i > 0;
     }
 

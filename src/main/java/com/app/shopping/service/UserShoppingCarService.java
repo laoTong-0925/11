@@ -19,6 +19,7 @@ public interface UserShoppingCarService {
      * @return 实例对象
      */
     UserShoppingCar queryById(Long id);
+    UserShoppingCar queryByCIdAndProAndUserId(Long id,String pro,Long userId);
 
     List<UserShoppingCar> queryByUserId(Long UserId);
 

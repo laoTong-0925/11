@@ -36,12 +36,19 @@ public class BalanceController {
         UserInfo userInfo = userInfoService.queryByUserId(user.getId());
         String balance = userInfo.getBalance();
         UserImg userImg = userImgService.queryById(user.getId());
-
-        String[] split = StringUtils.split(balance, ".");
+        if (StringUtils.isBlank(balance)) {
+            mv.addObject("balanceH", 0);
+            mv.addObject("balanceT", 0);
+        } else {
+            String[] split = StringUtils.split(balance, ".");
+            mv.addObject("balanceH", split[0]);
+            if (split.length == 2)
+                mv.addObject("balanceT", split[1]);
+            mv.addObject("balanceT", 0);
+        }
         mv.addObject("userName", user.getNkName());
-        mv.addObject("userImg",userImg.getUserImg());
-        mv.addObject("balanceH", split[0]);
-        mv.addObject("balanceT", split[1]);
+        mv.addObject("userImg", userImg.getUserImg());
+
         mv.setViewName("balance");
         return mv;
     }

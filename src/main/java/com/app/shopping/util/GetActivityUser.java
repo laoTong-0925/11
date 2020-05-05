@@ -28,10 +28,10 @@ public class GetActivityUser {
         System.out.println("------------------定时任务-----------");
     }
 
-    @Scheduled(cron = "0 */8 *  * * * ")
+    @Scheduled(cron = "0 */1 *  * * * ")
     public void test() {
+//        getActivityUserService.getActivityUserByEndTime();
         System.out.println("------------------定时任务测试抽奖-----------");
-        getActivityUserService.getActivityUserByEndTime();
 
     }
 

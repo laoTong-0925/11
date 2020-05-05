@@ -38,9 +38,9 @@ class ListenerStartClass implements ApplicationListener<ApplicationReadyEvent> {
     @Autowired(required = false)
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         System.out.println("****************程序已启动********************");
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        executorService.submit(new OrderAutoCancel(orderMapper,inventoryMapper));
-        System.out.println("start");
+//        ExecutorService executorService = Executors.newFixedThreadPool(1);
+//        executorService.submit(new OrderAutoCancel(orderMapper,inventoryMapper));
+//        System.out.println("start");
 
     }
 }

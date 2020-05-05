@@ -1,6 +1,7 @@
 function subModify(id) {
-    if (confirm("是否进行修改？") === false)
-        return;
+    if (confirm("是否进行修改？") === false) {
+        window.location.href = "http://localhost:8080/shopping/commodityManage";
+    }
     var pro1 = $("#pro0").val();
     var pro2 = $("#pro1").val();
     var pro3 = $("#pro2").val();
@@ -10,7 +11,7 @@ function subModify(id) {
     var pro1m = $("#m0").val();
     var pro2m = $("#m1").val();
     var pro3m = $("#m2").val();
-    var is_ticket = $(document.getElementById("is_ticket"+id)).val();
+    var is_ticket = $(document.getElementById("is_ticket" + id)).val();
 
     $.ajax({
         url: URL + "/admin-sp-modify",
@@ -37,7 +38,7 @@ function subModify(id) {
 }
 
 function remove(rid) {
-    if (confirm("是否进行修改？") === false)
+    if (confirm("是否进行下架？") === false)
         return;
     var id = rid.substr(6);
     $.ajax({
@@ -51,7 +52,7 @@ function remove(rid) {
             if (data['code'] === 200) {
                 window.location.href = "http://localhost:8080/shopping/commodityManage";
             } else {
-                alert("删除失败")
+                alert("下架失败")
             }
         },
         error: function () {
@@ -68,11 +69,11 @@ $(document).ready(
         var beforePage = $("#beforePage_input").val();
         var lastPage = $("#lastPage_input").val();
         // if (account !== "" ) {
-            $("#nextPage").attr("href",'/shopping/commodityManage?index='+nextPage);
-            $("#beforePage").attr("href",'/shopping/commodityManage?index='+beforePage);
-            $("#lastPage").attr("href",'/shopping/commodityManage?index='+lastPage);
-            $("#headPage").attr("href",'/shopping/commodityManage?index=0');
-            $("#user_play").css("display","inline");
+        $("#nextPage").attr("href", '/shopping/commodityManage?index=' + nextPage);
+        $("#beforePage").attr("href", '/shopping/commodityManage?index=' + beforePage);
+        $("#lastPage").attr("href", '/shopping/commodityManage?index=' + lastPage);
+        $("#headPage").attr("href", '/shopping/commodityManage?index=0');
+        $("#user_play").css("display", "inline");
         // }
     }
 );

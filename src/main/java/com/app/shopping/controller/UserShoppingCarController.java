@@ -4,13 +4,10 @@ import com.app.shopping.mapper.CommodityMapper;
 import com.app.shopping.mapper.InventoryMapper;
 import com.app.shopping.model.User;
 import com.app.shopping.model.entity.*;
-import com.app.shopping.model.vo.PageVo;
 import com.app.shopping.model.vo.ShoppingCarVo;
 import com.app.shopping.service.*;
-import com.app.shopping.util.OrderState;
 import com.app.shopping.util.Result;
 import com.app.shopping.util.ResultCode;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
@@ -24,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Controller
@@ -70,12 +64,14 @@ public class UserShoppingCarController {
         shoppingCarList.forEach(e -> {
             Commodity commodity = commodityService.queryById(e.getCommodityId());
             Inventory inventory = inventoryService.queryByCommodityIdAndPro(e.getCommodityId(), e.getCommodityPro());
-            String nowMoney = StringUtils.isEmpty(inventory.getActivityMoney()) ? inventory.getMoney() : inventory.getActivityMoney();
-            Double sumMoney = Double.parseDouble(nowMoney) * Double.valueOf(e.getSum());
-            DecimalFormat decimalFormat = new DecimalFormat("#.00");
-            String format = decimalFormat.format(sumMoney);
-            shoppingCarVoList.add(new ShoppingCarVo(inventory.getId(), commodity.getImg(), commodity.getName(), e.getCommodityPro(),
-                    inventory.getMoney(), inventory.getActivityMoney(), e.getSum(), format));
+            if (null != inventory) {
+                String nowMoney = StringUtils.isEmpty(inventory.getActivityMoney()) ? inventory.getMoney() : inventory.getActivityMoney();
+                Double sumMoney = Double.parseDouble(nowMoney) * Double.valueOf(e.getSum());
+                DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                String format = decimalFormat.format(sumMoney);
+                shoppingCarVoList.add(new ShoppingCarVo(e.getId(), commodity.getImg(), commodity.getName(), e.getCommodityPro(),
+                        inventory.getMoney(), inventory.getActivityMoney(), e.getSum(), format));
+            }
         });
         UserImg userImg = userImgService.queryById(user.getId());
         List<UserConsignee> consignees = consigneeService.queryByUserId(user.getId());
@@ -107,7 +103,7 @@ public class UserShoppingCarController {
         if (inventory.getInventory() < sum) {
             return Result.failed(ResultCode.KC_BZ);//不足
         }
-        Commodity commodity = commodityService.queryById(commodityId);
+//        Commodity commodity = commodityService.queryById(commodityId);
         User user = userService.selectByNkname(nkName);
         UserShoppingCar insert = shoppingCarService.insert(new UserShoppingCar(user.getId(), commodityId, commodityPro, sum));
         return Result.success(ResultCode.JR_GWC_S);
@@ -115,14 +111,15 @@ public class UserShoppingCarController {
 
     @RequestMapping("/collections/remove")
     @ResponseBody
-    public Result removeShoppingCar(@RequestParam("userCarCommodityId") long userCarCommodityId,
+    public Result removeShoppingCar(@RequestParam("userCarCommodityId") Long userCarCommodityId,
+                                    @RequestParam("pro") String pro,
                                     @RequestParam("nkName") String nkName) {
         //查存在
-        UserShoppingCar userShoppingCar = shoppingCarService.queryById(userCarCommodityId);
+        User user = userService.selectByNkname(nkName);
+        UserShoppingCar userShoppingCar = shoppingCarService.queryByCIdAndProAndUserId(userCarCommodityId, pro, user.getId());
         if (null == userShoppingCar) {
             return Result.failed(ResultCode.SP_BCZ);
         }
-        User user = userService.selectByNkname(nkName);
         boolean b = shoppingCarService.deleteByUserIdAndCommodity(user.getId(), userShoppingCar.getCommodityId(), userShoppingCar.getCommodityPro());
         return Result.success(ResultCode.YC_GWC_S.getMessage());
     }
@@ -154,17 +151,22 @@ public class UserShoppingCarController {
                 if (200 != result.getCode()) {
                     re = false;
                 }
+                //购物车商品删除
+                boolean b = shoppingCarService.deleteByUserIdAndCommodity(user.getId(),
+                        userShoppingCar.getCommodityId(), userShoppingCar.getCommodityPro());
+                if (!b) {
+                    log.info("购物车移除失败！！");
+                }
                 orderIds.add((Long) result.getData());
             }
             StringBuilder idsStr = new StringBuilder();
-            orderIds.forEach(e ->{
+            orderIds.forEach(e -> {
                 idsStr.append(e).append(",");
             });
-            return re ? Result.success(idsStr,ResultCode.CREAT_ORDER_F.getMessage()) :
+            return re ? Result.success(idsStr, ResultCode.CREAT_ORDER_F.getMessage()) :
                     Result.response(orderIds, ResultCode.CREAT_ORDER_F.getMessage(), ResultCode.CREAT_ORDER_F.getCode());
         }
     }
-
 
 
 }

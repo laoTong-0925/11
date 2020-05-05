@@ -29,11 +29,12 @@ function release() {
         async: false,
         cache: false,
         success: function (data) {
-            // if (data['code'] === 200) {
-            //     window.location.href = "http://localhost:8080/shopping/collections?nkName=" + nkName;
-            // } else {
-            //     alert("商品不存在购物车")
-            // }
+            if (data['code'] === 200) {
+                alert(data['message'])
+                window.location.href = "http://localhost:8080/shopping/commodityRelease";
+            } else {
+                alert("商品发布失败")
+            }
         },
         error: function () {
             alert("系统繁忙请稍后再试！！！")

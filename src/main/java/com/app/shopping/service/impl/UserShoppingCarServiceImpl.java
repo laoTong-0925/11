@@ -31,6 +31,12 @@ public class UserShoppingCarServiceImpl implements UserShoppingCarService {
     }
 
     @Override
+    public UserShoppingCar queryByCIdAndProAndUserId(Long cId,String pro,Long userId) {
+        UserShoppingCar userShoppingCar = userShoppingCarDao.queryByCIdAndProAndUserId(cId, pro, userId);
+        return userShoppingCar;
+    }
+
+    @Override
     public List<UserShoppingCar> queryByUserId(Long userId) {
 
         return userShoppingCarDao.queryByUserId(userId);

@@ -43,9 +43,7 @@
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
                             <a href="" id="userCentre_li">我的信息</a>
                         </li>
-                        <li class="hd_menu_tit" data-addclass="hd_menu_hover">
-                            <a href="#">我的购物车</a>
-                        </li>
+
                         <li class="hd_menu_tit" data-addclass="hd_menu_hover">
                             <a href="#">商品分类</a>
                         </li>
@@ -188,23 +186,23 @@
             <div class="title_style"><em></em>订单管理</div>
             <div class="Order_form_style">
                 <div class="Order_form_filter">
-                    <a class="on" href="#">全部订单（23）</a>
-                    <a class="" href="#">代付款（2）</a>
-                    <a class="" href="#">代发货（3）</a>
-                    <a class="" href="#">待收货（5）</a>
-                    <a class="" href="#">退货/退款（0）</a>
-                    <a class="" href="#">交易成功（0）</a>
-                    <a class="" href="#">交易关闭（0）</a>
+                    <a class="on" href="#" id="all_order">全部订单</a>
+                    <a class="" href="#" id="noPay_order">代付款</a>
+                    <a class="" href="#" id="pay_order">已付款</a>
+                    <a class="" href="#" id="cancel">手动取消</a>
+                    <a class="" href="#" id="auto_cancel">自动取消</a>
+                    <a class="" href="#" id="complete">交易成功</a>
+<!--                    <a class="" href="#">交易关闭（0）</a>-->
                 </div>
                 <div class="Order_Operation">
                     <div class="left">
                         <input class="checkbox" name="" type="checkbox" value=""/>
                         <input class="confirm_Order" name="" type="submit" value="批量确认收货"/>
                     </div>
-                    <div class="right_search"><input class="add_Ordertext" name="" placeholder="请输入产品标题或订单号进行搜索"
-                                                     type="text"/><input class="search_order" name=""
-                                                                                           type="submit"
-                                                                                           value="搜索订单"/></div>
+                    <div class="right_search">
+                        <input id="searchId" class="add_Ordertext" name="" placeholder="请输入订单号进行搜索" type="text"/>
+                        <input class="search_order" name="" type="submit" value="搜索订单" onclick="orderSearch()"/>
+                    </div>
                 </div>
                 <div class="Order_form_list">
                     <table>
@@ -261,13 +259,18 @@
                                 <input id="orderId" th:value="${order.getOrderId()}" type="hidden"/>
                                 <p style="color:#F30" th:if="${order.state}==1">
                                     <button onclick="pay()" style="color:#F30;margin: 2px">支付</button>
-                                    <button onclick="remove()" style="margin: 2px">删除</button>
+                                    <button onclick="complete()" style="margin: 2px">取消</button>
                                 </p>
                                 <p style="color:#F30" th:if="${order.state}==2">
-                                    <button onclick="" style="margin: 2px">完成订单</button>
+                                    <button onclick="wc()" style="margin: 2px">完成订单</button>
                                 </p>
                                 <p style="color:#F30" th:if="${order.state}==4">订单已完成
-                                <p>
+                                    <button onclick="remove()">删除</button>
+                                </p>
+                                <p style="color:#F30" th:if="${order.state}==8">订单已取消
+                                    <button onclick="remove()">删除</button>
+                                </p>
+                                <p style="color:#F30" th:if="${order.state}==9">订单已取消
                                     <button onclick="remove()">删除</button>
                                 </p>
                             </td>
