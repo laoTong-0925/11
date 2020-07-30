@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /shopping
-  port: 8080
+  port: 8090
 
 spring:
   #  前端

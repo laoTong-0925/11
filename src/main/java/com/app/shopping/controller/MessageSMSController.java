@@ -1,11 +1,11 @@
 package com.app.shopping.controller;
 
+import com.app.shopping.cache.JedisUtil;
 import com.app.shopping.service.message.SMSService;
 import com.app.shopping.util.CodeUtil;
 import com.app.shopping.util.Result;
 import com.app.shopping.util.ResultCode;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,9 @@ public class MessageSMSController {
     @Autowired
     CodeUtil codeUtil;
 
+    @Autowired
+    JedisUtil jedisUtil;
+
     @RequestMapping("send-sms-code")
     @ResponseBody
     public Result sendVerifyCode(@RequestParam("phoneNum") String phoneNum,
@@ -33,5 +36,11 @@ public class MessageSMSController {
             return Result.response(null, ResultCode.SMS_SEND_SUCCESS.getMessage(), ResultCode.SMS_SEND_SUCCESS.getCode());
         String code = codeUtil.creatCode();
         return smsService.send(phoneNum, code, businessTime);
+    }
+
+    @RequestMapping("test-re")
+    @ResponseBody
+    public Result test(String key, int offset, int limit) {
+        return Result.success(jedisUtil.zrangeByLex(key, offset, limit));
     }
 }

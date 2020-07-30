@@ -49,6 +49,20 @@ public class JedisUtil {
         return value;
     }
 
+    public Set<String> zrangeByLex(final String key, final int offset, final int count) {
+        Set<String> strings;
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+//            strings = jedis.zrangeByLex(key, "-", "+", offset, count);
+            strings = jedis.zrangeByLex(key, "-", "+");
+            System.out.println(strings);
+        } finally {
+            returnResource(jedisPool, jedis);
+        }
+        return strings;
+    }
+
     /**
      * 通过key获取储存在redis中的value
      * 并释放连接
@@ -97,27 +111,27 @@ public class JedisUtil {
         }
     }
 
-	/**
-	 * 向redis存入key和value,并释放连接资源
-	 * 如果key已经存在 则覆盖
-	 *
-	 * @param key
-	 * @param value
-	 * @return 成功 返回OK 失败返回 0
-	 */
-	public String set(String key, String value) {
-		Jedis jedis = null;
-		try {
-			jedis = jedisPool.getResource();
-			return jedis.set(key, value);
-		} catch (Exception e) {
+    /**
+     * 向redis存入key和value,并释放连接资源
+     * 如果key已经存在 则覆盖
+     *
+     * @param key
+     * @param value
+     * @return 成功 返回OK 失败返回 0
+     */
+    public String set(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.set(key, value);
+        } catch (Exception e) {
 
-			log.error(e.getMessage());
-			return "0";
-		} finally {
-			returnResource(jedisPool, jedis);
-		}
-	}
+            log.error(e.getMessage());
+            return "0";
+        } finally {
+            returnResource(jedisPool, jedis);
+        }
+    }
 
     /**
      * 向redis存入key和value,并释放连接资源
